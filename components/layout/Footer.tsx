@@ -1,31 +1,30 @@
-import Image from "next/image";
 import TLink from "@/components/ui/TLink";
 import Icon from "@/components/ui/Icon";
-import Skyline from "@/components/ui/Skyline";
+import Logo from "@/components/brand/Logo";
+import Skyline from "@/components/brand/Skyline";
 import { businesses } from "@/data/businesses";
 import { contact, site } from "@/data/site";
-import { t } from "@/lib/i18n";
 
 export default function Footer() {
   const socials = (Object.entries(contact.social) as [string, string][]).filter(([, url]) => url);
   return (
-    <footer className="grain relative overflow-hidden bg-emerald-950 pb-28 pt-20 lg:pb-10">
-      <Skyline className="absolute inset-x-0 bottom-0 h-40 text-gold-light/[0.09] md:h-56" />
-      <div className="container-x">
-        <div className="grid-12 gap-y-12">
+    <footer className="grain relative overflow-hidden bg-emerald-deep pb-32 pt-24 text-ivory lg:pb-12">
+      <Skyline className="pointer-events-none absolute inset-x-0 bottom-0 h-44 text-gold-light/[0.08] md:h-64" />
+      <div className="wrap relative">
+        <div className="grid-12 gap-y-14">
           <div className="col-span-12 lg:col-span-4">
             <TLink href="/" aria-label="Afwajh Group of Companies — home" className="inline-block">
-              <Image src="/images/logos/afwajh-logo-light.png" alt="Afwajh Group of Company logo" width={180} height={143} className="h-auto w-40" />
+              <Logo id="ftr" />
             </TLink>
-            <p className="mt-8 max-w-sm text-[0.95rem] leading-relaxed text-ivory/70">
-              A diversified UAE business group since {site.established} — retail, hospitality, catering, general trading, transport, technical services and labour supply.
+            <p className="mt-8 max-w-sm text-[15px] leading-relaxed text-ivory/65">
+              A diversified UAE business group since {site.established}: retail, hospitality, catering, general trading, transport, technical services and labour supply.
             </p>
             {socials.length > 0 && (
               <ul className="mt-8 flex gap-3">
                 {socials.map(([name, url]) => (
                   <li key={name}>
-                    <a href={url} target="_blank" rel="noopener noreferrer" aria-label={name} className="flex h-11 w-11 items-center justify-center rounded-full border border-ivory/20 text-ivory/80 transition-colors hover:border-gold-light hover:text-gold-light">
-                      <Icon name={name} className="h-5 w-5" />
+                    <a href={url} target="_blank" rel="noopener noreferrer" aria-label={name} className="flex h-11 w-11 items-center justify-center rounded-full border border-line-dark hover:border-gold-light hover:text-gold-light">
+                      <Icon name={name} size={20} />
                     </a>
                   </li>
                 ))}
@@ -33,48 +32,66 @@ export default function Footer() {
             )}
           </div>
 
-          <div className="col-span-12 sm:col-span-6 lg:col-span-3 lg:col-start-6">
-            <h2 className="eyebrow text-teal-light">{t.footer.businesses}</h2>
+          <div className="col-span-12 sm:col-span-7 lg:col-span-4 lg:col-start-6">
+            <h2 className="t-label text-gold-light">Our businesses</h2>
             <ul className="mt-6 space-y-3">
               {businesses.map((b) => (
                 <li key={b.slug}>
-                  <TLink href={b.href} className="text-[0.95rem] text-ivory/80 transition-colors hover:text-gold-light">
-                    {b.name}
+                  <TLink href={b.href} className="group flex items-baseline gap-3 text-[15px] text-ivory/80 hover:text-gold-light">
+                    <span className="t-label text-ivory/55">{b.index}</span> {b.name}
                   </TLink>
                 </li>
               ))}
             </ul>
           </div>
 
-          <div className="col-span-6 sm:col-span-3 lg:col-span-2">
-            <h2 className="eyebrow text-teal-light">{t.footer.company}</h2>
-            <ul className="mt-6 space-y-3 text-[0.95rem] text-ivory/80">
-              <li><TLink href="/about" className="hover:text-gold-light">About the Group</TLink></li>
-              <li><TLink href="/clients" className="hover:text-gold-light">Clients</TLink></li>
-              <li><TLink href="/contact" className="hover:text-gold-light">Contact</TLink></li>
-            </ul>
-          </div>
-
-          <address className="col-span-12 not-italic sm:col-span-6 lg:col-span-3">
-            <h2 className="eyebrow text-teal-light">{t.footer.reach}</h2>
-            <ul className="mt-6 space-y-3 text-[0.95rem] text-ivory/80">
-              <li>
-                {contact.address.line1}, {contact.address.city}
+          <div className="col-span-12 sm:col-span-5 lg:col-span-3">
+            <h2 className="t-label text-gold-light">Head office</h2>
+            <address className="mt-6 space-y-3 text-[15px] not-italic text-ivory/80">
+              <p>
+                {contact.address.line1}
+                <br />
+                {contact.address.city}, {contact.address.country}
                 <br />
                 {contact.address.poBox}
-              </li>
-              <li><a href={contact.tel.href} className="hover:text-gold-light">Tel {contact.tel.display}</a></li>
+              </p>
+              <p>
+                <a href={contact.tel.href} className="hover:text-gold-light">
+                  Tel {contact.tel.display}
+                </a>
+              </p>
               {contact.mobiles.map((m) => (
-                <li key={m.href}><a href={m.href} className="hover:text-gold-light">Mob {m.display}</a></li>
+                <p key={m.href}>
+                  <a href={m.href} className="hover:text-gold-light">
+                    Mob {m.display}
+                  </a>
+                </p>
               ))}
-              <li><a href={`mailto:${contact.email}`} className="break-all hover:text-gold-light">{contact.email}</a></li>
+              <p>
+                <a href={`mailto:${contact.email}`} className="break-all hover:text-gold-light">
+                  {contact.email}
+                </a>
+              </p>
+            </address>
+            <ul className="mt-6 flex flex-wrap gap-x-5 gap-y-2 text-[15px] text-ivory/80">
+              <li>
+                <TLink href="/about" className="hover:text-gold-light">About</TLink>
+              </li>
+              <li>
+                <TLink href="/clients" className="hover:text-gold-light">Clients</TLink>
+              </li>
+              <li>
+                <TLink href="/contact" className="hover:text-gold-light">Contact</TLink>
+              </li>
             </ul>
-          </address>
+          </div>
         </div>
 
-        <div className="hairline mt-16" />
-        <div className="mt-6 flex flex-col justify-between gap-3 text-xs text-ivory/55 sm:flex-row">
-          <p>© {new Date().getFullYear()} {site.name}. {t.footer.rights}</p>
+        <div className="hairline mt-20" />
+        <div className="mt-6 flex flex-col justify-between gap-2 text-[13px] text-ivory/50 sm:flex-row">
+          <p>
+            © {new Date().getFullYear()} {site.name}. All rights reserved.
+          </p>
           <p>{contact.website}</p>
         </div>
       </div>

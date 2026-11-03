@@ -1,40 +1,53 @@
 "use client";
 
 import { useState } from "react";
-import Button from "@/components/ui/Button";
-import DotMap from "@/components/ui/DotMap";
 import { contact } from "@/data/site";
+import { mapDots, project } from "@/lib/uaeMap";
 
-/**
- * Click-to-load Google Map: keeps third-party scripts and cookies off the page
- * until the visitor asks for the map (good for privacy and Lighthouse).
- */
+const dots = mapDots(8);
+const office = project(contact.geo.lng, contact.geo.lat);
+
+/** Click-to-load Google Map: no third-party scripts or cookies until requested. */
 export default function MapEmbed() {
   const [load, setLoad] = useState(false);
   const q = encodeURIComponent(contact.mapQuery);
   return (
-    <div className="relative h-[420px] w-full overflow-hidden md:h-[520px]">
+    <div className="relative h-[460px] w-full overflow-hidden bg-emerald-deep md:h-[560px]">
       {load ? (
         <iframe
           title="Map showing Afwajh Group head office at Trade Centre 1, Dubai"
           src={`https://www.google.com/maps?q=${q}&output=embed`}
-          className="h-full w-full border-0 grayscale-[0.4] invert-[0.92] hue-rotate-180"
+          className="h-full w-full border-0 [filter:grayscale(.5)_invert(.9)_hue-rotate(180deg)]"
           loading="lazy"
           referrerPolicy="no-referrer-when-downgrade"
         />
       ) : (
-        <div className="grain flex h-full w-full items-center justify-center bg-emerald-900">
-          <DotMap className="absolute inset-0 m-auto h-full w-auto max-w-none text-teal/40" />
-          <div className="relative flex flex-col items-center gap-5 px-6 text-center">
-            <p className="font-serif text-3xl text-ivory md:text-4xl">Trade Centre 1, Sheikh Zayed Rd, Dubai</p>
+        <>
+          <svg viewBox={`${office.x - 260} ${office.y - 170} 520 340`} className="absolute inset-0 h-full w-full" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+            {dots.map((d, i) => (
+              <circle key={i} cx={d.x} cy={d.y} r={1.6} fill="#F5F1E8" opacity={0.16} />
+            ))}
+            <circle cx={office.x} cy={office.y} r={14} fill="#E2C26A" opacity={0.25} />
+            <circle cx={office.x} cy={office.y} r={5} fill="#E2C26A" />
+          </svg>
+          <div className="relative flex h-full flex-col items-center justify-center gap-6 px-6 text-center text-ivory">
+            <p className="t-label text-gold-light">Head office</p>
+            <p className="t-h3 max-w-lg">Trade Centre 1, Sheikh Zayed Road, Dubai</p>
             <div className="flex flex-col gap-3 sm:flex-row">
-              <Button onClick={() => setLoad(true)}>Show map</Button>
-              <Button href={`https://www.google.com/maps/search/?api=1&query=${q}`} variant="outline" external>
+              <button type="button" onClick={() => setLoad(true)} className="min-h-[52px] rounded-full bg-gold px-7 text-[15px] font-medium text-emerald-deep">
+                Show interactive map
+              </button>
+              <a
+                href={`https://www.google.com/maps/search/?api=1&query=${q}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex min-h-[52px] items-center justify-center rounded-full border border-ivory/30 px-7 text-[15px] hover:border-gold-light"
+              >
                 Open in Google Maps
-              </Button>
+              </a>
             </div>
           </div>
-        </div>
+        </>
       )}
     </div>
   );

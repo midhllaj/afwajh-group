@@ -1,43 +1,47 @@
 import Image from "next/image";
 import Marquee from "@/components/ui/Marquee";
-import Reveal from "@/components/ui/Reveal";
+import Kicker from "@/components/ui/Kicker";
 import Button from "@/components/ui/Button";
 import { contractors, developers } from "@/data/clients";
+import { imageMeta } from "@/components/ui/Media";
 
-export default function ClientMarquee() {
+export default function ClientMarquee({ index = "05" }: { index?: string }) {
   return (
-    <section className="on-light overflow-hidden border-t border-emerald-900/10 bg-ivory pb-24 pt-20 text-ink md:pb-32" aria-labelledby="clients-title">
-      <div className="container-x mb-12 flex flex-col justify-between gap-6 md:flex-row md:items-end">
-        <Reveal>
-          <p className="eyebrow mb-4 text-emerald-700">09 · Trusted by</p>
-          <h2 id="clients-title" className="display-sm max-w-xl text-emerald-900">
-            Our esteemed <span className="italic text-gold-deep">clients</span>
+    <section className="tone-light overflow-hidden border-t border-line-light bg-ivory py-24 md:py-32" aria-labelledby="clients-title">
+      <div className="wrap mb-14 flex flex-col justify-between gap-6 md:flex-row md:items-end">
+        <div>
+          <Kicker index={index} tone="light">
+            Trusted by
+          </Kicker>
+          <h2 id="clients-title" className="t-h3 mt-6 max-w-xl">
+            Developers, government entities and contractors across the UAE.
           </h2>
-        </Reveal>
-        <Reveal delay={0.1}>
-          <Button href="/clients" variant="dark">
-            All clients
-          </Button>
-        </Reveal>
+        </div>
+        <Button href="/clients" variant="outline-dark">
+          All clients
+        </Button>
       </div>
-      <Marquee duration={45}>
-        {developers.map((c) => (
-          <div key={c.name} className="mx-6 flex h-24 w-44 shrink-0 items-center justify-center md:mx-10 md:w-52">
-            <Image
-              src={c.logo!}
-              alt={c.name}
-              width={200}
-              height={90}
-              className="max-h-16 w-auto object-contain opacity-70 grayscale transition duration-500 hover:opacity-100 hover:grayscale-0"
-            />
-          </div>
-        ))}
+      <Marquee duration={50}>
+        {developers.map((c) => {
+          const m = imageMeta(c.logo!);
+          return (
+            <div key={c.name} className="mx-8 flex h-24 w-44 shrink-0 items-center justify-center md:mx-12">
+              <Image
+                src={c.logo!}
+                alt={c.name}
+                width={m?.w ?? 240}
+                height={m?.h ?? 100}
+                className="max-h-14 w-auto object-contain opacity-60 grayscale transition duration-500 hover:opacity-100 hover:grayscale-0"
+              />
+            </div>
+          );
+        })}
       </Marquee>
-      <Marquee duration={55} reverse className="mt-8">
+      <Marquee duration={60} reverse className="mt-6 border-t border-line-light pt-6">
         {contractors.map((c) => (
-          <span key={c.name} className="mx-6 flex shrink-0 items-center gap-6 font-serif text-2xl text-emerald-900/70 md:text-3xl">
+          <span key={c.name} className="t-h4 mx-6 flex shrink-0 items-center gap-6 text-ink/60">
             {c.name}
-            <span className="h-1.5 w-1.5 rotate-45 bg-gold-deep" aria-hidden="true" />
+            <span className="h-1.5 w-1.5 rotate-45 bg-gold" aria-hidden="true" />
           </span>
         ))}
       </Marquee>

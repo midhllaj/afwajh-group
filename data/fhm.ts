@@ -18,7 +18,7 @@ export const fhm = {
     name: "Haroon Sharifi",
     title: "Chief Executive Officer",
     photo: {
-      src: "/images/fhm/ceo-haroon-sharifi.webp",
+      src: "/images/company/fhm/ceo-haroon-sharifi.webp",
       alt: "Portrait of Haroon Sharifi, CEO of FHM General Transport",
     } satisfies Img,
     // Summary of the CEO message in the FHM company profile.
@@ -49,11 +49,11 @@ export const fhmServices = [
   {
     title: "Expert Demolition Solutions",
     text: "Advanced equipment and highly trained operators for projects of every size — from site preparation to structure dismantling — with precision, safety and minimal environmental impact.",
-    icon: "demolition",
+    icon: "hammer",
   },
   {
     title: "Machinery Rental & Leasing",
-    text: "Access a wide range of high-performance machinery without long-term commitment, with flexible plans that scale with your operations.",
+    text: "Access a wide range of high-performance machinery without long-term commitment — hourly, daily or monthly plans that scale with your operations.",
     icon: "key",
   },
   {
@@ -65,6 +65,11 @@ export const fhmServices = [
     title: "Advanced Technology Solutions",
     text: "GPS-enabled equipment tracking and intelligent systems that optimise fuel efficiency, precision and performance.",
     icon: "gps",
+  },
+  {
+    title: "Deep Excavation",
+    text: "Deep excavation for large-scale construction and infrastructure, with state-of-the-art machinery and techniques that keep groundwork to standard and on schedule.",
+    icon: "shovel",
   },
   {
     title: "Heavy Transport Services",
@@ -239,41 +244,35 @@ export const projects: Project[] = [
 export const portfolioValue = projects.reduce((sum, p) => sum + p.value, 0);
 
 const site = (n: number, alt: string): Img => ({
-  src: `/images/fhm/site-${String(n).padStart(2, "0")}.webp`,
+  src: `/images/company/fhm/site-${String(n).padStart(2, "0")}.webp`,
   alt,
 });
 
+/** Stock photography for the FHM page. */
+export const fhmImages = {
+  intro: { src: "/images/fhm/bulldozers-levelling-aerial.webp", alt: "Two bulldozers levelling sand, seen from above" } satisfies Img,
+  fleet: [
+    { src: "/images/fhm/excavator-gravel.webp", alt: "Excavator working on a gravel mound" },
+    { src: "/images/fhm/wheel-loader-sand.webp", alt: "Orange wheel loader on a sandy site" },
+    { src: "/images/fhm/bulldozer-dusty-site.webp", alt: "Bulldozer pushing earth across a dusty site" },
+    { src: "/images/fhm/mobile-crane.webp", alt: "Yellow mobile crane with its boom raised" },
+    { src: "/images/fhm/tipper-unloading.webp", alt: "Tipper truck unloading rock at sunset" },
+    { src: "/images/fhm/dump-truck-detail.webp", alt: "Close-up of a heavy dump truck’s wheel and body" },
+  ] satisfies Img[],
+};
+
+/** Real FHM site photography from the company profile (small originals — used as thumbnails). */
 export const fhmGallery: Img[] = [
-  { src: "/images/fhm/fhm-team-safety-briefing.webp", alt: "FHM site team in high-visibility vests and hard hats during a safety briefing on open sand" },
+  { src: "/images/company/fhm/fhm-team-safety-briefing.webp", alt: "FHM site team in high-visibility vests and hard hats during a safety briefing" },
   site(2, "Front view of a white FHM tipper truck on site"),
   site(7, "Excavator loading an FHM tipper truck at an excavation site"),
-  site(10, "Aerial render of the Azizi Venice master community with lagoons"),
-  site(11, "Workers fixing reinforcement steel inside a deep foundation pit"),
   site(5, "Row of FHM tipper trucks in front of a residential building under construction"),
   site(12, "Green excavator working on a construction site"),
   site(13, "Excavator and workers at a basement excavation"),
-  site(9, "Close-up of an FHM tipper truck"),
   site(16, "Earthworks across rolling sand dunes"),
-  site(17, "Wide view of an earthworks site with machinery in the distance"),
   site(18, "Excavator loading a tipper truck in the sand"),
-  site(19, "Excavator loading an orange truck on site"),
   site(20, "Zoomlion excavator on a graded plot"),
   site(22, "Large construction site with tower cranes and new buildings"),
-  site(24, "FHM tipper truck being loaded on a wide desert plot"),
-  site(25, "Excavator working on rough rocky terrain"),
   site(26, "Close-up of an FHM tipper truck cab"),
-  site(27, "FHM tipper truck crossing a desert plot"),
-  site(8, "Construction site with towers rising behind the sand"),
-  site(6, "Excavator digging on a sandy plot"),
-  { src: "/images/fhm/fhm-forklift-loading.webp", alt: "Forklift loading heavy equipment onto a low-bed truck" },
-  { src: "/images/fhm/fhm-machinery-lineup.webp", alt: "Line-up of yellow loaders and graders under a blue sky" },
-];
-
-export const fhmFleetImages: Img[] = [
-  { src: "/images/fhm/fleet-excavator.webp", alt: "Yellow excavator against a blue sky" },
-  { src: "/images/fhm/fleet-tipper-truck.webp", alt: "White six-wheel tipper truck" },
-  { src: "/images/fhm/fleet-bulldozer.webp", alt: "Bulldozer pushing soil" },
-  { src: "/images/fhm/fleet-excavator-loading.webp", alt: "Excavator loading a dump truck" },
-  { src: "/images/fhm/fleet-heavy-vehicle.webp", alt: "Heavy multi-axle tipper vehicle" },
-  { src: "/images/fhm/fleet-excavator-loader.webp", alt: "Excavator and backhoe loader on site" },
+  site(11, "Workers fixing reinforcement steel inside a deep foundation pit"),
 ];

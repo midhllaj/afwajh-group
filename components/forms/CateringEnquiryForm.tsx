@@ -32,7 +32,7 @@ export default function CateringEnquiryForm() {
       <TextField label="Email" name="email" type="email" required autoComplete="email" inputMode="email" error={errors.email} />
       <TextArea className="md:col-span-2" label="Message" name="message" />
       <div className="md:col-span-2">
-        <Button type="submit" variant="orange" disabled={status === "sending"}>
+        <Button type="submit" variant="accent" disabled={status === "sending"}>
           {status === "sending" ? "Sending…" : "Send enquiry"}
         </Button>
         <FormStatus status={status} />

@@ -1,19 +1,17 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 import PageHero from "@/components/ui/PageHero";
-import SectionHeader from "@/components/ui/SectionHeader";
-import Reveal, { RevealGroup, RevealItem } from "@/components/ui/Reveal";
-import Photo from "@/components/ui/Photo";
+import Kicker from "@/components/ui/Kicker";
+import Rich from "@/components/ui/Rich";
 import Counter from "@/components/ui/Counter";
+import Media from "@/components/ui/Media";
 import TLink from "@/components/ui/TLink";
 import Icon from "@/components/ui/Icon";
-import Skyline from "@/components/ui/Skyline";
+import { Mark } from "@/components/brand/Logo";
 import VisionMission from "@/components/home/VisionMission";
-import CoreStrengths from "@/components/home/CoreStrengths";
-import Workforce from "@/components/home/Workforce";
-import ContactCTA from "@/components/home/ContactCTA";
+import Strengths from "@/components/home/Strengths";
+import ContactCta from "@/components/home/ContactCta";
 import { businesses } from "@/data/businesses";
-import { intro, keyStats, site } from "@/data/site";
+import { intro, keyStats, site, workforce, workforceCopy } from "@/data/site";
 import { pageMetadata } from "@/lib/seo";
 
 export const metadata: Metadata = pageMetadata({
@@ -21,97 +19,143 @@ export const metadata: Metadata = pageMetadata({
   description:
     "Established in 2010, Afwajh Group of Companies operates across retail, hospitality, catering, general trading, transport, technical services and labour supply in the UAE.",
   path: "/about",
-  image: "/images/brand/dubai-skyline-burj.webp",
 });
 
 const milestones = [
-  { year: "2008", text: "FHM General Transport is established, building its heavy machinery and transport capability." },
+  { year: "2008", text: "FHM General Transport is established, building the group’s heavy machinery and transport capability." },
   { year: "2010", text: "Afwajh Group of Companies is established in the United Arab Emirates." },
   { year: "2016", text: "Afwajh Catering Services begins operating from Business Bay, Dubai." },
   { year: "2026", text: "Afwajh Technical Services is licensed by Dubai’s Department of Economy & Tourism." },
 ];
 
 export default function AboutPage() {
+  const known = workforce.filter((w) => w.employees !== null);
+  const max = Math.max(...known.map((w) => w.employees ?? 0));
   return (
     <>
       <PageHero
-        eyebrow="About the Group"
-        title={"Seven businesses.\nOne *standard.*"}
-        intro={`Established in ${site.established}, Afwajh is a diversified business group serving communities across the United Arab Emirates.`}
-        image={{ src: "/images/brand/dubai-skyline-burj.webp", alt: "Burj Khalifa and the Downtown Dubai skyline under dramatic clouds", illustrative: true }}
-        breadcrumb={[{ label: "About the Group" }]}
+        label="About the Group"
+        title={["Seven businesses.", "One *standard.*"]}
+        intro={`Established in ${site.established}, Afwajh is a diversified business group serving customers, clients and communities across the United Arab Emirates.`}
+        image={{ src: "/images/home/dubai-marina-morning.webp", alt: "Dubai Marina towers in soft morning light", illustrative: true }}
+        crumbs={[{ label: "About" }]}
       />
 
-      <section className="on-light relative overflow-hidden bg-ivory py-24 text-ink md:py-32">
-        <Skyline className="absolute inset-x-0 bottom-0 h-40 text-emerald-900/[0.07] md:h-56" />
-        <div className="container-x relative grid-12 gap-y-14">
-          <div className="col-span-12 lg:col-span-5">
-            <SectionHeader index="01" eyebrow="Introduction" title={"Who *we* are"} tone="light" />
-            <Reveal className="mt-10">
-              <Image src="/images/logos/afwajh-logo-dark.png" alt="Afwajh Group of Company logo" width={900} height={717} className="h-auto w-48" />
-            </Reveal>
+      {/* Introduction */}
+      <section className="tone-light relative overflow-hidden bg-ivory py-28 md:py-40" aria-labelledby="who">
+        <Mark id="about" className="pointer-events-none absolute -right-20 top-24 w-[420px] opacity-[0.06] md:w-[620px]" />
+        <div className="wrap relative grid-12 gap-y-12">
+          <div className="col-span-12 lg:col-span-6">
+            <Kicker index="01" tone="light">
+              Who we are
+            </Kicker>
+            <h2 id="who" className="t-h2 mt-8" data-split>
+              <Rich text={"Quality products,\n*reliable* service"} />
+            </h2>
           </div>
-          <Reveal className="col-span-12 lg:col-span-6 lg:col-start-7">
-            <p className="font-serif text-[1.55rem] leading-snug text-emerald-900 md:text-[2rem]">{intro.split(". ")[0]}.</p>
-            <p className="lead mt-8 text-ink/75">{intro.split(". ").slice(1).join(". ")}</p>
-          </Reveal>
+          <div className="col-span-12 lg:col-span-5 lg:col-start-8 lg:pt-16">
+            <p className="t-lead text-ink/85" data-reveal>
+              {intro.split(". ")[0]}.
+            </p>
+            <p className="mt-6 text-ink/70" data-reveal>
+              {intro.split(". ").slice(1).join(". ")}
+            </p>
+          </div>
         </div>
-        <RevealGroup as="dl" className="container-x relative mt-20 grid grid-cols-2 gap-px bg-emerald-900/15 md:grid-cols-3 xl:grid-cols-6">
-          {keyStats.map((s) => (
-            <RevealItem key={s.label} className="bg-ivory px-1 py-8 sm:px-5">
-              <dt className="order-2 text-sm text-muted">{s.label}</dt>
-              <dd className="font-serif text-5xl leading-none text-emerald-900">
-                <Counter value={s.value} suffix={s.suffix} />
+        <dl className="wrap mt-24 grid grid-cols-2 border-t border-line-light md:grid-cols-5">
+          {keyStats.map((s, i) => (
+            <div key={s.label} className={`flex flex-col-reverse border-b border-line-light py-8 md:border-b-0 ${i > 0 ? "md:border-l md:pl-6" : ""} ${i % 2 === 1 ? "border-l pl-5 md:pl-6" : ""}`} data-reveal>
+              <dt className="t-label mt-3 text-ink/65">{s.label}</dt>
+              <dd className="t-num text-[clamp(2.75rem,2rem+2.5vw,4.75rem)] leading-none">
+                <Counter stat={s} />
               </dd>
-            </RevealItem>
+            </div>
           ))}
-        </RevealGroup>
+        </dl>
       </section>
 
-      {/* Timeline */}
-      <section className="grain bg-emerald-800 py-24 md:py-32">
-        <div className="container-x">
-          <SectionHeader index="02" eyebrow="Our journey" title={"Milestones"} />
-          <RevealGroup as="ol" className="mt-16 grid gap-px bg-ivory/10 md:grid-cols-4">
-            {milestones.map((m) => (
-              <RevealItem as="li" key={m.year} className="bg-emerald-800 p-7 md:p-8">
-                <p className="text-gold-gradient font-serif text-6xl md:text-7xl">{m.year}</p>
-                <p className="mt-6 leading-relaxed text-ivory/75">{m.text}</p>
-              </RevealItem>
+      {/* Milestones */}
+      <section className="grain bg-emerald-deep py-28 text-ivory md:py-36" aria-labelledby="journey">
+        <div className="wrap">
+          <Kicker index="02">Our journey</Kicker>
+          <h2 id="journey" className="t-h2 mt-8" data-split>
+            <Rich text={"Milestones"} />
+          </h2>
+          <ol className="mt-16 grid gap-px border-y border-line-dark bg-line-dark md:grid-cols-4">
+            {milestones.map((m, i) => (
+              <li key={m.year} className="bg-emerald-deep px-1 py-10 md:px-8" data-reveal data-delay={String(i * 0.08)}>
+                <p className="t-num text-gold text-6xl md:text-7xl">{m.year}</p>
+                <p className="mt-6 text-ivory/70">{m.text}</p>
+              </li>
             ))}
-          </RevealGroup>
+          </ol>
         </div>
       </section>
 
-      <VisionMission />
-      <CoreStrengths />
+      <VisionMission index="03" />
+      <Strengths index="04" />
 
-      {/* Businesses grid */}
-      <section className="grain bg-emerald-900 py-24 md:py-32">
-        <div className="container-x">
-          <SectionHeader index="03" eyebrow="Our portfolio" title={"The Afwajh *family*"} />
-          <RevealGroup as="ul" className="mt-16 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {businesses.map((b, i) => (
-              <RevealItem as="li" key={b.slug} className={i < 2 ? "lg:col-span-1" : ""}>
-                <TLink href={b.href} className="group block" data-cursor="view">
-                  <Photo image={b.image} className="aspect-[4/3]" sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw" hover />
-                  <span className="mt-5 flex items-baseline gap-3">
-                    <span className="font-serif italic text-gold-light">{b.index}</span>
-                    <span className="font-serif text-2xl text-ivory transition-colors group-hover:text-gold-light">{b.name}</span>
+      {/* Team strength */}
+      <section className="grain bg-emerald py-28 text-ivory md:py-36" aria-labelledby="team">
+        <div className="wrap grid-12 gap-y-14">
+          <div className="col-span-12 lg:col-span-4">
+            <Kicker index="05">Our team strength</Kicker>
+            <h2 id="team" className="t-h2 mt-8" data-split>
+              <Rich text={"678+ *people*"} />
+            </h2>
+            <p className="mt-8 text-ivory/70" data-reveal>
+              {workforceCopy}
+            </p>
+          </div>
+          <ul className="col-span-12 lg:col-span-7 lg:col-start-6">
+            {workforce.map((w, i) => (
+              <li key={w.name} className="border-t border-line-dark py-5 last:border-b" data-reveal data-delay={String(i * 0.04)}>
+                <TLink href={w.href} className="group block">
+                  <span className="flex items-baseline justify-between gap-6">
+                    <span className="text-[16px] text-ivory/85 group-hover:text-gold-light">{w.name}</span>
+                    <span className="t-num text-3xl">{w.employees ?? <span className="text-[14px] text-ivory/50">To be confirmed</span>}</span>
                   </span>
-                  <span className="mt-2 block text-sm leading-relaxed text-ivory/65">{b.summary}</span>
-                  <span className="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-gold-light">
-                    Discover <Icon name="arrowUpRight" className="h-4 w-4" />
+                  {w.employees !== null && (
+                    <span className="mt-3 block h-[3px] bg-line-dark">
+                      <span className="bg-gold block h-full" style={{ width: `${(w.employees / max) * 100}%` }} />
+                    </span>
+                  )}
+                </TLink>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
+
+      {/* Portfolio */}
+      <section className="tone-light bg-ivory py-28 md:py-36" aria-labelledby="portfolio">
+        <div className="wrap">
+          <Kicker index="06" tone="light">
+            Our portfolio
+          </Kicker>
+          <h2 id="portfolio" className="t-h2 mt-8" data-split>
+            <Rich text={"The Afwajh *family*"} />
+          </h2>
+          <ul className="mt-16 grid gap-x-6 gap-y-14 sm:grid-cols-2 lg:grid-cols-3">
+            {businesses.map((b) => (
+              <li key={b.slug} data-reveal style={{ ["--accent" as string]: b.accent }}>
+                <TLink href={b.href} className="group block">
+                  <Media image={b.hero} className="aspect-[4/3]" sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw" reveal={false} cursor="Explore" />
+                  <span className="t-label mt-5 flex items-center gap-3 text-ink/65">
+                    <span className="text-[var(--accent)]">{b.index}</span> {b.label}
+                  </span>
+                  <span className="t-h4 mt-2 flex items-center justify-between gap-4">
+                    {b.name}
+                    <Icon name="arrowUpRight" size={20} className="shrink-0 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
                   </span>
                 </TLink>
-              </RevealItem>
+              </li>
             ))}
-          </RevealGroup>
+          </ul>
         </div>
       </section>
 
-      <Workforce />
-      <ContactCTA />
+      <ContactCta />
     </>
   );
 }

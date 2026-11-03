@@ -140,19 +140,21 @@ export const outlets: Outlet[] = [
 ];
 
 export const retailGallery: Img[] = [
-  {
-    src: "/images/retail/greenmart-storefront.webp",
-    alt: "Greenmart storefront with a ‘Free Home Delivery’ sign and illustrated fresh produce",
-  },
-  {
-    src: "/images/retail/supermarket-aisle.webp",
-    alt: "Minimart aisle with stocked shelves, chillers and stacked water bottles",
-  },
-  {
-    src: "/images/retail/supermarket-interior.webp",
-    alt: "Warm-lit supermarket interior with wooden shelving and polished floors",
-  },
+  { src: "/images/retail/fresh-fruit-wall.webp", alt: "Wall of neatly stacked fresh fruit on supermarket shelves" },
+  { src: "/images/retail/produce-chiller.webp", alt: "Refrigerated produce display filled with fresh vegetables" },
+  { src: "/images/company/retail/greenmart-storefront.webp", alt: "Afwajh outlet storefront with a ‘Free Home Delivery’ sign and illustrated produce" },
+  { src: "/images/retail/fresh-greens-shopping.webp", alt: "Shopper choosing fresh leafy greens" },
+  { src: "/images/retail/fruit-display-aerial.webp", alt: "Overhead view of a fruit display with oranges and apples" },
+  { src: "/images/company/retail/supermarket-aisle.webp", alt: "Aisle inside an Afwajh minimart with chillers and stacked water" },
+  { src: "/images/retail/misted-greens.webp", alt: "Misted leafy greens in a supermarket produce section" },
+  { src: "/images/retail/colourful-shelves.webp", alt: "High-angle view of colourful packaged goods on supermarket shelves" },
 ];
+
+/** Feature imagery for the retail page sections. */
+export const retailImages = {
+  intro: { src: "/images/retail/grocery-aisle-lit.webp", alt: "Calm, well-lit grocery aisle with fully stocked shelves" } satisfies Img,
+  delivery: { src: "/images/company/retail/greenmart-storefront.webp", alt: "Outlet storefront advertising free home delivery" } satisfies Img,
+};
 
 /** Seen on the Greenmart storefront photo. */
 export const homeDelivery = {

@@ -1,5 +1,5 @@
-// Loaded asynchronously by MotionProvider so animation code stays out of the
-// critical bundle. domMax includes layout animations (used by the filterable lists).
-import { domMax } from "framer-motion";
+// Loaded on demand by TransitionProvider so Framer Motion's animation engine stays
+// out of the critical bundle.
+import { domAnimation } from "framer-motion";
 
-export default domMax;
+export default domAnimation;
