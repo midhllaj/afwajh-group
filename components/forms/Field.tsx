@@ -15,13 +15,13 @@ const inputCls = (tone: "dark" | "light", error?: string) =>
     "peer w-full rounded-none border-0 border-b bg-transparent px-0 pb-3 pt-2 text-base outline-none transition-colors placeholder:text-transparent focus:ring-0",
     tone === "dark"
       ? "border-ivory/25 text-ivory focus:border-gold-light"
-      : "border-emerald-900/25 text-ink focus:border-emerald-700",
+      : "border-ink/25 text-ink focus:border-emerald",
     error && (tone === "dark" ? "border-[#ff9b8a]" : "border-[#b42318]"),
   );
 
 function Label({ label, required, htmlFor, tone }: { label: string; required?: boolean; htmlFor: string; tone: "dark" | "light" }) {
   return (
-    <label htmlFor={htmlFor} className={cn("block text-xs font-semibold uppercase tracking-[0.16em]", tone === "dark" ? "text-ivory/60" : "text-emerald-800/80")}>
+    <label htmlFor={htmlFor} className={cn("block t-label", tone === "dark" ? "text-ivory/60" : "text-ink/60")}>
       {label}
       {required && <span aria-hidden="true"> *</span>}
     </label>
@@ -67,7 +67,7 @@ export function TextField({
         className={cn(inputCls(tone, error), tone === "dark" && "[color-scheme:dark]")}
       />
       {hint && !error && (
-        <p id={`${id}-hint`} className={cn("mt-2 text-xs", tone === "dark" ? "text-ivory/45" : "text-muted")}>
+        <p id={`${id}-hint`} className={cn("mt-2 text-xs", tone === "dark" ? "text-ivory/60" : "text-ink/65")}>
           {hint}
         </p>
       )}
@@ -88,7 +88,7 @@ export function SelectField({ label, name, error, required, className, tone = "d
         defaultValue={defaultValue ?? ""}
         aria-invalid={!!error}
         aria-describedby={error ? `${id}-err` : undefined}
-        className={cn(inputCls(tone, error), "cursor-pointer appearance-none bg-[length:12px] bg-[right_center] bg-no-repeat pr-6", tone === "dark" ? "[color-scheme:dark] bg-[url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='M2 4l4 4 4-4' fill='none' stroke='%23E2C26A' stroke-width='1.4'/%3E%3C/svg%3E\")]" : "bg-[url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='M2 4l4 4 4-4' fill='none' stroke='%231A5A52' stroke-width='1.4'/%3E%3C/svg%3E\")]")}
+        className={cn(inputCls(tone, error), "cursor-pointer appearance-none bg-[length:12px] bg-[right_center] bg-no-repeat pr-6", tone === "dark" ? "[color-scheme:dark] bg-[url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='M2 4l4 4 4-4' fill='none' stroke='%23E2C26A' stroke-width='1.4'/%3E%3C/svg%3E\")]" : "bg-[url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='M2 4l4 4 4-4' fill='none' stroke='%230E2E2B' stroke-width='1.4'/%3E%3C/svg%3E\")]")}
       >
         <option value="" disabled>
           Select…

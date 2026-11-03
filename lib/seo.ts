@@ -12,7 +12,9 @@ interface PageMeta {
 
 /** Builds unique per-page metadata including Open Graph and Twitter cards. */
 export function pageMetadata({ title, description, path, image, imageAlt }: PageMeta): Metadata {
-  const ogImage = image ?? "/og/og-default.jpg";
+  // Per-page social cards live in /public/og (named after the last path segment).
+  const slug = path === "/" ? "home" : path.split("/").filter(Boolean).pop();
+  const ogImage = image ?? `/og/${slug}.jpg`;
   return {
     title,
     description,

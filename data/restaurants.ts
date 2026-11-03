@@ -11,6 +11,8 @@ export interface Venue {
   tags: string[];
   description: string;
   image: Img;
+  /** Real photo from the venue, shown as an inset. */
+  realPhoto?: Img;
 }
 
 export const venues: Venue[] = [
@@ -22,10 +24,8 @@ export const venues: Venue[] = [
     tags: ["Quality coffee", "Relaxed ambience", "Social gatherings"],
     description:
       "Known for its relaxing ambience, quality coffee, and flavorful menu, Cafe 52 is an ideal destination for social gatherings, casual meetings, or simply unwinding in a comfortable and stylish setting.",
-    image: {
-      src: "/images/restaurants/cafe-52-storefront.webp",
-      alt: "Cafe 52 container-style storefront with an illuminated orange sign",
-    },
+    image: { src: "/images/restaurants/latte-art-pour.webp", alt: "Barista pouring latte art into a ceramic cup", illustrative: true },
+    realPhoto: { src: "/images/company/restaurants/cafe-52-storefront.webp", alt: "Cafe 52 storefront in Town Square, Dubai" },
   },
   {
     id: "picnic-tea-cafeteria",
@@ -35,11 +35,7 @@ export const venues: Venue[] = [
     tags: ["Fast food", "Quick bites", "Elevated dining"],
     description:
       "Picnic Tea Cafeteria combines the concept of fast food with an elevated dining experience. With a strong emphasis on quality, flavor, and convenience, it offers a refreshing take on quick bites in a vibrant and welcoming environment.",
-    image: {
-      src: "/images/restaurants/picnic-tea-sandwich.webp",
-      alt: "Toasted club sandwich with fries on a white plate",
-      illustrative: true,
-    },
+    image: { src: "/images/restaurants/club-sandwich-fries.webp", alt: "Toasted club sandwich with golden fries", illustrative: true },
   },
   {
     id: "lassi-day",
@@ -49,11 +45,7 @@ export const venues: Venue[] = [
     tags: ["Lassi", "Fresh beverages", "Frozen treats"],
     description:
       "Lassi Day is a destination for refreshing beverages and frozen treats. Known for its high-quality ingredients and flavorful offerings, it provides the perfect escape for those seeking indulgent and refreshing options.",
-    image: {
-      src: "/images/restaurants/lassi-day-smoothie.webp",
-      alt: "Glass of mango lassi beside a freshly cut mango",
-      illustrative: true,
-    },
+    image: { src: "/images/restaurants/mango-lassi.webp", alt: "Two glasses of mango lassi with fresh mango", illustrative: true },
   },
   {
     id: "zero-6-express",
@@ -63,11 +55,7 @@ export const venues: Venue[] = [
     tags: ["Indian", "Biryani", "Tandoor"],
     description:
       "Zero 6 Express Cafeteria specializes in authentic Indian cuisine, offering a wide selection of flavorful dishes ranging from biryanis to tandoori specialties. It combines traditional taste with modern convenience in a vibrant setting.",
-    image: {
-      src: "/images/restaurants/zero-6-biryani.webp",
-      alt: "Plate of chicken biryani served with lemon and sauces",
-      illustrative: true,
-    },
+    image: { src: "/images/restaurants/chicken-tikka-naan.webp", alt: "Chicken tikka masala with freshly baked naan", illustrative: true },
   },
   {
     id: "shay-marhaba",
@@ -77,10 +65,8 @@ export const venues: Venue[] = [
     tags: ["Quick meals", "On the go"],
     description:
       "Located at ENOC Petrol Pump, Shay Marhaba Cafeteria is a popular destination for quick and delicious meals. It delivers a seamless blend of convenience and flavor, making it ideal for customers on the go.",
-    image: {
-      src: "/images/restaurants/shay-marhaba-cup.webp",
-      alt: "Shay Marhaba branded cup topped with whipped cream and a biscuit",
-    },
+    image: { src: "/images/restaurants/karak-chai-glass.webp", alt: "Glass of creamy karak chai on a wooden table", illustrative: true },
+    realPhoto: { src: "/images/company/restaurants/shay-marhaba-cup.webp", alt: "Shay Marhaba branded cup with whipped cream" },
   },
   {
     id: "shay-al-kadi",
@@ -90,11 +76,7 @@ export const venues: Venue[] = [
     tags: ["Traditional teas", "Snacks", "Pastries"],
     description:
       "Shay Al Kadi Cafeteria blends tradition with taste, offering a variety of teas, snacks, and pastries. Each item reflects rich flavors and cultural heritage, creating a unique and comforting dining experience.",
-    image: {
-      src: "/images/restaurants/shay-al-kadi-tea.webp",
-      alt: "Milk tea being poured into small clay cups",
-      illustrative: true,
-    },
+    image: { src: "/images/restaurants/tea-brass-kettle.webp", alt: "Cup of tea served beside a traditional brass kettle", illustrative: true },
   },
   {
     id: "city-fresh",
@@ -104,11 +86,7 @@ export const venues: Venue[] = [
     tags: ["Indo-Chinese", "Indian", "Fast food", "Desserts", "Beverages"],
     description:
       "City Fresh Restaurant offers a diverse selection of Indo-Chinese, Indian, fast food, desserts, and beverages. Each dish is carefully prepared to ensure a satisfying and memorable dining experience.",
-    image: {
-      src: "/images/restaurants/city-fresh-noodles.webp",
-      alt: "Bowl of stir-fried Indo-Chinese noodles with spring onions",
-      illustrative: true,
-    },
+    image: { src: "/images/restaurants/indo-chinese-noodles.webp", alt: "Bowl of Indo-Chinese stir-fried noodles with spring onions", illustrative: true },
   },
   {
     id: "khafayef-cafeteria",
@@ -118,9 +96,7 @@ export const venues: Venue[] = [
     tags: ["Quality food", "Convenience"],
     description:
       "Situated in one of Dubai’s most iconic locations, Khafayef Cafeteria offers a unique combination of quality food and convenience. Each dish is thoughtfully prepared to deliver both taste and consistency.",
-    image: {
-      src: "/images/restaurants/khafayef-cafe-uniform.webp",
-      alt: "Staff member wearing a black Khafayef Cafe uniform with the embroidered logo",
-    },
+    image: { src: "/images/restaurants/modern-cafe-interior.webp", alt: "Bright, modern café seating area", illustrative: true },
+    realPhoto: { src: "/images/company/restaurants/khafayef-cafe-uniform.webp", alt: "Khafayef Cafe staff uniform with embroidered logo" },
   },
 ];

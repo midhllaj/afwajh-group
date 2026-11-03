@@ -20,14 +20,12 @@ export const trading = {
   ],
   // [CONFIRM: list of product categories] — add strings here to show them on the page.
   productCategories: [] as string[],
-  image: {
-    src: "/images/trading/general-trading-warehouse.webp",
-    alt: "Warehouse staff in hard hats checking stock on tall shelving",
-  } satisfies Img,
-  secondaryImage: {
-    src: "/images/fhm/fhm-forklift-loading.webp",
-    alt: "Forklift loading goods onto a truck at a warehouse dock",
-  } satisfies Img,
+  gallery: [
+    { src: "/images/trading/pallet-racking.webp", alt: "Tall pallet racking stacked with cartons" },
+    { src: "/images/trading/forklift-loading-truck.webp", alt: "Forklift loading a pallet onto a truck" },
+    { src: "/images/trading/forklift-warehouse.webp", alt: "Forklift parked inside a warehouse" },
+    { src: "/images/trading/delivery-van.webp", alt: "Open delivery van loaded with boxes" },
+  ] satisfies Img[],
 };
 
 /* -------------------------------------------------------------- Technical */
@@ -53,63 +51,63 @@ export const technicalServices = [
     title: "Steel Products Installation & Maintenance",
     text: "Installation and upkeep of structural and architectural steel elements — frames, staircases, railings and supports — built to specification and maintained for long service life.",
     icon: "steel",
+    image: { src: "/images/technical/steel-structure.webp", alt: "Worker on a steel structure high above a construction site", illustrative: true },
   },
   {
     title: "Engraving & Ornamentation Works",
     text: "Decorative engraving and ornamental detailing that add character and craftsmanship to facades, interiors and feature walls.",
     icon: "ornament",
+    image: { src: "/images/technical/ornamental-carving.webp", alt: "Ornate carved stonework with geometric patterns", illustrative: true },
   },
   {
     title: "Shooting Ranges Works",
     text: "Specialist fit-out for indoor and outdoor shooting ranges, delivered to strict safety and performance requirements.",
     icon: "target",
+    image: { src: "/images/technical/shooting-range.webp", alt: "Indoor shooting range with a target at the end of the lane", illustrative: true },
   },
   {
     title: "Parking Management Electronic Systems",
     text: "Installation and maintenance of electronic parking systems, including barriers, ticketing and access control, for smooth and secure vehicle flow.",
     icon: "parking",
+    image: { src: "/images/technical/parking-barrier.webp", alt: "Automatic parking barrier at a car park entrance", illustrative: true },
   },
   {
     title: "False Ceiling & Light Partitions",
     text: "Clean, precise false ceilings and lightweight partitions that reshape interiors quickly while concealing services neatly.",
     icon: "ceiling",
+    image: { src: "/images/technical/false-ceiling.webp", alt: "Office with a precise grid false ceiling", illustrative: true },
   },
   {
     title: "Swimming Pools Installation",
     text: "Installation works for residential and commercial swimming pools, coordinated carefully from preparation through to finishing.",
     icon: "pool",
+    image: { src: "/images/technical/swimming-pool.webp", alt: "Villa infinity pool under a blue sky", illustrative: true },
   },
   {
     title: "Glass & Aluminium Installation & Maintenance",
     text: "Windows, doors, shopfronts, partitions and facade elements in glass and aluminium — installed accurately and kept in top condition.",
     icon: "glass",
+    image: { src: "/images/technical/glass-aluminium.webp", alt: "Modern building with a glass and aluminium facade", illustrative: true },
   },
   {
     title: "Kitchens Installation",
     text: "Supply-ready installation of residential and commercial kitchens, with cabinetry, worktops and fittings aligned to a precise finish.",
     icon: "kitchen",
+    image: { src: "/images/technical/kitchen.webp", alt: "Newly installed modern kitchen with island", illustrative: true },
   },
   {
     title: "Floor & Wall Tiling Works",
     text: "Expert floor and wall tiling in ceramic, porcelain and stone, laid level and true for durable, beautiful surfaces.",
     icon: "tiles",
+    image: { src: "/images/technical/tiling.webp", alt: "Tiler setting floor tiles with levelling clips", illustrative: true },
   },
   {
     title: "Carpentry & Wood Flooring Works",
     text: "Bespoke joinery, doors, fitted furniture and wood flooring crafted for warmth, durability and a refined finish.",
     icon: "wood",
+    image: { src: "/images/technical/wood-flooring.webp", alt: "Craftsman laying wooden floorboards", illustrative: true },
   },
 ] as const;
-
-export const technicalGallery: Img[] = [
-  { src: "/images/technical/glass-facade.webp", alt: "Glass and aluminium curtain-wall facade", illustrative: true },
-  { src: "/images/technical/false-ceiling.webp", alt: "Lobby with a geometric timber false ceiling", illustrative: true },
-  { src: "/images/technical/steel-welding.webp", alt: "Welder working on steel with sparks flying", illustrative: true },
-  { src: "/images/technical/kitchen-installation.webp", alt: "Newly installed kitchen with dark cabinetry and wooden floor", illustrative: true },
-  { src: "/images/technical/swimming-pool.webp", alt: "Villa swimming pool lit at twilight", illustrative: true },
-  { src: "/images/technical/carpentry.webp", alt: "Carpenter smiling while working on timber in a workshop", illustrative: true },
-  { src: "/images/technical/floor-tiling.webp", alt: "Grey stone floor tiles laid in a neat grid", illustrative: true },
-];
 
 /* ------------------------------------------------------------------ Labour */
 
@@ -126,14 +124,16 @@ export const labour = {
   stats: [] as { value: number; suffix?: string; label: string }[],
 };
 
-// [CONFIRM: full list of trades supplied]
+// Trades from the client brief. [CONFIRM: full list of trades supplied]
 export const labourTrades = [
   "Masons",
   "Carpenters",
   "Steel fixers",
+  "Electricians",
+  "Plumbers",
   "Equipment operators",
   "Drivers",
-  "Helpers & general labour",
+  "Helpers",
 ];
 
 export const labourOffer = [
@@ -163,8 +163,11 @@ export const labourProcess = [
 ];
 
 export const labourImages: Img[] = [
-  { src: "/images/labour/construction-team.webp", alt: "Construction team in hard hats and high-visibility vests on a large site", illustrative: true },
-  { src: "/images/labour/worker-power-tool.webp", alt: "Worker in a hard hat and safety vest using a power tool on timber", illustrative: true },
-  { src: "/images/labour/ppe-hard-hats.webp", alt: "Orange hard hats and high-visibility vests hanging on a wall", illustrative: true },
-  { src: "/images/fhm/fhm-team-safety-briefing.webp", alt: "Site team in PPE gathered for a safety briefing" },
+  { src: "/images/labour/high-rise-crew.webp", alt: "Crew in safety gear working on a high-rise building site" },
+  { src: "/images/labour/scaffolding-palms.webp", alt: "Workers on scaffolding behind palm trees" },
+  { src: "/images/labour/masons-brick-wall.webp", alt: "Masons building a brick wall on site" },
+  { src: "/images/labour/steel-fixer-rebar.webp", alt: "Steel fixer securing reinforcement bars" },
+  { src: "/images/labour/site-supervisors.webp", alt: "Two site supervisors in high-visibility vests" },
+  { src: "/images/labour/hard-hats.webp", alt: "Workers in hard hats and safety vests on site" },
+  { src: "/images/company/fhm/fhm-team-safety-briefing.webp", alt: "Group site team in PPE at a safety briefing" },
 ];

@@ -5,7 +5,7 @@ export default function FormStatus({ status, tone = "dark" }: { status: string; 
   const base = cn("mt-6 border-l-2 py-2 pl-4 text-sm", tone === "dark" ? "text-ivory/85" : "text-ink/85");
   return (
     <div aria-live="polite" role="status">
-      {status === "sent" && <p className={cn(base, "border-teal")}>Thank you — your message has been sent. Our team will get back to you shortly.</p>}
+      {status === "sent" && <p className={cn(base, "border-gold-light")}>Thank you — your message has been sent. Our team will get back to you shortly.</p>}
       {status === "mailto" && (
         <p className={cn(base, "border-gold-light")}>
           Your email app should open with your message ready to send. If it doesn’t, email us at{" "}

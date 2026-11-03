@@ -1,38 +1,54 @@
-import type { BusinessSummary } from "./types";
+import type { Business, Contact } from "./types";
+import { contact as group } from "./site";
 
-/** The seven businesses, in the client's priority order. */
-export const businesses: BusinessSummary[] = [
+const groupContact: Contact = {
+  phones: [group.tel, ...group.mobiles],
+  email: group.email,
+  address: `${group.address.line1}, ${group.address.city}`,
+};
+
+/** The seven businesses, in the client's order. */
+export const businesses: Business[] = [
   {
-    slug: "supermarkets",
-    href: "/businesses/supermarkets",
+    slug: "supermarkets-minimarts",
+    href: "/businesses/supermarkets-minimarts",
     index: "01",
     name: "Supermarkets & Minimarts",
     shortName: "Supermarkets",
-    tagline: "Retail Division",
-    summary:
-      "A growing network of supermarkets and minimarts across key locations in the UAE, designed for convenience, quality products and a seamless shopping experience.",
-    image: {
-      src: "/images/retail/supermarket-aisle.webp",
-      alt: "Brightly lit aisle of an Afwajh minimart with stocked shelves and chillers",
-    },
+    label: "Retail",
+    positioning: "Fresh, convenient neighbourhood retail — from Dubai Mall to Ras Al Khaimah.",
+    summary: "A growing network of 11 supermarkets and minimarts across four emirates.",
+    accent: "#5FA84B",
+    hero: { src: "/images/retail/supermarket-aisle.webp", alt: "Long, brightly lit supermarket aisle with fully stocked shelves" },
+    facts: [
+      { value: 11, label: "Outlets" },
+      { value: 160, label: "Team members" },
+      { value: 4, label: "Emirates" },
+      { value: 7, label: "Outlets in Dubai" },
+    ],
     employees: 160,
-    priority: 1,
+    contact: groupContact, // [CONFIRM: retail division contact details]
+    featured: true,
   },
   {
-    slug: "restaurants",
-    href: "/businesses/restaurants",
+    slug: "restaurants-cafeterias",
+    href: "/businesses/restaurants-cafeterias",
     index: "02",
     name: "Restaurants & Cafeterias",
     shortName: "Restaurants",
-    tagline: "Hospitality Division",
-    summary:
-      "A diverse portfolio of restaurants and cafeterias offering a wide range of cuisines and dining experiences across the UAE.",
-    image: {
-      src: "/images/restaurants/cafe-52-storefront.webp",
-      alt: "Cafe 52 container storefront in Town Square, Dubai, with pink flowers in front",
-    },
+    label: "Hospitality",
+    positioning: "Eight venues, one standard of quality, comfort and flavour.",
+    summary: "Cafés, cafeterias and restaurants serving coffee, Indian, Indo-Chinese and more.",
+    accent: "#C8643B",
+    hero: { src: "/images/restaurants/cafe-interior-tree.webp", alt: "Light-filled café interior with a tree, coffee bar and floor-to-ceiling windows" },
+    facts: [
+      { value: 8, label: "Venues" },
+      { value: 110, label: "Team members" },
+      { value: 3, label: "Emirates" },
+    ],
     employees: 110,
-    priority: 1,
+    contact: groupContact, // [CONFIRM: restaurants division contact details]
+    featured: true,
   },
   {
     slug: "catering",
@@ -40,31 +56,46 @@ export const businesses: BusinessSummary[] = [
     index: "03",
     name: "Afwajh Catering Services",
     shortName: "Catering",
-    tagline: "Make Your Events Memorable With Our Authentic Delicacies",
-    summary:
-      "Professional and flexible food solutions, from permanent and site canteens to tiffin services and event catering.",
-    image: {
-      src: "/images/catering/event-buffet.webp",
-      alt: "Guests at a corporate event beside a long buffet of canapés and desserts",
-    },
+    label: "Catering",
+    positioning: "Make your events memorable with our authentic delicacies.",
+    summary: "Permanent and site canteens, tiffin, event catering, food trucks and kiosks.",
+    accent: "#EE9A24",
+    hero: { src: "/images/catering/buffet-chafing-dishes.webp", alt: "Buffet line of polished chafing dishes filled with freshly prepared food" },
+    facts: [
+      { value: 2016, label: "Operating since" },
+      { value: 90, label: "Team members" },
+      { value: 5, label: "Service lines" },
+    ],
     employees: 90,
-    priority: 2,
+    contact: groupContact,
   },
   {
-    slug: "fhm-transport",
-    href: "/businesses/fhm-transport",
+    slug: "fhm-general-transport",
+    href: "/businesses/fhm-general-transport",
     index: "04",
     name: "FHM General Transport LLC",
     shortName: "FHM Transport",
-    tagline: "Transportation & heavy machinery since 2008",
-    summary:
-      "A trusted partner in construction road machinery, demolition equipment, machinery rental and deep excavation.",
-    image: {
-      src: "/images/fhm/fhm-heavy-machinery.webp",
-      alt: "Yellow FHM bulldozers and graders lined up at a yard",
-    },
+    label: "Transport & Machinery",
+    positioning: "Empowering progress with innovation, reliability and excellence.",
+    summary: "Heavy machinery rental, deep excavation, demolition and heavy transport since 2008.",
+    accent: "#1173BE",
+    hero: { src: "/images/fhm/excavator-sand-aerial.webp", alt: "Aerial view of an excavator working in a sand quarry" },
+    facts: [
+      { value: 2008, label: "Established" },
+      { value: 300, label: "Team members" },
+      { value: 11, label: "Major projects" },
+      { value: 114.4, decimals: 1, prefix: "AED ", suffix: "M", label: "Project portfolio" },
+    ],
     employees: 300,
-    priority: 3,
+    contact: {
+      phones: [
+        { display: "+971 58 886 6961", href: "tel:+971588866961" },
+        { display: "+971 4 288 4679", href: "tel:+97142884679" },
+      ],
+      email: "info@fhmgeneraltransport.ae",
+      address: "Office 402 (A), 99 Building, Oud Metha, Dubai",
+      website: { display: "www.fhmgeneraltransport.ae", href: "https://www.fhmgeneraltransport.ae" },
+    },
   },
   {
     slug: "general-trading",
@@ -72,15 +103,17 @@ export const businesses: BusinessSummary[] = [
     index: "05",
     name: "Afwajh General Trading",
     shortName: "General Trading",
-    tagline: "Supply & distribution arm",
-    summary:
-      "The group’s supply and distribution arm, sourcing, trading and delivering a wide range of products for internal operations and external clients.",
-    image: {
-      src: "/images/trading/general-trading-warehouse.webp",
-      alt: "Warehouse staff in hard hats checking stock on tall shelving",
-    },
+    label: "Supply & Distribution",
+    positioning: "The supply and distribution arm behind the group — and its clients.",
+    summary: "Wholesale sourcing, trading and delivery from Al Nahda 1 and Al Qusais 1, Dubai.",
+    accent: "#0FA08A",
+    hero: { src: "/images/trading/distribution-warehouse.webp", alt: "Large distribution warehouse with rows of stocked crates and high racking" },
+    facts: [
+      { value: 18, label: "Team members" },
+      { value: 2, label: "Dubai locations" },
+    ],
     employees: 18,
-    priority: 3,
+    contact: groupContact,
   },
   {
     slug: "technical-services",
@@ -89,16 +122,14 @@ export const businesses: BusinessSummary[] = [
     name: "Afwajh Technical Services",
     shortName: "Technical Services",
     arabicName: "افواجه للخدمات الفنية",
-    tagline: "Installation, fit-out & maintenance",
-    summary:
-      "Licensed technical works from glass and aluminium to tiling, carpentry, false ceilings, kitchens and swimming pools.",
-    image: {
-      src: "/images/technical/glass-facade.webp",
-      alt: "Glass curtain-wall facade of a modern building",
-      illustrative: true,
-    },
-    employees: null,
-    priority: 3,
+    label: "Technical Works",
+    positioning: "Licensed installation, fit-out and maintenance — one accountable team.",
+    summary: "Glass & aluminium, steel, ceilings, tiling, carpentry, kitchens, pools and more.",
+    accent: "#7A8A99",
+    hero: { src: "/images/technical/glass-facade-abstract.webp", alt: "Abstract view of a glass curtain-wall facade reflecting the sky" },
+    facts: [{ value: 10, label: "Licensed activities" }],
+    employees: null, // [CONFIRM]
+    contact: groupContact,
   },
   {
     slug: "labour-supply",
@@ -107,17 +138,27 @@ export const businesses: BusinessSummary[] = [
     // [CONFIRM exact company name]
     name: "Afwajh Labour Supply & Contracting",
     shortName: "Labour Supply",
-    tagline: "Manpower for the construction sector",
-    summary:
-      "Skilled and unskilled manpower on short- and long-term contracts, safety-trained and fully compliant with UAE labour law.",
-    image: {
-      src: "/images/labour/construction-team.webp",
-      alt: "Construction team in hard hats and high-visibility vests on a large site",
-      illustrative: true,
-    },
-    employees: null,
-    priority: 3,
+    label: "Manpower",
+    positioning: "Skilled, safety-trained manpower for the UAE’s construction sector.",
+    summary: "Skilled and unskilled workers on short- and long-term contracts, fully compliant.",
+    accent: "#E3A21A",
+    hero: { src: "/images/labour/site-team-aerial.webp", alt: "Construction team in hard hats and high-visibility vests on a large site, seen from above" },
+    facts: [{ value: 8, label: "Core trades" }],
+    employees: null, // [CONFIRM]
+    contact: groupContact,
   },
 ];
 
-export const businessBySlug = (slug: string) => businesses.find((b) => b.slug === slug)!;
+export const businessBySlug = (slug: string) => {
+  const b = businesses.find((x) => x.slug === slug);
+  if (!b) throw new Error(`Unknown business: ${slug}`);
+  return b;
+};
+
+export const neighbours = (slug: string) => {
+  const i = businesses.findIndex((b) => b.slug === slug);
+  return {
+    prev: businesses[(i - 1 + businesses.length) % businesses.length],
+    next: businesses[(i + 1) % businesses.length],
+  };
+};

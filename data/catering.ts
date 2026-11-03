@@ -15,8 +15,8 @@ export const catering = {
   vision:
     "Be the leading provider of innovative and personalized catering services in Dubai and beyond, renowned for our commitment to quality, customer satisfaction, and culinary excellence.",
   hero: {
-    src: "/images/catering/plated-signature-dish.webp",
-    alt: "Plated signature dish of glazed meat and roasted nuts on a dark ceramic plate",
+    src: "/images/catering/buffet-chafing-dishes.webp",
+    alt: "Buffet line of polished chafing dishes filled with freshly prepared food",
   } satisfies Img,
 };
 
@@ -43,8 +43,8 @@ export const cateringServices: CateringService[] = [
     ],
     highlight: { label: "Proudly serving", value: "Infosys, Hyderabad, India" },
     image: {
-      src: "/images/catering/restaurant-canteen-interior.webp",
-      alt: "Modern staff canteen with timber walls, a long counter and dining tables",
+      src: "/images/catering/staff-canteen.webp",
+      alt: "Modern staff canteen with a long serving counter",
     },
   },
   {
@@ -69,8 +69,8 @@ export const cateringServices: CateringService[] = [
       "AG Engineering",
     ],
     image: {
-      src: "/images/catering/temporary-canteen-container.webp",
-      alt: "Black container canteen with outdoor seating, ready for a project site",
+      src: "/images/catering/bright-canteen.webp",
+      alt: "Bright canteen dining area with wooden tables",
     },
   },
   {
@@ -83,8 +83,8 @@ export const cateringServices: CateringService[] = [
       "We deliver the best of home-cooked recipes, prepared using traditional and authentic methods so each dish retains its unique flavour and nutritional value — ideal for anyone seeking healthy, home-style food every day.",
     ],
     image: {
-      src: "/images/catering/tiffin-meals.webp",
-      alt: "Foil tiffin containers filled with salads, rice and grilled dishes",
+      src: "/images/catering/tiffin-meal.webp",
+      alt: "Home-style meal of curry and rice packed in a meal box",
     },
   },
   {
@@ -97,8 +97,8 @@ export const cateringServices: CateringService[] = [
       "We focus on quality, presentation, service and the overall experience — building strong relationships and delivering a complete, personalised experience for every client and their guests.",
     ],
     image: {
-      src: "/images/catering/event-buffet.webp",
-      alt: "Corporate guests mingling beside an elegant buffet",
+      src: "/images/catering/event-canapes.webp",
+      alt: "Waiter presenting a tray of canapés at an event",
     },
   },
   {
@@ -110,8 +110,8 @@ export const cateringServices: CateringService[] = [
       "From exhibitions and community events to busy project sites, our food truck and kiosk formats serve freshly prepared food and beverages wherever your people are.",
     ],
     image: {
-      src: "/images/catering/food-truck-kiosk.webp",
-      alt: "Food truck kiosk with a striped awning and bar stools at an indoor venue",
+      src: "/images/catering/food-truck.webp",
+      alt: "Colourful food truck serving guests under palm trees",
     },
   },
 ];
@@ -144,7 +144,9 @@ export const siteCanteenSteps = [
 ];
 
 export const cateringGallery: Img[] = [
-  { src: "/images/catering/mezze-platter.webp", alt: "Top-down view of mezze, soup and wraps on a wooden board" },
-  { src: "/images/catering/plated-fine-dining.webp", alt: "Fine-dining plate of seared meat on a green ceramic plate" },
-  { src: "/images/catering/container-dining.webp", alt: "Container restaurant terrace with long dining tables at dusk" },
+  { src: "/images/catering/caterer-serving.webp", alt: "Caterer lifting the lid of a gold chafing dish" },
+  { src: "/images/catering/chef-plating.webp", alt: "Chef plating a dish in a professional kitchen" },
+  { src: "/images/catering/buffet-curries.webp", alt: "Buffet of curries and rice in stainless-steel trays" },
+  { src: "/images/catering/event-canapes.webp", alt: "Tray of canapés served at an event" },
+  { src: "/images/catering/tiffin-meal.webp", alt: "Packed home-style meal with rice and curry" },
 ];

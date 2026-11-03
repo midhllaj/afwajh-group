@@ -48,19 +48,18 @@ export const mission =
 
 export const coreStrengths = [
   { title: "Strong focus on quality and freshness", icon: "leaf" },
-  { title: "Efficient and scalable operations", icon: "gears" },
+  { title: "Efficient and scalable operations", icon: "gear" },
   { title: "Strong brand positioning and market adaptability", icon: "compass" },
-  { title: "Customer-centric service approach", icon: "heart" },
-  { title: "Diverse business portfolio", icon: "grid" },
-  { title: "Dedicated and hardworking workforce", icon: "people" },
+  { title: "Customer-centric service approach", icon: "handshake" },
+  { title: "Diverse business portfolio", icon: "squares" },
+  { title: "Dedicated and hardworking workforce", icon: "users" },
 ] as const;
 
 export const keyStats: Stat[] = [
-  { value: 2010, label: "Established" },
+  { value: 2010, label: "Since", prefix: "" },
   { value: 7, label: "Businesses" },
-  { value: 678, suffix: "+", label: "Employees" },
-  { value: 11, label: "Retail outlets" },
-  { value: 8, label: "Restaurants & cafeterias" },
+  { value: 678, suffix: "+", label: "People" },
+  { value: 19, label: "Retail & dining outlets" },
   { value: 4, label: "Emirates" },
 ];
 
@@ -68,9 +67,9 @@ export const emirates = ["Dubai", "Abu Dhabi", "Sharjah", "Ras Al Khaimah"] as c
 
 /** Employees per division, from the group profile. `null` = still to be confirmed. */
 export const workforce: { name: string; employees: number | null; href: string }[] = [
-  { name: "FHM General Transport", employees: 300, href: "/businesses/fhm-transport" },
-  { name: "Supermarkets & Minimarts", employees: 160, href: "/businesses/supermarkets" },
-  { name: "Restaurants & Cafeterias", employees: 110, href: "/businesses/restaurants" },
+  { name: "FHM General Transport", employees: 300, href: "/businesses/fhm-general-transport" },
+  { name: "Supermarkets & Minimarts", employees: 160, href: "/businesses/supermarkets-minimarts" },
+  { name: "Restaurants & Cafeterias", employees: 110, href: "/businesses/restaurants-cafeterias" },
   { name: "Catering Services", employees: 90, href: "/businesses/catering" },
   { name: "General Trading", employees: 18, href: "/businesses/general-trading" },
   { name: "Technical Services", employees: null, href: "/businesses/technical-services" }, // [CONFIRM]

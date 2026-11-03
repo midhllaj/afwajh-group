@@ -9,7 +9,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const pages = [
     { path: "/", priority: 1 },
     { path: "/about", priority: 0.8 },
-    ...businesses.map((b) => ({ path: b.href, priority: b.priority === 1 ? 0.9 : b.priority === 2 ? 0.8 : 0.7 })),
+    { path: "/businesses", priority: 0.8 },
+    ...businesses.map((b) => ({ path: b.href, priority: b.featured ? 0.9 : 0.8 })),
     { path: "/clients", priority: 0.6 },
     { path: "/contact", priority: 0.7 },
   ];

@@ -1,28 +1,27 @@
-import DotMap from "@/components/ui/DotMap";
-import Reveal from "@/components/ui/Reveal";
-import SplitHeading from "@/components/ui/SplitHeading";
+import Kicker from "@/components/ui/Kicker";
+import { Mark } from "@/components/brand/Logo";
 import { mission, vision } from "@/data/site";
 
-export default function VisionMission() {
+export default function VisionMission({ index = "03" }: { index?: string }) {
   return (
-    <section className="on-light relative overflow-hidden bg-ivory py-24 text-ink md:py-36" aria-label="Vision and mission">
-      <DotMap className="pointer-events-none absolute -right-[18%] bottom-[-8%] w-[95%] text-teal/60 md:-right-[6%] md:w-[62%]" />
-      <div className="container-x relative">
-        <div className="grid-12 gap-y-20">
+    <section className="grain relative overflow-hidden bg-emerald-deep py-28 text-ivory md:py-40" aria-label="Vision and mission">
+      <Mark id="vm" className="pointer-events-none absolute -right-24 top-1/2 w-[620px] -translate-y-1/2 opacity-[0.05] md:w-[900px]" />
+      <div className="wrap relative">
+        <Kicker index={index}>Purpose</Kicker>
+        <div className="mt-16 grid gap-16 md:grid-cols-2 md:gap-10 lg:gap-24">
           {[
-            { label: "Vision", text: vision, index: "05" },
-            { label: "Mission", text: mission, index: "06" },
+            { label: "Vision", text: vision },
+            { label: "Mission", text: mission },
           ].map((item, i) => (
-            <div key={item.label} className={`col-span-12 md:col-span-9 lg:col-span-7 ${i === 1 ? "lg:col-start-4" : ""}`}>
-              <Reveal variant="fade" className="mb-6 flex items-center gap-4">
-                <span className="h-px w-16 bg-gold-deep" />
-                <span className="eyebrow text-emerald-700">{item.label}</span>
-              </Reveal>
-              <SplitHeading as="h2" text={`Our *${item.label}*`} className="display-sm mb-6 text-emerald-900" />
-              <Reveal delay={0.1}>
-                <p className="font-serif text-[1.6rem] leading-[1.3] text-ink/85 md:text-[2.15rem]">{item.text}</p>
-              </Reveal>
-            </div>
+            <article key={item.label} className="border-t border-line-dark pt-8" data-reveal data-delay={String(i * 0.12)}>
+              <h2 className="t-h3 flex items-baseline gap-4">
+                <span className="t-label text-gold-light">0{i + 1}</span>
+                Our <em className="accent-word text-gold-light">{item.label.toLowerCase()}</em>
+              </h2>
+              <p className="mt-8 text-[clamp(1.35rem,1.05rem+1vw,2.1rem)] leading-[1.4] tracking-[-0.01em] text-ivory/90">
+                {item.text}
+              </p>
+            </article>
           ))}
         </div>
       </div>

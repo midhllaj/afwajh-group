@@ -10,15 +10,13 @@ type Props = LinkProps & AnchorHTMLAttributes<HTMLAnchorElement> & { children: R
 export default function TLink({ href, onClick, children, ...rest }: Props) {
   const { navigate } = usePageTransition();
   const target = String(href);
-
   return (
     <Link
       href={href}
       {...rest}
       onClick={(e) => {
         onClick?.(e);
-        if (e.defaultPrevented) return;
-        if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0) return;
+        if (e.defaultPrevented || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0) return;
         if (rest.target === "_blank" || !target.startsWith("/")) return;
         e.preventDefault();
         navigate(target);
