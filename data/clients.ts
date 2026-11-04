@@ -26,22 +26,21 @@ export const developers: Client[] = [
 ];
 
 export const contractors: Client[] = [
-  { name: "ACC Contracting" },
-  { name: "ALEC Contracting" },
-  { name: "ASGC Contracting" },
-  { name: "Jeet Contracting" },
-  { name: "Sobha Contracting" },
-  { name: "Bhatia Contracting" },
-  { name: "China State Contracting" },
-  { name: "Gardinia Contracting" },
-  { name: "Gulf Asia Contracting" },
-  { name: "Dubuild Construction" },
-  { name: "Ali Moosa Construction" },
+  { name: "ACC Contracting LLC" },
+  { name: "ALEC Contracting LLC" },
+  { name: "ASGC Contracting LLC" },
+  { name: "Jeet Contracting LLC" },
+  { name: "Sobha Contracting LLC" },
+  { name: "Bhatia Contracting LLC" },
+  { name: "China State Contracting LLC" },
+  { name: "Gardinia Contracting LLC" },
+  { name: "Gulf Asia Contracting LLC" },
+  { name: "China Railway 18th Bureau Contracting" },
+  { name: "UNEC Contracting LLC" },
+  { name: "M.A. Kharafi & Sons Contracting LLC" },
   { name: "Ali & Sons Construction" },
   { name: "Saleh Construction" },
   { name: "Naresco Construction" },
-  { name: "Western Bainoona Group" },
-  { name: "BT Properties" },
 ];
 
 export const cateringClients: Client[] = [
