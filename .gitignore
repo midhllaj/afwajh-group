@@ -45,3 +45,6 @@ next-env.d.ts
 
 # visual QA output
 /screenshots
+
+# Full-size camera originals (web copies live in public/images)
+/original-photos/

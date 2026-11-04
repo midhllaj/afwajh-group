@@ -8,7 +8,6 @@ Everything below is either marked `[CONFIRM]` in the code or was written or appr
 - [ ] **Social media URLs** (Instagram, LinkedIn, Facebook). Icons stay hidden until URLs are added. → `data/site.ts` (`contact.social`)
 - [ ] **Business-specific contacts.** Every business except FHM currently shows the head-office phone and email. Add each business's own contact details. → `data/businesses.ts` (`contact`)
 - [ ] **Outlet phone numbers** for each of the 11 supermarkets/minimarts. → `data/retail.ts` (`phone`)
-- [ ] **Free Home Delivery numbers** `052 765 1869 | 052 702 6791` (read from the Greenmart storefront photo): which outlet do they belong to? Is "Greenmart" one of the 11 outlets under another name? → `data/retail.ts` (`homeDelivery`)
 
 ## Missing figures
 - [ ] **Technical Services employee count.** → `data/site.ts` (`workforce`), `data/businesses.ts`

@@ -6,12 +6,9 @@ import SectionHead from "@/components/business/SectionHead";
 import Gallery from "@/components/business/Gallery";
 import BusinessContact from "@/components/business/BusinessContact";
 import OutletDirectory from "@/components/business/retail/OutletDirectory";
-import Media from "@/components/ui/Media";
-import Icon from "@/components/ui/Icon";
-import Kicker from "@/components/ui/Kicker";
 import JsonLd from "@/components/seo/JsonLd";
 import { businessBySlug } from "@/data/businesses";
-import { homeDelivery, outlets, retailGallery, retailImages, retailIntro } from "@/data/retail";
+import { outlets, retailGallery, retailImages, retailIntro } from "@/data/retail";
 import { pageMetadata } from "@/lib/seo";
 import { localBusinessSchema } from "@/lib/schema";
 
@@ -70,40 +67,8 @@ export default function Page() {
         </div>
       </section>
 
-      {/* Business-specific: home delivery */}
-      <section className="tone-light overflow-hidden bg-ivory py-28 md:py-36" aria-labelledby="delivery-title">
-        <div className="wrap grid-12 items-center gap-y-14">
-          <div className="col-span-12 md:col-span-6">
-            <Media image={retailImages.delivery} className="aspect-[4/3]" sizes="(min-width: 768px) 50vw, 100vw" cursor="View" />
-          </div>
-          <div className="col-span-12 md:col-span-5 md:col-start-8">
-            <Kicker index="03" tone="light" accent>
-              Convenience at your door
-            </Kicker>
-            <h2 id="delivery-title" className="t-h2 mt-8" data-split>
-              Free home <em className="accent-word">delivery</em>
-            </h2>
-            <p className="mt-6 text-ink/70" data-reveal>
-              {homeDelivery.note}
-            </p>
-            <ul className="mt-10 border-t border-line-light" data-reveal>
-              {homeDelivery.numbers.map((n) => (
-                <li key={n.href} className="border-b border-line-light">
-                  <a href={n.href} className="group flex min-h-16 items-center justify-between py-4">
-                    <span className="t-h3">{n.display}</span>
-                    <span className="flex h-12 w-12 items-center justify-center rounded-full bg-[var(--accent)] text-emerald-deep transition-transform group-hover:-rotate-12">
-                      <Icon name="phone" size={20} />
-                    </span>
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </div>
-      </section>
-
-      <Gallery images={retailGallery} index="04" title={"Inside our\n*stores*"} intro="Fresh produce, curated shelves and the everyday essentials our neighbourhoods rely on." />
-      <BusinessContact business={b} index="05" />
+      <Gallery images={retailGallery} index="03" tone="light" title={"Inside our\n*stores*"} intro="Fresh produce, curated shelves and the everyday essentials our neighbourhoods rely on." />
+      <BusinessContact business={b} index="04" />
     </BusinessPage>
   );
 }

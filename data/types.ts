@@ -9,6 +9,8 @@ export interface Img {
   alt: string;
   /** True for stock photography standing in for a specific venue/service (shown as "Illustrative image"). */
   illustrative?: boolean;
+  /** Tailwind object-position class, for photos the default centre crop would cut off. */
+  crop?: string;
 }
 
 export interface Stat {

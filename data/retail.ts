@@ -146,7 +146,6 @@ export const outlets: Outlet[] = [
 export const retailGallery: Img[] = [
   { src: "/images/retail/fresh-fruit-wall.webp", alt: "Wall of neatly stacked fresh fruit on supermarket shelves" },
   { src: "/images/retail/produce-chiller.webp", alt: "Refrigerated produce display filled with fresh vegetables" },
-  { src: "/images/company/retail/greenmart-storefront.webp", alt: "Afwajh outlet storefront with a ‘Free Home Delivery’ sign and illustrated produce" },
   { src: "/images/retail/fresh-greens-shopping.webp", alt: "Shopper choosing fresh leafy greens" },
   { src: "/images/retail/fruit-display-aerial.webp", alt: "Overhead view of a fruit display with oranges and apples" },
   { src: "/images/company/retail/supermarket-aisle.webp", alt: "Aisle inside an Afwajh minimart with chillers and stacked water" },
@@ -157,16 +156,4 @@ export const retailGallery: Img[] = [
 /** Feature imagery for the retail page sections. */
 export const retailImages = {
   intro: { src: "/images/retail/grocery-aisle-lit.webp", alt: "Calm, well-lit grocery aisle with fully stocked shelves" } satisfies Img,
-  delivery: { src: "/images/company/retail/greenmart-storefront.webp", alt: "Outlet storefront advertising free home delivery" } satisfies Img,
-};
-
-/** Seen on the Greenmart storefront photo. */
-export const homeDelivery = {
-  title: "Free Home Delivery",
-  numbers: [
-    { display: "052 765 1869", href: "tel:+971527651869" },
-    { display: "052 702 6791", href: "tel:+971527026791" },
-  ],
-  // [CONFIRM: which outlet these delivery numbers belong to]
-  note: "Call or WhatsApp to order fresh groceries to your door.",
 };
