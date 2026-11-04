@@ -79,7 +79,7 @@ All copy lives in typed files in `/data`:
 |---|---|
 | `data/site.ts` | Group name, intro, vision, mission, core strengths, key numbers, workforce, **head-office contact, WhatsApp, social links** |
 | `data/businesses.ts` | The 7 businesses: order, name, number, accent colour, positioning, summary, hero image, key facts, contact details |
-| `data/retail.ts` | The 11 outlets (location, emirate, description, map coordinates), delivery block, gallery |
+| `data/retail.ts` | The 11 outlets (location, emirate, description, map coordinates), gallery |
 | `data/restaurants.ts` | The 8 venues (description, tags, image, optional real-photo inset) |
 | `data/catering.ts` | Catering about/mission/vision, 5 services, site-canteen steps, gallery |
 | `data/fhm.ts` | FHM about, CEO message, vision/mission, services, fleet, **projects** (the total value is calculated automatically), galleries |

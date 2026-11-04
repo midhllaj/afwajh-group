@@ -9,6 +9,7 @@ import BusinessContact from "@/components/business/BusinessContact";
 import CanteenTimeline from "@/components/business/catering/CanteenTimeline";
 import CateringEnquiryForm from "@/components/forms/CateringEnquiryForm";
 import Media from "@/components/ui/Media";
+import MediaSwitcher from "@/components/ui/MediaSwitcher";
 import JsonLd from "@/components/seo/JsonLd";
 import { businessBySlug } from "@/data/businesses";
 import { catering, cateringGallery, cateringServices, siteCanteenSteps } from "@/data/catering";
@@ -83,7 +84,16 @@ export default function Page() {
               return (
                 <li key={s.id} id={s.id} className="grid-12 scroll-mt-28 items-center gap-y-10 border-t border-line-dark py-16 md:py-24">
                   <div className={cn("col-span-12 md:col-span-6", flip && "md:order-2 md:col-start-7")}>
-                    <Media image={s.image} className="aspect-[4/3]" sizes="(min-width: 768px) 50vw, 100vw" parallax={6} />
+                    {s.moreImages ? (
+                      <MediaSwitcher
+                        label={`Next ${s.title} photo`}
+                        slides={[s.image, ...s.moreImages].map((img, n) => (
+                          <Media key={img.src} image={img} className="aspect-[4/3]" sizes="(min-width: 768px) 50vw, 100vw" reveal={n === 0} />
+                        ))}
+                      />
+                    ) : (
+                      <Media image={s.image} className="aspect-[4/3]" sizes="(min-width: 768px) 50vw, 100vw" parallax={6} />
+                    )}
                   </div>
                   <div className={cn("col-span-12 md:col-span-5", flip ? "md:order-1 md:col-start-1" : "md:col-start-8")}>
                     <p className="t-num text-6xl leading-none text-[var(--accent)] md:text-7xl" data-reveal>

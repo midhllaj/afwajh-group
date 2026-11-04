@@ -29,6 +29,8 @@ export interface CateringService {
   highlight?: { label: string; value: string };
   clients?: string[];
   image: Img;
+  /** Further photos, reached with the next arrow on the image. */
+  moreImages?: Img[];
 }
 
 export const cateringServices: CateringService[] = [
@@ -42,9 +44,17 @@ export const cateringServices: CateringService[] = [
       "Afwajh provides complete canteen management solutions, ensuring high standards of quality, hygiene, and operational efficiency. Our experienced in-house team specializes in operating canteens for corporate companies, industrial units, and educational institutions.",
     ],
     image: {
-      src: "/images/catering/staff-canteen.webp",
-      alt: "Modern staff canteen with a long serving counter",
+      src: "/images/catering/canteen-juice-counter.webp",
+      alt: "Tiled canteen counter with a juice dispenser and display case under hanging greenery",
+      crop: "object-[50%_72%]",
     },
+    moreImages: [
+      { src: "/images/catering/canteen-atrium-seating.webp", alt: "Overhead view of people at round tables in a sunlit canteen hall" },
+      { src: "/images/catering/canteen-menu-boards.webp", alt: "Canteen food counter with illuminated menu boards and orange pendant lamps", crop: "object-[50%_35%]" },
+      { src: "/images/catering/canteen-service-counter.webp", alt: "Bright self-service canteen counter with chilled drinks and fresh bakery displays" },
+      { src: "/images/catering/canteen-garden-view.webp", alt: "Canteen dining tables beside floor-to-ceiling windows overlooking a green park", crop: "object-[50%_80%]" },
+      { src: "/images/catering/canteen-glass-hall.webp", alt: "Rows of tables and wooden chairs in a large glass-walled dining hall", crop: "object-[50%_100%]" },
+    ],
   },
   {
     id: "temporary-canteens",
@@ -68,9 +78,15 @@ export const cateringServices: CateringService[] = [
       "AG Engineering",
     ],
     image: {
-      src: "/images/catering/bright-canteen.webp",
-      alt: "Bright canteen dining area with wooden tables",
+      src: "/images/catering/temporary-canteen-interior.jpg",
+      alt: "Site workers in hi-vis vests eating at a covered temporary canteen with a serving counter",
     },
+    moreImages: [
+      {
+        src: "/images/catering/temporary-canteen-container.jpeg",
+        alt: "Blue shipping-container canteen with an open serving hatch and equipped kitchen",
+      },
+    ],
   },
   {
     id: "tiffin-services",
@@ -96,9 +112,18 @@ export const cateringServices: CateringService[] = [
       "We focus on quality, presentation, service and the overall experience — building strong relationships and delivering a complete, personalised experience for every client and their guests.",
     ],
     image: {
-      src: "/images/catering/event-canapes.webp",
-      alt: "Waiter presenting a tray of canapés at an event",
+      src: "/images/catering/event-tent-buffet.webp",
+      alt: "Outdoor party buffet under a tent with finger food, fruit and tiered colourful drinks",
     },
+    moreImages: [
+      { src: "/images/catering/event-ballroom.webp", alt: "Large ballroom set for a wedding with hanging floral lights and staff preparing tables" },
+      { src: "/images/catering/event-floral-buffet.webp", alt: "Silver chafing dishes on a buffet in front of tall orange and red floral arrangements" },
+      { src: "/images/catering/event-banquet-table.webp", alt: "Conference banquet table laid with fruit cups, pastries and coffee cups" },
+      { src: "/images/catering/event-garden-buffet.webp", alt: "Long garden buffet of cheese, fruit and nuts beside abundant flower arrangements" },
+      { src: "/images/catering/event-gold-table-setting.webp", alt: "Round wedding table with gold charger plates, folded napkins and a rose centrepiece" },
+      { src: "/images/catering/event-rose-centrepiece.webp", alt: "Pink and white rose centrepiece on a table set for a celebration" },
+      { src: "/images/catering/event-dessert-table.webp", alt: "Outdoor dessert table of cupcakes, tarts and cakes on tiered stands under a parasol" },
+    ],
   },
   {
     id: "food-truck-kiosk",
@@ -109,9 +134,20 @@ export const cateringServices: CateringService[] = [
       "From exhibitions and community events to busy project sites, our food truck and kiosk formats serve freshly prepared food and beverages wherever your people are.",
     ],
     image: {
-      src: "/images/catering/food-truck.webp",
-      alt: "Colourful food truck serving guests under palm trees",
+      src: "/images/catering/food-truck-red-trailer.webp",
+      alt: "Red food trailer lit up at night with its serving windows open",
     },
+    moreImages: [
+      {
+        src: "/images/catering/food-truck-silver-trailer.webp",
+        alt: "Polished silver food trailer beside outdoor wooden dining tables",
+      },
+      {
+        src: "/images/catering/food-kiosk-silver.webp",
+        alt: "Compact silver food kiosk with its serving hatch raised on a city street",
+        crop: "object-[50%_85%]",
+      },
+    ],
   },
 ];
 

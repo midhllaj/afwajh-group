@@ -53,7 +53,7 @@ export default function Media({
       fetchPriority={priority ? "high" : undefined}
       placeholder={m ? "blur" : "empty"}
       blurDataURL={m?.blur}
-      className={cn("object-cover", imgClassName)}
+      className={cn("object-cover", image.crop, imgClassName)}
     />
   );
   return (
