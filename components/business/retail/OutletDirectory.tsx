@@ -1,54 +1,180 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState } from "react";
+import { memo, useEffect, useMemo, useRef, useState } from "react";
+import type { CSSProperties } from "react";
 import Icon from "@/components/ui/IconMini";
-import type { Outlet } from "@/data/retail";
-import { MAP_H, MAP_W, mapDots, outlinePath, project, viewBoxFor } from "@/lib/uaeMap";
+import { getLenis } from "@/components/providers/SmoothScroll";
+import { directionsUrl, type Outlet } from "@/data/retail";
+import { MAP_H, MAP_W, fitView, focusView, groundTransform, outlinePath, palmPath, place, type Point, type View } from "@/lib/uaeMap";
 import { cn } from "@/lib/utils";
+import ShopModel from "./ShopModel";
 
 const filters = ["All", "Dubai", "Abu Dhabi", "Sharjah", "Ras Al Khaimah"] as const;
 type Filter = (typeof filters)[number];
-const dots = mapDots(10);
+
 const labels = [
-  { name: "Dubai", lng: 55.36, lat: 25.13 },
-  { name: "Abu Dhabi", lng: 54.45, lat: 24.32 },
-  { name: "Sharjah", lng: 55.52, lat: 25.33 },
-  { name: "Ras Al Khaimah", lng: 54.95, lat: 25.88 },
+  { name: "Dubai", lng: 55.42, lat: 24.86 },
+  { name: "Abu Dhabi", lng: 54.8, lat: 24.28 },
+  { name: "Sharjah", lng: 55.8, lat: 25.12 },
+  { name: "Ras Al Khaimah", lng: 56.04, lat: 25.42 },
+  { name: "Arabian Gulf", lng: 54.35, lat: 25.7 },
 ];
 
-const parse = (vb: string) => vb.split(" ").map(Number);
+// The whole country, cropped to the populated coast where the shops are.
+const VIEW_ALL = fitView([place(53.1, 25.95), place(56.45, 26.1), place(53.1, 23.65), place(56.45, 23.65)], 10, 0);
+// Dubai's group marker sits down the coast so it doesn't cover the Sharjah shop.
+const clusterAnchors: Record<string, Point> = { Dubai: place(55.06, 25.0) };
+const nonScaling = { vectorEffect: "non-scaling-stroke" } as const;
+const graticule = Array.from({ length: 22 }, (_, i) => -400 + i * 90);
 
-/** Outlet directory: emirate filter + stylised UAE map with pins that zooms per emirate. */
+/** The tilted UAE plate. Static, so the camera can move without re-rendering it. */
+const Ground = memo(function Ground() {
+  return (
+    <>
+      <defs>
+        <linearGradient id="uae-land" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0" stopColor="#245C53" />
+          <stop offset="1" stopColor="#123B36" />
+        </linearGradient>
+        <pattern id="uae-dots" width="10" height="10" patternUnits="userSpaceOnUse">
+          <circle cx="5" cy="5" r="1.05" fill="#F5F1E8" opacity="0.2" />
+        </pattern>
+        <pattern id="uae-dots-fine" width="2.5" height="2.5" patternUnits="userSpaceOnUse">
+          <circle cx="1.25" cy="1.25" r="0.26" fill="#F5F1E8" opacity="0.22" />
+        </pattern>
+      </defs>
+      <g transform={groundTransform}>
+        {graticule.map((v) => (
+          <g key={v} stroke="#F5F1E8" strokeOpacity={0.04} {...nonScaling}>
+            <line x1={v} y1={-600} x2={v} y2={1400} {...nonScaling} />
+            <line x1={-600} y1={v} x2={1400} y2={v} {...nonScaling} />
+          </g>
+        ))}
+        {[34, 22, 11].map((w, i) => (
+          <path key={w} d={outlinePath} fill="none" stroke="#E2C26A" strokeOpacity={0.03 + i * 0.015} strokeWidth={w} strokeLinejoin="round" />
+        ))}
+        <path d={outlinePath} transform="translate(0 30)" fill="#000" opacity={0.3} />
+        {Array.from({ length: 14 }, (_, i) => (
+          <path key={i} d={outlinePath} transform={`translate(0 ${(14 - i) * 1.5})`} fill={i < 7 ? "#061816" : "#0B2926"} />
+        ))}
+        <path d={outlinePath} fill="url(#uae-land)" />
+        <path d={outlinePath} fill="url(#uae-dots)" style={{ opacity: "calc(1 - var(--fine-dots))" }} />
+        <path d={outlinePath} fill="url(#uae-dots-fine)" style={{ opacity: "var(--fine-dots)" }} />
+        <path d={palmPath} fill="none" stroke="#3A8374" strokeWidth={2.2} strokeLinecap="round" {...nonScaling} />
+        <path d={outlinePath} fill="none" stroke="#E2C26A" strokeOpacity={0.75} strokeWidth={1.25} strokeLinejoin="round" {...nonScaling} />
+      </g>
+    </>
+  );
+});
+
+function NameTag({ show, accent, children }: { show: boolean; accent?: boolean; children: React.ReactNode }) {
+  return (
+    <span
+      className={cn(
+        "pointer-events-none absolute bottom-full left-1/2 mb-0.5 -translate-x-1/2 whitespace-nowrap rounded-full px-3 py-1 text-[12px] font-medium shadow-lg transition-[opacity,transform] duration-300",
+        accent ? "bg-[var(--accent)] text-emerald-deep" : "bg-emerald-deep/95 text-ivory ring-1 ring-ivory/15",
+        show ? "translate-y-0 opacity-100" : "translate-y-1 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 group-focus-visible:translate-y-0 group-focus-visible:opacity-100",
+      )}
+    >
+      {children}
+    </span>
+  );
+}
+
+function GroundRing() {
+  return (
+    <span className="pointer-events-none absolute bottom-0 left-1/2 h-5 w-14 -translate-x-1/2 translate-y-1/3 md:h-6 md:w-20" aria-hidden="true">
+      <span className="absolute inset-0 animate-ping rounded-[50%] border-2 border-[var(--accent)]" />
+      <span className="absolute inset-0 rounded-[50%] border-2 border-[var(--accent)] bg-[var(--accent)]/20" />
+    </span>
+  );
+}
+
+/** Outlet directory: emirate filter + 3D map of the shops, each opening a card with directions. */
 export default function OutletDirectory({ outlets }: { outlets: Outlet[] }) {
   const [filter, setFilter] = useState<Filter>("All");
-  const [active, setActive] = useState<string | null>(null);
-  const [vb, setVb] = useState(() => parse(viewBoxFor("All")));
-  const vbRef = useRef(vb);
+  const [selected, setSelected] = useState<string | null>(null);
+  const [hovered, setHovered] = useState<string | null>(null);
+  const [vb, setVb] = useState<View>(VIEW_ALL);
+  const vbRef = useRef<View>(VIEW_ALL);
+  const stageRef = useRef<HTMLDivElement>(null);
 
   const list = useMemo(() => (filter === "All" ? outlets : outlets.filter((o) => o.emirate === filter)), [filter, outlets]);
   const count = (f: Filter) => (f === "All" ? outlets.length : outlets.filter((o) => o.emirate === f).length);
+  const points = useMemo(() => new Map(outlets.map((o) => [o.id, place(o.lng, o.lat)])), [outlets]);
+  const selectedOutlet = outlets.find((o) => o.id === selected);
 
-  // Smoothly animate the map's viewBox to the selected emirate.
+  // Emirates with several shops collapse into one group marker on the country view.
+  const clusters = useMemo(() => {
+    const byEmirate = new Map<string, Outlet[]>();
+    outlets.forEach((o) => byEmirate.set(o.emirate, [...(byEmirate.get(o.emirate) ?? []), o]));
+    return [...byEmirate.entries()]
+      .filter(([, members]) => members.length > 1)
+      .map(([emirate, members]) => {
+        const pts = members.map((m) => points.get(m.id) as Point);
+        const at = clusterAnchors[emirate] ?? { x: pts.reduce((s, p) => s + p.x, 0) / pts.length, y: pts.reduce((s, p) => s + p.y, 0) / pts.length };
+        return { emirate: emirate as Filter, members, at };
+      });
+  }, [outlets, points]);
+
+  const clustered = filter === "All" && !selected;
+  const inCluster = (o: Outlet) => clusters.some((c) => c.emirate === o.emirate);
+
+  const target = useMemo<View>(() => {
+    const point = selected ? points.get(selected) : undefined;
+    if (point) return focusView(point);
+    if (filter === "All") return VIEW_ALL;
+    return fitView(list.map((o) => points.get(o.id) as Point), 16, 110);
+  }, [filter, list, points, selected]);
+
+  // Smoothly fly the camera to the current target.
   useEffect(() => {
     const from = vbRef.current;
-    const to = parse(viewBoxFor(filter));
     const reduce = !document.documentElement.classList.contains("motion");
     const start = performance.now();
     let raf = 0;
     const step = (now: number) => {
-      const t = reduce ? 1 : Math.min(1, (now - start) / 1000);
+      const t = reduce ? 1 : Math.min(1, (now - start) / 1100);
       const e = t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
-      const next = from.map((v, i) => v + (to[i] - v) * e);
+      const next = from.map((v, i) => v + (target[i] - v) * e) as View;
       vbRef.current = next;
       setVb(next);
       if (t < 1) raf = requestAnimationFrame(step);
     };
     raf = requestAnimationFrame(step);
     return () => cancelAnimationFrame(raf);
-  }, [filter]);
+  }, [target]);
 
-  const zoom = MAP_W / vb[2];
-  const activeOutlet = outlets.find((o) => o.id === active);
+  useEffect(() => {
+    if (!selected) return;
+    const onKey = (e: KeyboardEvent) => e.key === "Escape" && setSelected(null);
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [selected]);
+
+  const pickFilter = (f: Filter) => {
+    setFilter(f);
+    setSelected(null);
+  };
+
+  const select = (o: Outlet) => {
+    setSelected(o.id);
+    if (filter !== "All" && o.emirate !== filter) setFilter(o.emirate as Filter);
+  };
+
+  const showOnMap = (o: Outlet) => {
+    select(o);
+    const stage = stageRef.current;
+    if (!stage) return;
+    const r = stage.getBoundingClientRect();
+    if (r.top >= 80 && r.bottom <= window.innerHeight) return;
+    const lenis = getLenis();
+    if (lenis) lenis.scrollTo(stage, { offset: -110 });
+    else window.scrollBy({ top: r.top - 90, behavior: "smooth" });
+  };
+
+  const pos = (p: Point) => ({ left: `${((p.x - vb[0]) / vb[2]) * 100}%`, top: `${((p.y - vb[1]) / vb[3]) * 100}%` });
+  const fineDots = Math.min(1, Math.max(0, (MAP_W / vb[2] - 2) / 3));
 
   return (
     <div>
@@ -58,10 +184,7 @@ export default function OutletDirectory({ outlets }: { outlets: Outlet[] }) {
             key={f}
             type="button"
             aria-pressed={filter === f}
-            onClick={() => {
-              setFilter(f);
-              setActive(null);
-            }}
+            onClick={() => pickFilter(f)}
             className={cn(
               "flex min-h-12 shrink-0 items-center gap-3 rounded-full border px-5 text-[15px] transition-colors",
               filter === f ? "border-[var(--accent)] bg-[var(--accent)] text-emerald-deep" : "border-line-dark text-ivory/80 hover:border-ivory/50",
@@ -76,44 +199,136 @@ export default function OutletDirectory({ outlets }: { outlets: Outlet[] }) {
       <div className="mt-10 grid gap-10 lg:grid-cols-12">
         <div className="lg:col-span-6">
           <div className="lg:sticky lg:top-28">
-            <div className="relative overflow-hidden border border-line-dark bg-emerald-deep">
-              <svg viewBox={vb.join(" ")} className="block aspect-[950/760] w-full" role="img" aria-label={`Map of Afwajh outlets${filter === "All" ? " across the UAE" : ` in ${filter}`}`}>
-                <rect x={-600} y={-600} width={MAP_W + 1200} height={MAP_H + 1200} fill="#0A2321" />
-                <path d={outlinePath} fill="#0E2E2B" stroke="#E2C26A" strokeOpacity={0.35} strokeWidth={1.2 / zoom} />
-                {dots.map((d, i) => (
-                  <circle key={i} cx={d.x} cy={d.y} r={2 / zoom} fill="#F5F1E8" opacity={0.16} />
-                ))}
-                {labels.map((l) => {
-                  const p = project(l.lng, l.lat);
-                  return (
-                    <text key={l.name} x={p.x} y={p.y} fill="#F5F1E8" fillOpacity={0.5} fontSize={22 / zoom} letterSpacing={3 / zoom} style={{ textTransform: "uppercase", fontFamily: "var(--font-sans)" }}>
-                      {l.name}
-                    </text>
-                  );
-                })}
-                {outlets.map((o) => {
-                  const p = project(o.lng, o.lat);
-                  const on = filter === "All" || o.emirate === filter;
-                  const hot = active === o.id;
-                  return (
-                    <g key={o.id} transform={`translate(${p.x} ${p.y})`} opacity={on ? 1 : 0.2} style={{ transition: "opacity .6s" }}>
-                      <circle r={(hot ? 30 : 18) / zoom} fill="var(--accent)" opacity={0.22} />
-                      <circle r={(hot ? 11 : 7.5) / zoom} fill={hot ? "#F5F1E8" : "var(--accent)"} stroke="#0A2321" strokeWidth={2.5 / zoom} />
-                    </g>
-                  );
-                })}
-              </svg>
+            <div className="relative">
               <div
-                className={cn(
-                  "pointer-events-none absolute inset-x-4 bottom-4 border border-line-dark bg-emerald-deep/90 p-4 backdrop-blur transition-[opacity,transform] duration-500",
-                  activeOutlet ? "translate-y-0 opacity-100" : "translate-y-2 opacity-0",
-                )}
+                ref={stageRef}
+                onClick={() => setSelected(null)}
+                className="relative isolate aspect-[5/4] w-full overflow-hidden border border-line-dark bg-[radial-gradient(120%_100%_at_70%_20%,#123A36_0%,#0A2321_55%,#071B19_100%)]"
               >
-                <p className="t-h4">{activeOutlet?.name ?? " "}</p>
-                <p className="text-[14px] text-ivory/65">{activeOutlet?.location ?? " "}</p>
+                <svg
+                  viewBox={vb.join(" ")}
+                  className="absolute inset-0 h-full w-full"
+                  style={{ "--fine-dots": fineDots } as CSSProperties}
+                  role="img"
+                  aria-label={`3D map of Afwajh shops${filter === "All" ? " across the UAE" : ` in ${filter}`}`}
+                >
+                  <rect x={-800} y={-800} width={MAP_W + 1600} height={MAP_H + 1600} fill="transparent" />
+                  <Ground />
+                </svg>
+
+                {labels.map((l) => (
+                  <span key={l.name} className="t-label pointer-events-none absolute -translate-x-1/2 whitespace-nowrap text-[10px] text-ivory/45 md:text-[11px]" style={{ ...pos(place(l.lng, l.lat)), zIndex: 1 }}>
+                    {l.name}
+                  </span>
+                ))}
+
+                {outlets.map((o) => {
+                  const p = points.get(o.id) as Point;
+                  const hidden = clustered && inCluster(o);
+                  const isSelected = selected === o.id;
+                  const isHot = hovered === o.id;
+                  const dim = filter !== "All" && o.emirate !== filter;
+                  return (
+                    <button
+                      key={o.id}
+                      type="button"
+                      inert={hidden}
+                      aria-pressed={isSelected}
+                      aria-label={`${o.name}, ${o.location}`}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        select(o);
+                      }}
+                      onMouseEnter={() => setHovered(o.id)}
+                      onMouseLeave={() => setHovered(null)}
+                      className={cn(
+                        "group absolute w-12 -translate-x-1/2 -translate-y-[86%] transition-[opacity,width] duration-500",
+                        clustered ? "md:w-14" : "md:w-20",
+                        hidden ? "pointer-events-none opacity-0" : dim ? "opacity-50" : "opacity-100",
+                      )}
+                      style={{ ...pos(p), zIndex: isSelected ? 900 : isHot ? 800 : 10 + Math.round(p.y) }}
+                    >
+                      {isSelected && <GroundRing />}
+                      <NameTag show={isSelected || isHot} accent={isSelected}>
+                        {o.name}
+                      </NameTag>
+                      <span className={cn("block origin-bottom transition-transform duration-500 ease-[var(--ease-expo)]", isSelected ? "scale-125" : isHot ? "-translate-y-1 scale-115" : "group-hover:-translate-y-1 group-hover:scale-115")}>
+                        <ShopModel kind={o.kind} className="block w-full" />
+                      </span>
+                    </button>
+                  );
+                })}
+
+                {clusters.map((c) => {
+                  const lit = c.members.some((m) => m.id === hovered);
+                  return (
+                    <button
+                      key={c.emirate}
+                      type="button"
+                      inert={!clustered}
+                      aria-label={`${c.emirate}: ${c.members.length} shops. Zoom in`}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        pickFilter(c.emirate);
+                      }}
+                      className={cn("group absolute w-[68px] -translate-x-1/2 -translate-y-[86%] transition-opacity duration-500 md:w-[84px]", clustered ? "opacity-100" : "pointer-events-none opacity-0")}
+                      style={{ ...pos(c.at), zIndex: lit ? 800 : 10 + Math.round(c.at.y) }}
+                    >
+                      <NameTag show={lit}>{`${c.emirate} — view ${c.members.length} shops`}</NameTag>
+                      <span className={cn("relative block aspect-[92/72] origin-bottom transition-transform duration-500 ease-[var(--ease-expo)] group-hover:-translate-y-1 group-hover:scale-110", lit && "-translate-y-1 scale-110")}>
+                        <ShopModel kind="Minimart" className="absolute left-0 top-[6%] w-[62%]" />
+                        <ShopModel kind="Market" className="absolute right-0 top-[6%] w-[62%]" />
+                        <ShopModel kind="Supermarket" className="absolute bottom-0 left-[14%] w-[72%]" />
+                        <span className="absolute -right-1 -top-1 flex h-6 w-6 items-center justify-center rounded-full bg-gold-light text-[12px] font-semibold text-emerald-deep shadow-lg ring-2 ring-emerald-deep md:h-7 md:w-7 md:text-[13px]">
+                          {c.members.length}
+                        </span>
+                      </span>
+                    </button>
+                  );
+                })}
+              </div>
+
+              <div className="mt-3 sm:absolute sm:inset-x-3 sm:bottom-3 sm:mt-0" aria-live="polite">
+                {selectedOutlet ? (
+                  <div key={selectedOutlet.id} className="relative flex animate-[fade-up_.6s_var(--ease-expo)_both] flex-col gap-4 border border-[var(--accent)]/45 bg-emerald-deep/95 p-5 shadow-2xl sm:flex-row sm:items-center sm:justify-between">
+                    <button
+                      type="button"
+                      onClick={() => setSelected(null)}
+                      aria-label="Close shop details"
+                      className="absolute right-1 top-1 flex h-11 w-11 items-center justify-center text-ivory/60 hover:text-ivory"
+                    >
+                      <Icon name="close" size={18} />
+                    </button>
+                    <div className="min-w-0 pr-8 sm:pr-0">
+                      <p className="t-label flex gap-3 text-ivory/55">
+                        <span className="text-[var(--accent)]">{selectedOutlet.kind}</span>
+                        {selectedOutlet.emirate}
+                      </p>
+                      <h3 className="t-h4 mt-2">{selectedOutlet.name}</h3>
+                      <p className="mt-1 flex items-start gap-1.5 text-[14px] text-ivory/75">
+                        <Icon name="pin" size={16} className="mt-0.5 shrink-0 text-[var(--accent)]" />
+                        {selectedOutlet.location}
+                      </p>
+                    </div>
+                    <a
+                      href={directionsUrl(selectedOutlet)}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex min-h-12 shrink-0 items-center justify-center gap-2 rounded-full bg-[var(--accent)] px-6 text-[15px] font-medium text-emerald-deep transition-transform hover:-translate-y-0.5 sm:mr-8"
+                    >
+                      <Icon name="navigate" size={18} />
+                      Navigate
+                      <span className="sr-only">to {selectedOutlet.name} (opens Google Maps)</span>
+                    </a>
+                  </div>
+                ) : (
+                  <p className="text-[13px] text-ivory/60 sm:pointer-events-none sm:inline-block sm:rounded-full sm:bg-emerald-deep/85 sm:px-4 sm:py-2 sm:text-ivory/75">
+                    Tap a shop to see its name, location and directions.
+                  </p>
+                )}
               </div>
             </div>
-            <p className="mt-3 text-[13px] text-ivory/60">Stylised map — pin positions are approximate.</p>
+            <p className="mt-3 text-[13px] text-ivory/60">Stylised map — shop positions are approximate.</p>
           </div>
         </div>
 
@@ -123,13 +338,13 @@ export default function OutletDirectory({ outlets }: { outlets: Outlet[] }) {
               key={o.id}
               id={o.id}
               tabIndex={0}
-              onMouseEnter={() => setActive(o.id)}
-              onMouseLeave={() => setActive(null)}
-              onFocus={() => setActive(o.id)}
-              onBlur={() => setActive(null)}
+              onMouseEnter={() => setHovered(o.id)}
+              onMouseLeave={() => setHovered(null)}
+              onFocus={() => setHovered(o.id)}
+              onBlur={() => setHovered(null)}
               className={cn(
                 "group flex animate-[fade-up_.7s_var(--ease-expo)_both] flex-col gap-4 border p-6 transition-colors duration-500",
-                active === o.id ? "border-[var(--accent)] bg-ivory/[0.05]" : "border-line-dark",
+                hovered === o.id || selected === o.id ? "border-[var(--accent)] bg-ivory/[0.05]" : "border-line-dark",
               )}
             >
               <span className="t-label flex items-center justify-between text-ivory/55">
@@ -142,15 +357,16 @@ export default function OutletDirectory({ outlets }: { outlets: Outlet[] }) {
                 {o.location}
               </p>
               <p className="text-[15px] leading-relaxed text-ivory/60">{o.description}</p>
-              <a
-                href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${o.name} ${o.location}`)}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="mt-auto inline-flex min-h-11 items-center gap-2 text-[14px] text-ivory/80 hover:text-gold-light"
-              >
-                Directions <Icon name="arrowUpRight" size={16} />
-                <span className="sr-only">to {o.name} (opens Google Maps)</span>
-              </a>
+              <div className="mt-auto flex flex-wrap items-center gap-x-6">
+                <a href={directionsUrl(o)} target="_blank" rel="noopener noreferrer" className="inline-flex min-h-11 items-center gap-2 text-[14px] text-ivory/80 hover:text-gold-light">
+                  Directions <Icon name="arrowUpRight" size={16} />
+                  <span className="sr-only">to {o.name} (opens Google Maps)</span>
+                </a>
+                <button type="button" onClick={() => showOnMap(o)} className="inline-flex min-h-11 items-center text-[14px] text-ivory/60 hover:text-gold-light">
+                  Show on map
+                  <span className="sr-only">: {o.name}</span>
+                </button>
+              </div>
             </li>
           ))}
         </ul>
