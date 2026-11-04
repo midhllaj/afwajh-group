@@ -12,7 +12,7 @@ import { pageMetadata } from "@/lib/seo";
 export const metadata: Metadata = pageMetadata({
   title: "Our Clients",
   description:
-    "Afwajh Group is trusted by leading UAE developers, government entities and contractors — Emaar, Meydan, Sobha, DAMAC, Nakheel, Azizi, ALEC, China State, Infosys and more.",
+    "Afwajh Group is trusted by leading UAE developers, government entities and contractors — Emaar, Meydan, Sobha, DAMAC, Nakheel, Azizi, ALEC, China State and more.",
   path: "/clients",
 });
 

@@ -16,6 +16,10 @@ export interface Outlet {
   phone?: string; // [CONFIRM: outlet phone]
 }
 
+/** Google Maps turn-by-turn directions to an outlet. */
+export const directionsUrl = (o: Pick<Outlet, "name" | "location">) =>
+  `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(`${o.name}, ${o.location}`)}`;
+
 export const outlets: Outlet[] = [
   {
     id: "khafayef-minimart",

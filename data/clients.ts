@@ -44,7 +44,6 @@ export const contractors: Client[] = [
 ];
 
 export const cateringClients: Client[] = [
-  { name: "Infosys (Hyderabad)" },
   { name: "National Paints" },
   { name: "Reem Capital" },
   { name: "Shapoorji Pallonji" },

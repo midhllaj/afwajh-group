@@ -41,7 +41,6 @@ export const cateringServices: CateringService[] = [
       "In today’s interconnected workplace, permanent canteens have evolved beyond mere dining spaces. They now serve as vital hubs for informal interaction, fostering creativity and collaboration among employees.",
       "Afwajh provides complete canteen management solutions, ensuring high standards of quality, hygiene, and operational efficiency. Our experienced in-house team specializes in operating canteens for corporate companies, industrial units, and educational institutions.",
     ],
-    highlight: { label: "Proudly serving", value: "Infosys, Hyderabad, India" },
     image: {
       src: "/images/catering/staff-canteen.webp",
       alt: "Modern staff canteen with a long serving counter",
