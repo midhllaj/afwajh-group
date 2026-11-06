@@ -45,6 +45,8 @@ export interface Business {
   /** Accent colour for this business's page. */
   accent: string;
   hero: Img;
+  /** Optional 3:4 photo for the hero on phones, when the wide hero would crop out the subject. */
+  heroPortrait?: Img;
   facts: Stat[];
   employees: number | null;
   contact: Contact;

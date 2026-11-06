@@ -11,6 +11,7 @@ const EASE = "expo.out";
  *  [data-split]        heading revealed line by line behind a mask (SplitText)
  *  [data-reveal]       fade + rise   (data-delay="0.1")
  *  [data-clip]         image clip-path reveal + slight scale-down
+ *  [data-words]        [data-word] children light up one by one with the scroll
  *  [data-parallax="n"] vertical parallax of n% while scrolling past
  *  [data-counter]      number counts up (data-to, data-decimals, data-prefix, data-suffix)
  *  [data-magnetic]     element follows the pointer a little (desktop)
@@ -73,6 +74,15 @@ export default function MotionDirector() {
             const tl = gsap.timeline({ scrollTrigger: { trigger: el, start: "top 88%", once: true } });
             tl.fromTo(el, { clipPath: "inset(100% 0% 0% 0%)" }, { clipPath: "inset(0% 0% 0% 0%)", duration: 1.4, ease: "expo.inOut" });
             if (img) tl.fromTo(img, { scale: 1.25 }, { scale: 1, duration: 1.8, ease: EASE }, 0);
+          });
+
+          // Words lighting up with the scroll
+          document.querySelectorAll<HTMLElement>("[data-words]").forEach((el) => {
+            gsap.fromTo(
+              el.querySelectorAll("[data-word]"),
+              { opacity: 0.18 },
+              { opacity: 1, ease: "none", stagger: 0.1, scrollTrigger: { trigger: el, start: "top 82%", end: "bottom 48%", scrub: true } },
+            );
           });
 
           // Parallax

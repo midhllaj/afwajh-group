@@ -141,6 +141,36 @@ export const outlets: Outlet[] = [
     lat: 25.6466,
     lng: 55.9263,
   },
+  {
+    id: "souq-al-hala-mart-kuwait-hospital",
+    name: "Souq Al Hala Mart",
+    kind: "Minimart",
+    location: "Kuwait Hospital, Sharjah",
+    emirate: "Sharjah",
+    description: "Serving hospital visitors, patients and staff with everyday essentials and convenient food options.",
+    lat: 25.3447,
+    lng: 55.3998,
+  },
+  {
+    id: "apk-grocery",
+    name: "APK Grocery",
+    kind: "Minimart",
+    location: "Jebel Ali Industrial First, Dubai",
+    emirate: "Dubai",
+    description: "Serving the Jebel Ali industrial community with groceries and everyday necessities.",
+    lat: 24.9915,
+    lng: 55.1306,
+  },
+  {
+    id: "hala-mart-al-kuwait-hospital",
+    name: "Hala Mart",
+    kind: "Minimart",
+    location: "Al Kuwait Hospital, Dubai",
+    emirate: "Dubai",
+    description: "A convenient retail point for hospital visitors and staff, stocked with daily essentials and quick food options.",
+    lat: 25.2845,
+    lng: 55.3225,
+  },
 ];
 
 export const retailGallery: Img[] = [
@@ -155,5 +185,14 @@ export const retailGallery: Img[] = [
 
 /** Feature imagery for the retail page sections. */
 export const retailImages = {
-  intro: { src: "/images/retail/grocery-aisle-lit.webp", alt: "Calm, well-lit grocery aisle with fully stocked shelves" } satisfies Img,
+  intro: { src: "/images/retail/supermarket new (3).png", alt: "Greenmart store with a pastry display, drinks fridges and snack shelving" } satisfies Img,
+  introMore: [
+    { src: "/images/retail/supermarket new (2).png", alt: "Greenmart fresh fruit and vegetable section with chilled shelves and a fruit stand" },
+    { src: "/images/retail/supermarket new (5).png", alt: "Row of Greenmart beverage chillers filled with soft drinks, juices and water" },
+    { src: "/images/retail/supermarket new (6).png", alt: "Greenmart snack aisle lined with crisps on both sides" },
+    { src: "/images/retail/supermarket new (8).png", alt: "Greenmart interior with a bakery display counter, stocked aisles and drinks chillers" },
+    { src: "/images/retail/supermarket new (7).png", alt: "Greenmart Snacks and More wall with shelves of crisps" },
+    { src: "/images/retail/supermarket new (9).png", alt: "Greenmart cashier counter with wood panelling beside stocked shelves" },
+    { src: "/images/retail/supermarket new (4).png", alt: "Greenmart storefront at dusk decorated with green and black balloons" },
+  ] satisfies Img[],
 };

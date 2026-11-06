@@ -3,6 +3,7 @@ import Hero from "@/components/home/Hero";
 import Intro from "@/components/home/Intro";
 import BusinessIndex from "@/components/home/BusinessIndex";
 import Spotlight from "@/components/home/Spotlight";
+import OwnerQuote from "@/components/home/OwnerQuote";
 import VisionMission from "@/components/home/VisionMission";
 import Strengths from "@/components/home/Strengths";
 import ClientMarquee from "@/components/home/ClientMarquee";
@@ -37,6 +38,7 @@ export default function HomePage() {
         secondary={{ src: "/images/restaurants/latte-art-pour.webp", alt: "Barista pouring latte art" }}
         flip
       />
+      <OwnerQuote />
       <VisionMission />
       <Strengths />
       <ClientMarquee />

@@ -257,6 +257,9 @@ html.motion [data-split]:not([data-split-ready]) {
 html.motion [data-clip] {
   clip-path: inset(100% 0 0 0);
 }
+html.motion [data-word] {
+  opacity: 0.18;
+}
 
 /* Hero lines: pure CSS so the headline paints immediately (good LCP). */
 @keyframes rise {

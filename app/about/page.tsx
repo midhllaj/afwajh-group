@@ -4,6 +4,8 @@ import Kicker from "@/components/ui/Kicker";
 import Rich from "@/components/ui/Rich";
 import Counter from "@/components/ui/Counter";
 import Media from "@/components/ui/Media";
+import ScrollWords from "@/components/ui/ScrollWords";
+import OwnerPortrait from "@/components/owner/OwnerPortrait";
 import TLink from "@/components/ui/TLink";
 import Icon from "@/components/ui/Icon";
 import { Mark } from "@/components/brand/Logo";
@@ -11,7 +13,7 @@ import VisionMission from "@/components/home/VisionMission";
 import Strengths from "@/components/home/Strengths";
 import ContactCta from "@/components/home/ContactCta";
 import { businesses } from "@/data/businesses";
-import { intro, keyStats, site, workforce, workforceCopy } from "@/data/site";
+import { intro, keyStats, ownerMessage, site, workforce, workforceCopy } from "@/data/site";
 import { pageMetadata } from "@/lib/seo";
 
 export const metadata: Metadata = pageMetadata({
@@ -74,10 +76,50 @@ export default function AboutPage() {
         </dl>
       </section>
 
+      {/* Owner's message */}
+      <section id="owner-message" className="grain relative scroll-mt-20 overflow-hidden bg-emerald py-28 text-ivory md:py-44" aria-labelledby="owner-title">
+        <Mark id="owner-letter" className="pointer-events-none absolute -right-40 top-32 w-[620px] opacity-[0.04] md:w-[1000px]" />
+        <div className="wrap relative">
+          <Kicker index="02">A message from our owner</Kicker>
+          <h2 id="owner-title" className="t-h1 mt-10 max-w-[13ch]">
+            <ScrollWords text={ownerMessage.headline} />
+          </h2>
+
+          <figure className="grid-12 mt-24 items-center gap-y-20 md:mt-36">
+            <div className="col-span-12 mx-auto w-[80%] max-w-[420px] lg:col-span-4 lg:col-start-2 lg:mx-0 lg:w-full lg:max-w-none">
+              <OwnerPortrait sizes="(min-width: 1024px) 33vw, 80vw" />
+            </div>
+            <div className="col-span-12 lg:col-span-5 lg:col-start-7">
+              <blockquote>
+                {ownerMessage.paragraphs.map((p, i) => (
+                  <p
+                    key={p.slice(0, 24)}
+                    className={
+                      i === 0
+                        ? "t-lead text-ivory/90 first-letter:float-left first-letter:pr-3 first-letter:pt-2 first-letter:font-serif first-letter:text-[4.6em] first-letter:italic first-letter:leading-[0.72] first-letter:text-gold-light"
+                        : "mt-7 text-ivory/70"
+                    }
+                    data-reveal
+                    data-delay={String(i * 0.08)}
+                  >
+                    {p}
+                  </p>
+                ))}
+              </blockquote>
+              <figcaption className="mt-14" data-reveal>
+                <span className="hairline block" aria-hidden="true" />
+                <span className="t-h3 mt-8 block">{ownerMessage.signature}</span>
+                <span className="t-label mt-3 block text-ivory/60">{ownerMessage.signatureTitle}</span>
+              </figcaption>
+            </div>
+          </figure>
+        </div>
+      </section>
+
       {/* Milestones */}
       <section className="grain bg-emerald-deep py-28 text-ivory md:py-36" aria-labelledby="journey">
         <div className="wrap">
-          <Kicker index="02">Our journey</Kicker>
+          <Kicker index="03">Our journey</Kicker>
           <h2 id="journey" className="t-h2 mt-8" data-split>
             <Rich text={"Milestones"} />
           </h2>
@@ -92,14 +134,14 @@ export default function AboutPage() {
         </div>
       </section>
 
-      <VisionMission index="03" />
-      <Strengths index="04" />
+      <VisionMission index="04" />
+      <Strengths index="05" />
 
       {/* Team strength */}
       <section className="grain bg-emerald py-28 text-ivory md:py-36" aria-labelledby="team">
         <div className="wrap grid-12 gap-y-14">
           <div className="col-span-12 lg:col-span-4">
-            <Kicker index="05">Our team strength</Kicker>
+            <Kicker index="06">Our team strength</Kicker>
             <h2 id="team" className="t-h2 mt-8" data-split>
               <Rich text={"678+ *people*"} />
             </h2>
@@ -130,7 +172,7 @@ export default function AboutPage() {
       {/* Portfolio */}
       <section className="tone-light bg-ivory py-28 md:py-36" aria-labelledby="portfolio">
         <div className="wrap">
-          <Kicker index="06" tone="light">
+          <Kicker index="07" tone="light">
             Our portfolio
           </Kicker>
           <h2 id="portfolio" className="t-h2 mt-8" data-split>
