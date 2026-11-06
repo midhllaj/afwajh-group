@@ -96,7 +96,18 @@ export default function TransitionProvider({ children }: { children: React.React
     prevPath.current = pathname;
     document.documentElement.classList.remove("intro-play");
     const lenis = getLenis();
-    if (lenis) lenis.scrollTo(0, { immediate: true, force: true });
+    // A link to a section on another page lands on that section, not the top.
+    const section = window.location.hash ? document.querySelector<HTMLElement>(window.location.hash) : null;
+    if (section) {
+      const toSection = () => {
+        lenis?.resize();
+        if (lenis) lenis.scrollTo(section, { offset: -100, immediate: true, force: true });
+        else section.scrollIntoView();
+      };
+      toSection();
+      // Scroll animations change the layout as they set up; settle again behind the curtain.
+      window.setTimeout(toSection, 300);
+    } else if (lenis) lenis.scrollTo(0, { immediate: true, force: true });
     else window.scrollTo(0, 0);
     requestAnimationFrame(() => window.dispatchEvent(new Event("resize")));
 

@@ -7,13 +7,13 @@ Everything below is either marked `[CONFIRM]` in the code or was written or appr
 - [ ] **WhatsApp number.** The floating button, mobile bar and contact sections use `+971 54 333 8590`. → `data/site.ts` (`contact.whatsapp`)
 - [ ] **Social media URLs** (Instagram, LinkedIn, Facebook). Icons stay hidden until URLs are added. → `data/site.ts` (`contact.social`)
 - [ ] **Business-specific contacts.** Every business except FHM currently shows the head-office phone and email. Add each business's own contact details. → `data/businesses.ts` (`contact`)
-- [ ] **Outlet phone numbers** for each of the 11 supermarkets/minimarts. → `data/retail.ts` (`phone`)
+- [ ] **Outlet phone numbers** for each of the 14 supermarkets/minimarts. → `data/retail.ts` (`phone`)
 
 ## Missing figures
 - [ ] **Technical Services employee count.** → `data/site.ts` (`workforce`), `data/businesses.ts`
 - [ ] **Labour Supply employee count** and any headline stats (headcount supplied, years). → `data/site.ts`, `data/divisions.ts` (`labour.stats`)
 - [ ] **"678+ people"** is the sum of the five confirmed divisions (300 + 160 + 110 + 90 + 18). Update it once the two numbers above are known. → `data/site.ts` (`keyStats`)
-- [ ] **"19 retail & dining outlets"** = 11 retail outlets + 8 restaurants/cafeterias, as given in the brief.
+- [ ] **"22 retail & dining outlets"** = 14 retail outlets + 8 restaurants/cafeterias.
 
 ## Content to confirm
 - [ ] **Labour Supply & Contracting:** exact legal company name. → `data/businesses.ts`, `data/divisions.ts`
@@ -23,6 +23,7 @@ Everything below is either marked `[CONFIRM]` in the code or was written or appr
   - Technical Services intro and the descriptions of its 10 activities
   - Each business's one-line positioning
   - The second intro paragraph on the Retail and Restaurants pages
+- [ ] **Owner's message** (About and home pages): add the owner's name and title, have the owner approve the drafted text, and supply a larger photo if available. → `data/site.ts` (`ownerMessage`)
 - [ ] **FHM "Message from the CEO"**: the site shows a one-paragraph summary of the brochure message, signed by Haroon Sharifi. → `data/fhm.ts`
 - [ ] **About page milestones** (2008 FHM, 2010 group, 2016 catering, 2026 technical-services licence), derived from dates in the documents. → `app/about/page.tsx`
 - [ ] **Restaurant tags** and the cuisine marquee are drawn from each venue's description. Replace with real menu categories if preferred. → `data/restaurants.ts`

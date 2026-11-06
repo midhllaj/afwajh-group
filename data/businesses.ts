@@ -17,14 +17,14 @@ export const businesses: Business[] = [
     shortName: "Supermarkets",
     label: "Retail",
     positioning: "Fresh, convenient neighbourhood retail — from Dubai Mall to Ras Al Khaimah.",
-    summary: "A growing network of 11 supermarkets and minimarts across four emirates.",
+    summary: "A growing network of 14 supermarkets and minimarts across four emirates.",
     accent: "#5FA84B",
-    hero: { src: "/images/retail/supermarket-aisle.webp", alt: "Long, brightly lit supermarket aisle with fully stocked shelves" },
+    hero: { src: "/images/retail/supermarket new (1).png", alt: "Greenmart supermarket entrance with fresh produce displays and stocked aisles beyond" },
     facts: [
-      { value: 11, label: "Outlets" },
+      { value: 14, label: "Outlets" },
       { value: 160, label: "Team members" },
       { value: 4, label: "Emirates" },
-      { value: 7, label: "Outlets in Dubai" },
+      { value: 9, label: "Outlets in Dubai" },
     ],
     employees: 160,
     contact: groupContact, // [CONFIRM: retail division contact details]
@@ -40,7 +40,8 @@ export const businesses: Business[] = [
     positioning: "Eight venues, one standard of quality, comfort and flavour.",
     summary: "Cafés, cafeterias and restaurants serving coffee, Indian, Indo-Chinese and more.",
     accent: "#C8643B",
-    hero: { src: "/images/restaurants/cafe-interior-tree.webp", alt: "Light-filled café interior with a tree, coffee bar and floor-to-ceiling windows" },
+    hero: { src: "/images/company/restaurants/Vibrant Café 52 Container Storefront.png", alt: "Cafe 52 container storefront with an orange sign, serving counter and pink flowers" },
+    heroPortrait: { src: "/images/company/restaurants/Vibrant Café 52 Bougainvillea Storefront potraite.png", alt: "Cafe 52 container storefront with an orange sign, serving counter and pink flowers" },
     facts: [
       { value: 8, label: "Venues" },
       { value: 110, label: "Team members" },

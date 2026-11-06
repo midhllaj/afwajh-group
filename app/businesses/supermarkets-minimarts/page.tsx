@@ -17,7 +17,7 @@ const b = businessBySlug("supermarkets-minimarts");
 export const metadata: Metadata = pageMetadata({
   title: b.name,
   description:
-    "Afwajh Group’s 11 supermarkets and minimarts across Dubai, Abu Dhabi, Sharjah and Ras Al Khaimah — from Dubai Mall and Yas Mall to hospital and free-zone outlets.",
+    "Afwajh Group’s 14 supermarkets and minimarts across Dubai, Abu Dhabi, Sharjah and Ras Al Khaimah — from Dubai Mall and Yas Mall to hospital and free-zone outlets.",
   path: b.href,
 });
 
@@ -48,6 +48,7 @@ export default function Page() {
           "From one of the world’s busiest shopping destinations to hospitals, residential communities and free zones, every Afwajh outlet is shaped around the people it serves — with fresh produce, everyday essentials and premium goods close at hand.",
         ]}
         image={retailImages.intro}
+        moreImages={retailImages.introMore}
       />
 
       {/* What we offer: the outlet directory */}
@@ -56,7 +57,7 @@ export default function Page() {
           <SectionHead
             index="02"
             label="Our outlets"
-            title={"Eleven stores,\n*four* emirates"}
+            title={"Fourteen stores,\n*four* emirates"}
             intro="Filter by emirate to explore every Afwajh supermarket and minimart — then get directions in one tap."
             tone="dark"
             id="outlets-title"

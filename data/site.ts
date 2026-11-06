@@ -55,11 +55,28 @@ export const coreStrengths = [
   { title: "Dedicated and hardworking workforce", icon: "users" },
 ] as const;
 
+/** Owner's message: the full text is on the About page, the short quote on the home page. */
+export const ownerMessage = {
+  // [CONFIRM: put the owner's name in `signature` and the title in `signatureTitle`]
+  signature: "Owner",
+  signatureTitle: "Afwajh Group of Companies",
+  photo: { src: "/images/company/owner.jpeg", alt: "Portrait of the owner of Afwajh Group of Companies" },
+  // [CONFIRM: draft written for the site, needs the owner's approval]
+  paragraphs: [
+    "When we established Afwajh Group in 2010, our goal was simple: to serve the people of the UAE with quality and integrity. Today, our seven businesses work across retail, hospitality, catering, trading, transport, technical services and labour supply, all held to one standard of excellence.",
+    "Our greatest strength is our people. Their dedication has earned the trust of our customers and partners, and we never take that trust for granted.",
+    "Thank you for being part of our journey. We look forward to growing with you and with this great nation.",
+  ],
+  /** Large statements: wrap words in *asterisks* for the gold serif accent. */
+  headline: "Our greatest strength is our *people.*",
+  quote: "Our greatest strength is our *people.* Their dedication has earned the trust of our customers and partners.",
+};
+
 export const keyStats: Stat[] = [
   { value: 2010, label: "Since", prefix: "" },
   { value: 7, label: "Businesses" },
   { value: 678, suffix: "+", label: "People" },
-  { value: 19, label: "Retail & dining outlets" },
+  { value: 22, label: "Retail & dining outlets" },
   { value: 4, label: "Emirates" },
 ];
 

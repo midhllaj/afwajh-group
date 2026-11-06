@@ -2,6 +2,7 @@ import Kicker from "@/components/ui/Kicker";
 import Rich from "@/components/ui/Rich";
 import Counter from "@/components/ui/Counter";
 import Media from "@/components/ui/Media";
+import MediaSwitcher from "@/components/ui/MediaSwitcher";
 import type { Business, Img } from "@/data/types";
 
 /** "Introduction + key facts" block of the business template. */
@@ -10,14 +11,28 @@ export default function IntroFacts({
   title,
   paragraphs,
   image,
+  moreImages,
   extra,
 }: {
   business: Business;
   title: string;
   paragraphs: string[];
   image?: Img;
+  /** Extra photos: turns the intro image into a slider with a next arrow. */
+  moreImages?: Img[];
   extra?: React.ReactNode;
 }) {
+  const slider = (aspect: string, sizes: string) =>
+    image &&
+    moreImages && (
+      <MediaSwitcher
+        label="Next store photo"
+        slides={[image, ...moreImages].map((img, n) => (
+          <Media key={img.src} image={img} className={aspect} sizes={sizes} reveal={n === 0} />
+        ))}
+      />
+    );
+
   return (
     <section className="tone-light bg-ivory py-28 md:py-40" aria-labelledby="intro">
       <div className="wrap grid-12 gap-y-14">
@@ -28,7 +43,11 @@ export default function IntroFacts({
           <h2 id="intro" className="t-h2 mt-8" data-split>
             <Rich text={title} />
           </h2>
-          {image && <Media image={image} className="mt-14 hidden aspect-[5/4] lg:block" sizes="45vw" parallax={6} />}
+          {moreImages ? (
+            <div className="mt-14 hidden lg:block">{slider("aspect-[5/4]", "45vw")}</div>
+          ) : (
+            image && <Media image={image} className="mt-14 hidden aspect-[5/4] lg:block" sizes="45vw" parallax={6} />
+          )}
         </div>
         <div className="col-span-12 lg:col-span-5 lg:col-start-8 lg:pt-24">
           {paragraphs.map((p, i) => (
@@ -47,7 +66,11 @@ export default function IntroFacts({
               </div>
             ))}
           </dl>
-          {image && <Media image={image} className="mt-12 aspect-[4/3] lg:hidden" sizes="100vw" />}
+          {moreImages ? (
+            <div className="mt-12 lg:hidden">{slider("aspect-[4/3]", "100vw")}</div>
+          ) : (
+            image && <Media image={image} className="mt-12 aspect-[4/3] lg:hidden" sizes="100vw" />
+          )}
         </div>
       </div>
     </section>
