@@ -16,7 +16,7 @@ export default function QuickContact() {
         <Icon name="whatsapp" size={28} />
       </a>
       <div className="fixed inset-x-3 bottom-3 z-40 grid grid-cols-2 gap-2 rounded-full border border-line-dark bg-emerald-deep/90 p-1.5 pb-[calc(0.375rem+env(safe-area-inset-bottom)/2)] text-ivory backdrop-blur-xl lg:hidden">
-        <a href={contact.tel.href} className="flex min-h-12 items-center justify-center gap-2 rounded-full bg-ivory/[0.06] text-[15px] font-medium active:bg-ivory/15">
+        <a href={contact.call.href} className="flex min-h-12 items-center justify-center gap-2 rounded-full bg-ivory/[0.06] text-[15px] font-medium active:bg-ivory/15">
           <Icon name="phone" size={20} className="text-gold-light" /> Call
         </a>
         <a

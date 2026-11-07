@@ -34,6 +34,7 @@ export default function Page() {
         title={"The right people,\non *every* site"}
         paragraphs={[labour.intro, ...labour.body]}
         image={labourImages[0]}
+        factsBelow
         extra={
           <p className="mt-8 flex flex-wrap gap-x-6 gap-y-2 text-[15px]" data-reveal>
             <TLink href="/businesses/fhm-general-transport" className="inline-flex items-center gap-2 underline decoration-[var(--accent)] underline-offset-4 hover:text-ink/70">

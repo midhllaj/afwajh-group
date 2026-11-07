@@ -11,7 +11,7 @@ export const organizationSchema = () => ({
   foundingDate: String(site.established),
   description: site.description,
   email: contact.email,
-  telephone: contact.tel.display,
+  telephone: contact.landline,
   address: {
     "@type": "PostalAddress",
     streetAddress: contact.address.line1,

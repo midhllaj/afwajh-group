@@ -18,6 +18,11 @@ export const catering = {
     src: "/images/catering/buffet-chafing-dishes.webp",
     alt: "Buffet line of polished chafing dishes filled with freshly prepared food",
   } satisfies Img,
+  introImage: {
+    src: "/images/catering/bright-canteen.webp",
+    alt: "Bright, airy dining hall with wooden tables and chairs beside tall glass walls",
+    illustrative: true,
+  } satisfies Img,
 };
 
 export interface CateringService {

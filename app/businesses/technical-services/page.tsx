@@ -30,6 +30,7 @@ export default function Page() {
         business={b}
         title={"Craft, precision\nand *care*"}
         paragraphs={[technical.intro, "From structural steel and glazing to the finishing touches of tiling, joinery and kitchens, we coordinate the trades that turn a structure into a finished, working space."]}
+        image={{ src: "/images/technical/carpentry-workshop.webp", alt: "Carpenter in a white cap working on a large timber board in a workshop", illustrative: true }}
         extra={
           <p className="mt-10 flex items-center gap-3 border-t border-line-light pt-6 text-[14px] text-ink/60" data-reveal>
             <Icon name="seal" size={22} className="shrink-0 text-[var(--accent)]" />

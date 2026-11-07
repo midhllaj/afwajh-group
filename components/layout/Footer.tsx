@@ -55,11 +55,7 @@ export default function Footer() {
                 <br />
                 {contact.address.poBox}
               </p>
-              <p>
-                <a href={contact.tel.href} className="hover:text-gold-light">
-                  Tel {contact.tel.display}
-                </a>
-              </p>
+              <p>Tel {contact.landline}</p>
               {contact.mobiles.map((m) => (
                 <p key={m.href}>
                   <a href={m.href} className="hover:text-gold-light">

@@ -82,7 +82,7 @@ All copy lives in typed files in `/data`:
 | `data/retail.ts` | The 14 outlets (location, emirate, description, map coordinates), gallery |
 | `data/restaurants.ts` | The 8 venues (description, tags, image, optional real-photo inset) |
 | `data/catering.ts` | Catering about/mission/vision, 5 services, site-canteen steps, gallery |
-| `data/fhm.ts` | FHM about, CEO message, vision/mission, services, fleet, **projects** (the total value is calculated automatically), galleries |
+| `data/fhm.ts` | FHM about, vision/mission, services, fleet, **projects** (the total value is calculated automatically), galleries |
 | `data/divisions.ts` | General Trading, Technical Services (licence and 10 activities), Labour Supply |
 | `data/clients.ts` | Client lists and logos |
 

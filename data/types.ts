@@ -23,6 +23,8 @@ export interface Stat {
 
 export interface Contact {
   phones: { display: string; href: string }[];
+  /** Shown as plain text, not a call link. */
+  landline?: string;
   email: string;
   address?: string;
   website?: { display: string; href: string };

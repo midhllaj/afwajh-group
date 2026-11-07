@@ -243,9 +243,12 @@ export default function Header() {
             ))}
           </ul>
           <div className="mt-10 space-y-2 text-[15px] text-ivory/75">
-            <a href={contact.tel.href} tabIndex={mobile ? 0 : -1} className="flex items-center gap-3">
-              <Icon name="phone" size={18} className="text-gold-light" /> {contact.tel.display}
+            <a href={contact.call.href} tabIndex={mobile ? 0 : -1} className="flex items-center gap-3">
+              <Icon name="phone" size={18} className="text-gold-light" /> {contact.call.display}
             </a>
+            <p className="flex items-center gap-3">
+              <Icon name="phone" size={18} className="text-gold-light" /> {contact.landline}
+            </p>
             <a href={`mailto:${contact.email}`} tabIndex={mobile ? 0 : -1} className="flex items-center gap-3">
               <Icon name="mail" size={18} className="text-gold-light" /> {contact.email}
             </a>

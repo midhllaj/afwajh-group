@@ -30,8 +30,8 @@ export default function ContactPage() {
         short
       >
         <div className="flex flex-col gap-3 sm:flex-row">
-          <Button href={contact.tel.href} icon="phone">
-            {contact.tel.display}
+          <Button href={contact.call.href} icon="phone">
+            {contact.call.display}
           </Button>
           <Button href={contact.whatsapp.href} variant="outline-light" external icon="whatsapp">
             WhatsApp
@@ -58,9 +58,9 @@ export default function ContactPage() {
                   {contact.address.poBox}
                 </span>
               </p>
-              <a href={contact.tel.href} className="flex gap-4 hover:text-gold-light">
-                <Icon name="phone" size={22} className="text-gold-light" /> Tel {contact.tel.display}
-              </a>
+              <p className="flex gap-4">
+                <Icon name="phone" size={22} className="text-gold-light" /> Tel {contact.landline}
+              </p>
               {contact.mobiles.map((m) => (
                 <a key={m.href} href={m.href} className="flex gap-4 hover:text-gold-light">
                   <Icon name="phone" size={22} className="text-gold-light" /> Mob {m.display}

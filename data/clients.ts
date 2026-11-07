@@ -43,6 +43,35 @@ export const contractors: Client[] = [
   { name: "Naresco Construction" },
 ];
 
+const cateringLogo = (file: string) => `/images/logos/catering-clients/${file}.png`;
+
+/** Logo wall on the catering page. These files have a white background, so show them on white. */
+export const cateringLogoClients: (Client & { logo: string })[] = [
+  { name: "Emaar", logo: cateringLogo("emaar") },
+  { name: "Meydan", logo: cateringLogo("meydan") },
+  { name: "Binghatti", logo: cateringLogo("binghatti") },
+  { name: "Deyaar", logo: cateringLogo("deyaar") },
+  { name: "Nakheel", logo: cateringLogo("nakheel") },
+  { name: "Meraas", logo: cateringLogo("meraas") },
+  { name: "Emirates Health Services", logo: cateringLogo("ehs") },
+  { name: "Azizi", logo: cateringLogo("azizi") },
+  { name: "Diamond Developers", logo: cateringLogo("diamond") },
+  { name: "DAMAC", logo: cateringLogo("damac") },
+];
+
+/** Leading contracting companies Afwajh has set up temporary canteens for. */
+export const temporaryCanteenContractors: string[] = [
+  "ACC Contracting LLC",
+  "ALEC Contracting LLC",
+  "ASGC Contracting LLC",
+  "Jeet Contracting LLC",
+  "Sobha Contracting LLC",
+  "Bhatia Contracting LLC",
+  "China State Contracting LLC",
+  "Gardinia Contracting LLC",
+  "Gulf Asia Contracting LLC",
+];
+
 export const cateringClients: Client[] = [
   { name: "National Paints" },
   { name: "Reem Capital" },

@@ -51,19 +51,6 @@ export default function Page() {
         title={"Your trusted partner\nin *machinery*"}
         paragraphs={fhm.about}
         image={fhmImages.intro}
-        extra={
-          <figure className="mt-12 flex gap-5 border border-line-light p-5" data-reveal>
-            <Image src={fhm.ceo.photo.src} alt={fhm.ceo.photo.alt} width={88} height={114} className="h-28 w-[88px] shrink-0 object-cover object-top" />
-            <div>
-              <p className="t-label text-[var(--accent)]">Message from the CEO</p>
-              <blockquote className="mt-3 text-[15px] leading-relaxed text-ink/75">“{fhm.ceo.message[2]}”</blockquote>
-              <figcaption className="mt-3 text-[14px]">
-                <span className="font-medium">{fhm.ceo.name}</span>
-                <span className="text-ink/65"> — {fhm.ceo.title}</span>
-              </figcaption>
-            </div>
-          </figure>
-        }
       />
 
       {/* Vision & mission */}
