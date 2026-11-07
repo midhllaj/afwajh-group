@@ -31,9 +31,13 @@ export default function ContactCta({ title = "Let’s build what’s\n*next*, to
           <ul className="mt-8 grid gap-5 text-[15px] text-ivory/80" data-reveal>
             <li className="flex items-center gap-4">
               <Icon name="phone" size={20} className="text-gold-light" />
-              <a href={contact.tel.href} className="hover:text-gold-light">
-                {contact.tel.display}
+              <a href={contact.call.href} className="hover:text-gold-light">
+                {contact.call.display}
               </a>
+            </li>
+            <li className="flex items-center gap-4">
+              <Icon name="phone" size={20} className="text-gold-light" />
+              <span>{contact.landline}</span>
             </li>
             <li className="flex items-center gap-4">
               <Icon name="mail" size={20} className="text-gold-light" />

@@ -14,20 +14,6 @@ export const fhm = {
     "To become the leading provider of heavy and light machinery services in the region by upholding excellence in every aspect of our operations, embracing continuous improvement through advanced technology and equipment investments, and focusing on exceeding customer expectations with precision and reliability.",
   mission:
     "To set the benchmark as the premier provider of construction rental machinery, ensuring unmatched customer satisfaction through an expanding fleet, cutting-edge equipment, and reliable solutions that meet the dynamic needs of our valued clients.",
-  ceo: {
-    name: "Haroon Sharifi",
-    title: "Chief Executive Officer",
-    photo: {
-      src: "/images/company/fhm/ceo-haroon-sharifi.webp",
-      alt: "Portrait of Haroon Sharifi, CEO of FHM General Transport",
-    } satisfies Img,
-    // Summary of the CEO message in the FHM company profile.
-    message: [
-      "Since our inception in 2008, FHM General Transport has been built on a commitment to excellence, innovation and customer satisfaction — setting new benchmarks in quality and reliability across transportation and machinery services.",
-      "Every milestone is a testament to the trust our clients place in us. That trust drives us to keep evolving, adopt cutting-edge technology and deliver customised solutions for the unique needs of each project.",
-      "Our dedicated professionals, with their expertise and unwavering focus on safety, are the backbone of our success. We don’t just deliver services — we create partnerships that drive growth for our clients and our community. We look forward to powering your success.",
-    ],
-  },
   contact: {
     address: "Office 402 (A), 99 Building, Oud Metha, Dubai, UAE",
     phones: [

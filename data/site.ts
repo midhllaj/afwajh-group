@@ -10,6 +10,9 @@ export const site = {
     "Afwajh Group of Companies is a diversified UAE business group, established in 2010, operating supermarkets, restaurants, catering, general trading, transport, technical services and labour supply.",
 } as const;
 
+/** The group's main number: used for both calls and WhatsApp. */
+const mainMobile = { display: "+971 54 333 8590", href: "tel:+971543338590" } as const;
+
 export const contact = {
   address: {
     line1: "Sheikh Zayed Rd, Trade Centre, Trade Centre 1",
@@ -17,13 +20,14 @@ export const contact = {
     country: "United Arab Emirates",
     poBox: "P.O. Box 430400, Dubai, UAE",
   },
-  tel: { display: "+971 4 294 4870", href: "tel:+97142944870" },
+  /** Shown as plain text only; every call action uses `call`. */
+  landline: "+971 4 294 4870",
+  call: mainMobile,
   mobiles: [
-    { display: "+971 54 333 8590", href: "tel:+971543338590" },
+    mainMobile,
     // [CONFIRM: the group profile also prints this number as "056 56 444 333"]
     { display: "+971 56 564 4333", href: "tel:+971565644333" },
   ],
-  // [CONFIRM: which mobile number is on WhatsApp]
   whatsapp: { display: "+971 54 333 8590", href: "https://wa.me/971543338590" },
   email: "afwajhgroup1@gmail.com",
   website: "afwajhgroup.com",

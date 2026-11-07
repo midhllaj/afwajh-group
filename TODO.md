@@ -4,7 +4,7 @@ Everything below is either marked `[CONFIRM]` in the code or was written or appr
 
 ## Contact details
 - [ ] **Second mobile number.** The catering profile prints `+971 56 564 4333`; the group profile prints `056 56 444 333`. The site uses `+971 56 564 4333`. → `data/site.ts`
-- [ ] **WhatsApp number.** The floating button, mobile bar and contact sections use `+971 54 333 8590`. → `data/site.ts` (`contact.whatsapp`)
+- [x] **WhatsApp number.** Confirmed: `+971 54 333 8590` is the number for both WhatsApp and calls; the landline is display-only. → `data/site.ts` (`contact.whatsapp`, `contact.call`)
 - [ ] **Social media URLs** (Instagram, LinkedIn, Facebook). Icons stay hidden until URLs are added. → `data/site.ts` (`contact.social`)
 - [ ] **Business-specific contacts.** Every business except FHM currently shows the head-office phone and email. Add each business's own contact details. → `data/businesses.ts` (`contact`)
 - [ ] **Outlet phone numbers** for each of the 14 supermarkets/minimarts. → `data/retail.ts` (`phone`)
@@ -24,7 +24,6 @@ Everything below is either marked `[CONFIRM]` in the code or was written or appr
   - Each business's one-line positioning
   - The second intro paragraph on the Retail and Restaurants pages
 - [ ] **Owner's message** (About and home pages): add the owner's name and title, have the owner approve the drafted text, and supply a larger photo if available. → `data/site.ts` (`ownerMessage`)
-- [ ] **FHM "Message from the CEO"**: the site shows a one-paragraph summary of the brochure message, signed by Haroon Sharifi. → `data/fhm.ts`
 - [ ] **About page milestones** (2008 FHM, 2010 group, 2016 catering, 2026 technical-services licence), derived from dates in the documents. → `app/about/page.tsx`
 - [ ] **Restaurant tags** and the cuisine marquee are drawn from each venue's description. Replace with real menu categories if preferred. → `data/restaurants.ts`
 - [ ] **General Trading product categories.** The section stays hidden until categories are added. → `data/divisions.ts` (`trading.productCategories`)

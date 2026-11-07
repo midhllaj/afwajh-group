@@ -34,6 +34,11 @@ export default function BusinessContact({
                 <Icon name="pin" size={22} className="shrink-0 text-[var(--accent)]" /> {c.address}
               </p>
             )}
+            {c.landline && (
+              <p className="flex gap-4">
+                <Icon name="phone" size={22} className="text-[var(--accent)]" /> {c.landline}
+              </p>
+            )}
             {c.phones.map((p) => (
               <a key={p.href} href={p.href} className="flex gap-4 hover:text-gold-light">
                 <Icon name="phone" size={22} className="text-[var(--accent)]" /> {p.display}

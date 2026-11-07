@@ -18,8 +18,8 @@ export default function FormStatus({ status, tone = "dark" }: { status: string; 
       {status === "error" && (
         <p className={cn(base, "border-[#ff9b8a]")}>
           Sorry, something went wrong. Please try again, or call us on{" "}
-          <a className="underline" href={contact.tel.href}>
-            {contact.tel.display}
+          <a className="underline" href={contact.call.href}>
+            {contact.call.display}
           </a>
           .
         </p>

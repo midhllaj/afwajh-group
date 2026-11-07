@@ -2,7 +2,8 @@ import type { Business, Contact } from "./types";
 import { contact as group } from "./site";
 
 const groupContact: Contact = {
-  phones: [group.tel, ...group.mobiles],
+  phones: [...group.mobiles],
+  landline: group.landline,
   email: group.email,
   address: `${group.address.line1}, ${group.address.city}`,
 };
@@ -127,7 +128,7 @@ export const businesses: Business[] = [
     positioning: "Licensed installation, fit-out and maintenance — one accountable team.",
     summary: "Glass & aluminium, steel, ceilings, tiling, carpentry, kitchens, pools and more.",
     accent: "#7A8A99",
-    hero: { src: "/images/technical/glass-facade-abstract.webp", alt: "Abstract view of a glass curtain-wall facade reflecting the sky" },
+    hero: { src: "/images/technical/swimming-pool.webp", alt: "Modern white villa with glass balconies behind a blue-tiled infinity pool", illustrative: true },
     facts: [{ value: 10, label: "Licensed activities" }],
     employees: null, // [CONFIRM]
     contact: groupContact,

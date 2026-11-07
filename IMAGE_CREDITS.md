@@ -83,6 +83,7 @@ These are the **original embedded images** extracted from the PDFs in `/referenc
 - `afwajh-mark.svg`, `afwajh-wordmark.svg` and the inline logo in `lib/logoPaths.ts`: clean vector paths taken from the clip paths inside `reference/Afwajh Logo.pdf`, with the gold gradient re-applied.
 - `catering-logo.png`, `fhm-logo.png`, `fhm-logo-white.png`: rendered at 300 dpi from the vector artwork in the catering and FHM profiles.
 - `clients/*`: client logos from the "Our Esteemed Clients" pages of the group and catering profiles. Trademarks belong to their owners.
+- `catering-clients/*`: cropped from a client-supplied "Our Clients" image and upscaled 3x for the catering page. Replace with official vector files if available. Trademarks belong to their owners.
 
 ## Fonts (`app/fonts/` and Google Fonts via `next/font`)
 
