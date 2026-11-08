@@ -23,7 +23,7 @@ Everything below is either marked `[CONFIRM]` in the code or was written or appr
   - Technical Services intro and the descriptions of its 10 activities
   - Each business's one-line positioning
   - The second intro paragraph on the Retail and Restaurants pages
-- [ ] **Owner's message** (About and home pages): add the owner's name and title, have the owner approve the drafted text, and supply a larger photo if available. → `data/site.ts` (`ownerMessage`)
+- [ ] **Owner's message** (About and home pages): name added (Nasser Al Balooshi); confirm the exact title, have the owner approve the drafted text, and supply a larger photo if available. → `data/site.ts` (`ownerMessage`)
 - [ ] **About page milestones** (2008 FHM, 2010 group, 2016 catering, 2026 technical-services licence), derived from dates in the documents. → `app/about/page.tsx`
 - [ ] **Restaurant tags** and the cuisine marquee are drawn from each venue's description. Replace with real menu categories if preferred. → `data/restaurants.ts`
 - [ ] **General Trading product categories.** The section stays hidden until categories are added. → `data/divisions.ts` (`trading.productCategories`)
