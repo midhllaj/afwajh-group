@@ -30,7 +30,7 @@ export default function Page() {
       <IntroFacts business={b} title={"Supply you can\n*rely* on"} paragraphs={[trading.intro, ...trading.body]} image={trading.gallery[0]} />
 
       {/* What we offer */}
-      <section className="grain bg-emerald-deep py-28 text-ivory md:py-36" aria-labelledby="offer-title">
+      <section className="grain bg-emerald-deep py-20 text-ivory md:py-36" aria-labelledby="offer-title">
         <div className="wrap">
           <SectionHead index="02" label="What we offer" title={"From sourcing\nto *delivery*"} tone="dark" id="offer-title" />
           <ol className="mt-16 grid gap-px border-y border-line-dark bg-line-dark sm:grid-cols-2 lg:grid-cols-4">
@@ -58,7 +58,7 @@ export default function Page() {
       </section>
 
       {/* Business-specific: locations */}
-      <section className="tone-light bg-ivory py-28 md:py-36" aria-labelledby="locations-title">
+      <section className="tone-light bg-ivory py-20 md:py-36" aria-labelledby="locations-title">
         <div className="wrap grid-12 items-center gap-y-14">
           <div className="col-span-12 md:col-span-5">
             <SectionHead index="03" label="Where we operate" title={"Two hubs\nin *Dubai*"} id="locations-title" className="!block" />

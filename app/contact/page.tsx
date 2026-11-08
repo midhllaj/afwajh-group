@@ -42,7 +42,7 @@ export default function ContactPage() {
         </div>
       </PageHero>
 
-      <section className="grain bg-emerald py-28 text-ivory md:py-36" aria-labelledby="form-title">
+      <section className="grain bg-emerald py-20 text-ivory md:py-36" aria-labelledby="form-title">
         <div className="wrap grid-12 gap-y-16">
           <div className="col-span-12 lg:col-span-4">
             <Kicker index="01">Head office</Kicker>
@@ -91,7 +91,7 @@ export default function ContactPage() {
         <MapEmbed />
       </section>
 
-      <section className="tone-light bg-ivory py-28 md:py-36" aria-labelledby="teams-title">
+      <section className="tone-light bg-ivory py-20 md:py-36" aria-labelledby="teams-title">
         <div className="wrap">
           <Kicker index="02" tone="light">
             Contact a business

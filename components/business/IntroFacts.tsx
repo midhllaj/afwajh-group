@@ -53,7 +53,7 @@ export default function IntroFacts({
         <div
           key={f.label}
           className={cn(
-            "flex flex-col-reverse border-b border-line-light py-7 lg:pr-2",
+            "flex flex-col-reverse justify-end border-b border-line-light py-7 lg:pr-2",
             i % 2 === 1 ? "border-l pl-6" : "pr-6",
             i % desktopColumns > 0 && "lg:border-l lg:pl-4 xl:pl-8",
             i === count - 1 && i % 2 === 0 && "col-span-2 lg:col-span-1",
@@ -71,7 +71,7 @@ export default function IntroFacts({
   );
 
   return (
-    <section className="tone-light bg-ivory py-28 md:py-40" aria-labelledby="intro">
+    <section className="tone-light bg-ivory py-20 md:py-40" aria-labelledby="intro">
       <div className="wrap grid-12 gap-y-14">
         <div className="col-span-12 lg:col-span-6 lg:flex lg:flex-col">
           <Kicker index="01" tone="light" accent>

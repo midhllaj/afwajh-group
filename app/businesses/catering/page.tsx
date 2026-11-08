@@ -78,7 +78,7 @@ export default function Page() {
       />
 
       {/* Services */}
-      <section className="grain bg-emerald-deep py-28 text-ivory md:py-36" aria-labelledby="services-title">
+      <section className="grain bg-emerald-deep py-20 text-ivory md:py-36" aria-labelledby="services-title">
         <div className="wrap">
           <SectionHead index="02" label="What we offer" title={"Five ways\nwe *serve*"} intro={catering.intro} tone="dark" id="services-title" />
           <ol className="mt-20">
@@ -153,7 +153,7 @@ export default function Page() {
       </section>
 
       {/* Client logos */}
-      <section className="tone-light bg-white py-28 md:py-36" aria-labelledby="clients-title">
+      <section className="tone-light bg-white py-20 md:py-36" aria-labelledby="clients-title">
         <div className="wrap">
           <SectionHead index="03" label="Trusted by" title={"Our\n*clients*"} id="clients-title" className="mb-16" />
           <h3 className="t-h3 mb-10" data-split>

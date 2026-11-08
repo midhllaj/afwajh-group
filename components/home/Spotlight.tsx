@@ -21,7 +21,7 @@ export default function Spotlight({
   flip?: boolean;
 }) {
   return (
-    <section className="tone-light overflow-hidden bg-ivory py-24 md:py-36" style={{ ["--accent" as string]: b.accent }} aria-labelledby={`spot-${b.slug}`}>
+    <section className="tone-light overflow-hidden bg-ivory py-20 md:py-36" style={{ ["--accent" as string]: b.accent }} aria-labelledby={`spot-${b.slug}`}>
       <div className="wrap grid-12 items-center gap-y-14">
         <div className={cn("relative col-span-12 lg:col-span-7", flip && "lg:order-2 lg:col-start-6")}>
           <Media image={b.hero} className="aspect-[4/5] sm:aspect-[5/4]" sizes="(min-width: 1024px) 58vw, 100vw" parallax={8} cursor="Explore" />
@@ -41,7 +41,7 @@ export default function Spotlight({
           </p>
           <dl className="mt-10 grid grid-cols-3 border-t border-line-light pt-6" data-reveal>
             {b.facts.slice(0, 3).map((f) => (
-              <div key={f.label} className="flex flex-col-reverse">
+              <div key={f.label} className="flex flex-col-reverse justify-end">
                 <dt className="t-label mt-3 text-ink/65">{f.label}</dt>
                 <dd className="t-num text-4xl leading-none md:text-5xl">
                   <Counter stat={f} />

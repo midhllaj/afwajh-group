@@ -208,36 +208,47 @@ export default function Header() {
         )}
       >
         <nav aria-label="Mobile" className="wrap">
-          <p className="t-label mb-3 text-gold-light">Our Businesses</p>
-          <ul>
-            {businesses.map((b, i) => (
-              <li
-                key={b.slug}
-                className="border-t border-line-dark transition-[opacity,transform] duration-700 ease-[var(--ease-expo)]"
-                style={{ transitionDelay: mobile ? `${120 + i * 45}ms` : "0ms", opacity: mobile ? 1 : 0, transform: mobile ? "none" : "translateY(24px)" }}
-              >
-                <TLink href={b.href} tabIndex={mobile ? 0 : -1} className="flex min-h-16 items-center gap-4 py-3">
-                  <span className="t-label w-7 text-gold-light">{b.index}</span>
-                  <span className="t-h4 flex-1">{b.name}</span>
-                  <Icon name="arrowUpRight" size={20} className="text-ivory/50" />
-                </TLink>
-              </li>
-            ))}
-          </ul>
-          <ul className="mt-8 grid grid-cols-2 gap-3">
-            {[{ href: "/", label: "Home" }, ...nav, { href: "/businesses", label: "All businesses" }].map((n, i) => (
+          {/* Main pages first, so they are visible as soon as the menu opens. */}
+          <ul className="grid grid-cols-2 gap-3">
+            {[{ href: "/", label: "Home" }, ...nav].map((n, i) => (
               <li
                 key={n.href}
                 className="transition-[opacity,transform] duration-700 ease-[var(--ease-expo)]"
-                style={{ transitionDelay: mobile ? `${450 + i * 40}ms` : "0ms", opacity: mobile ? 1 : 0, transform: mobile ? "none" : "translateY(16px)" }}
+                style={{ transitionDelay: mobile ? `${120 + i * 40}ms` : "0ms", opacity: mobile ? 1 : 0, transform: mobile ? "none" : "translateY(16px)" }}
               >
                 <TLink
                   href={n.href}
                   tabIndex={mobile ? 0 : -1}
                   aria-current={pathname === n.href ? "page" : undefined}
-                  className="flex min-h-14 items-center justify-between rounded-full border border-line-dark px-5 text-[15px]"
+                  className={cn(
+                    "flex min-h-14 items-center justify-between rounded-full border px-5 text-[15px] transition-colors",
+                    pathname === n.href ? "border-gold-light/70 text-gold-light" : "border-line-dark",
+                  )}
                 >
                   {n.label}
+                  <Icon name="arrowUpRight" size={16} className="text-ivory/40" />
+                </TLink>
+              </li>
+            ))}
+          </ul>
+
+          <div className="mb-3 mt-10 flex items-center justify-between">
+            <p className="t-label text-gold-light">Our Businesses</p>
+            <TLink href="/businesses" tabIndex={mobile ? 0 : -1} className="t-label text-ivory/60 underline-offset-4 hover:text-gold-light hover:underline">
+              View all
+            </TLink>
+          </div>
+          <ul>
+            {businesses.map((b, i) => (
+              <li
+                key={b.slug}
+                className="border-t border-line-dark transition-[opacity,transform] duration-700 ease-[var(--ease-expo)]"
+                style={{ transitionDelay: mobile ? `${280 + i * 45}ms` : "0ms", opacity: mobile ? 1 : 0, transform: mobile ? "none" : "translateY(24px)" }}
+              >
+                <TLink href={b.href} tabIndex={mobile ? 0 : -1} className="flex min-h-14 items-center gap-4 py-3">
+                  <span className="t-label w-7 text-gold-light">{b.index}</span>
+                  <span className="t-h4 flex-1">{b.name}</span>
+                  <Icon name="arrowUpRight" size={20} className="text-ivory/50" />
                 </TLink>
               </li>
             ))}

@@ -5,7 +5,7 @@ import { intro, keyStats } from "@/data/site";
 
 export default function Intro() {
   return (
-    <section className="tone-light bg-ivory py-28 md:py-40" aria-labelledby="intro-title">
+    <section className="tone-light bg-ivory py-20 md:py-40" aria-labelledby="intro-title">
       <div className="wrap">
         <div className="grid-12 gap-y-12">
           <div className="col-span-12 lg:col-span-6">
@@ -26,16 +26,17 @@ export default function Intro() {
           </div>
         </div>
 
-        <dl className="mt-24 grid grid-cols-2 border-t border-line-light md:mt-32 md:grid-cols-5">
+        {/* One row of five at every size; on phones the numbers scale with the screen width. */}
+        <dl className="mt-16 grid grid-cols-5 border-y border-line-light md:mt-32 md:border-b-0">
           {keyStats.map((s, i) => (
             <div
               key={s.label}
-              className={`flex flex-col gap-3 border-b border-line-light py-8 md:border-b-0 md:py-10 ${i > 0 ? "md:border-l md:pl-6" : ""} ${i % 2 === 1 ? "border-l pl-5 md:pl-6" : ""} ${i === keyStats.length - 1 ? "col-span-2 md:col-span-1" : ""}`}
+              className={`flex min-w-0 flex-col gap-2 py-6 md:gap-3 md:py-10 ${i > 0 ? "border-l border-line-light pl-2 md:pl-6" : ""}`}
               data-reveal
               data-delay={String(i * 0.06)}
             >
-              <dt className="t-label order-2 text-ink/65">{s.label}</dt>
-              <dd className="t-num order-1 text-[clamp(3rem,2rem+3vw,5.5rem)] leading-none">
+              <dt className="t-label order-2 text-[min(8px,2.3vw)] tracking-[0.03em] text-ink/65 md:text-[12px] md:tracking-[0.2em]">{s.label}</dt>
+              <dd className="t-num order-1 text-[5.4vw] leading-none md:text-[clamp(3rem,2rem+3vw,5.5rem)]">
                 <Counter stat={s} />
               </dd>
             </div>

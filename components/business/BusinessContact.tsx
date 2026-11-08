@@ -19,7 +19,7 @@ export default function BusinessContact({
 }) {
   const c = b.contact;
   return (
-    <section id="enquire" className="grain scroll-mt-20 bg-emerald py-28 text-ivory md:py-36" aria-labelledby="contact-title">
+    <section id="enquire" className="grain scroll-mt-20 bg-emerald py-20 text-ivory md:py-36" aria-labelledby="contact-title">
       <div className="wrap grid-12 gap-y-16">
         <div className="col-span-12 lg:col-span-5">
           <Kicker index={index} accent>
@@ -80,10 +80,10 @@ export default function BusinessContact({
                   href={t.href}
                   target={t.ext ? "_blank" : undefined}
                   rel={t.ext ? "noopener noreferrer" : undefined}
-                  className="group flex h-full min-h-48 flex-col justify-between gap-10 p-7 transition-colors duration-500 hover:bg-[var(--accent)] hover:text-emerald-deep"
+                  className="group flex h-full items-center gap-5 p-5 transition-colors duration-500 hover:bg-[var(--accent)] hover:text-emerald-deep sm:min-h-48 sm:flex-col sm:items-start sm:justify-between sm:gap-10 sm:p-7"
                 >
-                  <Icon name={t.icon} size={34} className="text-[var(--accent)] transition-colors group-hover:text-emerald-deep" />
-                  <span>
+                  <Icon name={t.icon} size={34} className="shrink-0 text-[var(--accent)] transition-colors group-hover:text-emerald-deep" />
+                  <span className="min-w-0">
                     <span className="t-label block opacity-70">{t.label}</span>
                     <span className="mt-2 block break-all text-[15px]">{t.value}</span>
                   </span>

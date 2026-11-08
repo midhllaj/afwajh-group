@@ -29,7 +29,7 @@ export default function Gallery({
 }) {
   const dark = tone === "dark";
   return (
-    <section className={cn("overflow-hidden py-28 md:py-36", dark ? "grain bg-emerald-deep text-ivory" : "tone-light bg-ivory")} aria-labelledby={`${id}-title`}>
+    <section className={cn("overflow-hidden py-20 md:py-36", dark ? "grain bg-emerald-deep text-ivory" : "tone-light bg-ivory")} aria-labelledby={`${id}-title`}>
       <div className="wrap">
         <SectionHead index={index} label={label} title={title} intro={intro} tone={tone} id={`${id}-title`} />
       </div>

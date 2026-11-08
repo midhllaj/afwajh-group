@@ -12,7 +12,7 @@ import { businesses } from "@/data/businesses";
  */
 export default function BusinessIndex() {
   return (
-    <section id="businesses" className="grain relative scroll-mt-10 bg-emerald py-28 text-ivory md:py-40" aria-labelledby="businesses-title">
+    <section id="businesses" className="grain relative scroll-mt-10 bg-emerald py-20 text-ivory md:py-40" aria-labelledby="businesses-title">
       <div className="wrap">
         <div className="flex flex-col justify-between gap-10 lg:flex-row lg:items-end">
           <div>

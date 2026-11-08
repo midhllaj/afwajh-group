@@ -52,7 +52,7 @@ export default function Page() {
       />
 
       {/* What we offer: the outlet directory */}
-      <section className="grain bg-emerald-deep py-28 text-ivory md:py-36" aria-labelledby="outlets-title">
+      <section className="grain bg-emerald-deep py-20 text-ivory md:py-36" aria-labelledby="outlets-title">
         <div className="wrap">
           <SectionHead
             index="02"

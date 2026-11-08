@@ -8,10 +8,10 @@ import { contact, site } from "@/data/site";
 export default function Footer() {
   const socials = (Object.entries(contact.social) as [string, string][]).filter(([, url]) => url);
   return (
-    <footer className="grain relative overflow-hidden bg-emerald-deep pb-32 pt-24 text-ivory lg:pb-12">
+    <footer className="grain relative overflow-hidden bg-emerald-deep pb-32 pt-20 text-ivory md:pt-24 lg:pb-12">
       <Skyline className="pointer-events-none absolute inset-x-0 bottom-0 h-44 text-gold-light/[0.08] md:h-64" />
       <div className="wrap relative">
-        <div className="grid-12 gap-y-14">
+        <div className="grid-12 gap-y-10 md:gap-y-14">
           <div className="col-span-12 lg:col-span-4">
             <TLink href="/" aria-label="Afwajh Group of Companies — home" className="inline-block">
               <Logo id="ftr" />
@@ -83,7 +83,7 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="hairline mt-20" />
+        <div className="hairline mt-14 md:mt-20" />
         <div className="mt-6 flex flex-col justify-between gap-2 text-[13px] text-ivory/50 sm:flex-row">
           <p>
             © {new Date().getFullYear()} {site.name}. All rights reserved.

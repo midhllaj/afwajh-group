@@ -7,7 +7,7 @@ import { contact } from "@/data/site";
 
 export default function ContactCta({ title = "Let’s build what’s\n*next*, together." }: { title?: string }) {
   return (
-    <section className="grain relative overflow-hidden bg-emerald py-28 text-ivory md:py-40" aria-labelledby="cta-title">
+    <section className="grain relative overflow-hidden bg-emerald py-20 text-ivory md:py-40" aria-labelledby="cta-title">
       <div className="wrap grid-12 items-end gap-y-14">
         <div className="col-span-12 lg:col-span-8">
           <Kicker>Get in touch</Kicker>

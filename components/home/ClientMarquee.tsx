@@ -6,8 +6,9 @@ import { contractors, developers } from "@/data/clients";
 import { imageMeta } from "@/components/ui/Media";
 
 export default function ClientMarquee({ index = "05" }: { index?: string }) {
+  // Follows the cream Strengths section: on phones its last row's line is the divider, so no extra top padding or border.
   return (
-    <section className="tone-light overflow-hidden border-t border-line-light bg-ivory py-24 md:py-32" aria-labelledby="clients-title">
+    <section className="tone-light overflow-hidden bg-ivory pb-20 md:border-t md:border-line-light md:py-32" aria-labelledby="clients-title">
       <div className="wrap mb-14 flex flex-col justify-between gap-6 md:flex-row md:items-end">
         <div>
           <Kicker index={index} tone="light">

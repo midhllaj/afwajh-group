@@ -54,7 +54,7 @@ export default function Page() {
       />
 
       {/* Vision & mission */}
-      <section className="grain bg-[var(--accent)] py-24 text-white md:py-32" aria-label="FHM vision and mission">
+      <section className="grain bg-[var(--accent)] py-20 text-white md:py-32" aria-label="FHM vision and mission">
         <div className="wrap grid gap-14 md:grid-cols-2 md:gap-20">
           {[
             { label: "Vision", text: fhm.vision },
@@ -69,7 +69,7 @@ export default function Page() {
       </section>
 
       {/* Services */}
-      <section className="tone-light bg-ivory py-28 md:py-36" aria-labelledby="services-title">
+      <section className="tone-light bg-ivory py-20 md:py-36" aria-labelledby="services-title">
         <div className="wrap">
           <SectionHead index="02" label="What we offer" title={"Comprehensive solutions,\n*reliable* services"} intro="Rental plans available hourly, daily or monthly — customised to your project." id="services-title" />
           <ul className="mt-16 grid gap-px border-y border-line-light bg-line-light sm:grid-cols-2 lg:grid-cols-4">
@@ -98,7 +98,7 @@ export default function Page() {
       </section>
 
       {/* Fleet */}
-      <section className="grain overflow-hidden bg-emerald-deep py-28 text-ivory md:py-36" aria-labelledby="fleet-title">
+      <section className="grain overflow-hidden bg-emerald-deep py-20 text-ivory md:py-36" aria-labelledby="fleet-title">
         <div className="wrap grid-12 gap-y-14">
           <div className="col-span-12 lg:col-span-4">
             <Kicker index="03" accent>
@@ -133,7 +133,7 @@ export default function Page() {
       </section>
 
       {/* Business-specific: projects */}
-      <section id="projects" className="tone-light scroll-mt-20 bg-ivory py-28 md:py-36" aria-labelledby="projects-title">
+      <section id="projects" className="tone-light scroll-mt-20 bg-ivory py-20 md:py-36" aria-labelledby="projects-title">
         <div className="wrap">
           <SectionHead
             index="04"

@@ -40,7 +40,7 @@ export default function Page() {
       />
 
       {/* What we offer: premium image grid */}
-      <section className="grain bg-emerald-deep py-28 text-ivory md:py-36" aria-labelledby="services-title">
+      <section className="grain bg-emerald-deep py-20 text-ivory md:py-36" aria-labelledby="services-title">
         <div className="wrap">
           <SectionHead index="02" label="Ten licensed activities" title={"One team,\n*every* finish"} intro="Installation, fit-out and maintenance across residential, commercial and specialist projects." tone="dark" id="services-title" />
           <ul className="mt-16 grid gap-4 sm:grid-cols-2 lg:grid-cols-6">
