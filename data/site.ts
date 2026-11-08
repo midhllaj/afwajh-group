@@ -61,10 +61,10 @@ export const coreStrengths = [
 
 /** Owner's message: the full text is on the About page, the short quote on the home page. */
 export const ownerMessage = {
-  // [CONFIRM: put the owner's name in `signature` and the title in `signatureTitle`]
-  signature: "Owner",
-  signatureTitle: "Afwajh Group of Companies",
-  photo: { src: "/images/company/owner.jpeg", alt: "Portrait of the owner of Afwajh Group of Companies" },
+  signature: "Nasser Al Balooshi",
+  // [CONFIRM: exact title, e.g. Founder, Chairman or Managing Director]
+  signatureTitle: "Owner, Afwajh Group of Companies",
+  photo: { src: "/images/company/owner.jpeg", alt: "Portrait of Nasser Al Balooshi, owner of Afwajh Group of Companies" },
   // [CONFIRM: draft written for the site, needs the owner's approval]
   paragraphs: [
     "When we established Afwajh Group in 2010, our goal was simple: to serve the people of the UAE with quality and integrity. Today, our seven businesses work across retail, hospitality, catering, trading, transport, technical services and labour supply, all held to one standard of excellence.",
