@@ -4,7 +4,7 @@ import { mission, vision } from "@/data/site";
 
 export default function VisionMission({ index = "03" }: { index?: string }) {
   return (
-    <section className="grain relative overflow-hidden bg-emerald-deep py-28 text-ivory md:py-40" aria-label="Vision and mission">
+    <section className="grain relative overflow-hidden bg-emerald-deep py-20 text-ivory md:py-40" aria-label="Vision and mission">
       <Mark id="vm" className="pointer-events-none absolute -right-24 top-1/2 w-[620px] -translate-y-1/2 opacity-[0.05] md:w-[900px]" />
       <div className="wrap relative">
         <Kicker index={index}>Purpose</Kicker>

@@ -30,7 +30,7 @@ export default function ClientsPage() {
         </Marquee>
       </PageHero>
 
-      <section className="tone-light bg-ivory py-28 md:py-36" aria-labelledby="dev-title">
+      <section className="tone-light bg-ivory py-20 md:py-36" aria-labelledby="dev-title">
         <div className="wrap">
           <Kicker index="01" tone="light">
             Developers &amp; government
@@ -48,7 +48,7 @@ export default function ClientsPage() {
                     alt={`${c.name} logo`}
                     width={m?.w ?? 240}
                     height={m?.h ?? 100}
-                    className="max-h-16 w-auto max-w-[78%] object-contain opacity-60 grayscale transition duration-500 group-hover:opacity-100 group-hover:grayscale-0 md:max-h-20"
+                    className="max-h-16 w-auto max-w-[78%] object-contain opacity-60 grayscale transition duration-500 group-hover:opacity-100 group-hover:grayscale-0 md:max-h-20 [@media(hover:none)]:opacity-100 [@media(hover:none)]:grayscale-0"
                   />
                   <span className="t-label absolute inset-x-0 bottom-3 text-center text-[10px] text-ink/60 opacity-0 transition-opacity duration-500 group-hover:opacity-100">{c.name}</span>
                 </li>
@@ -58,7 +58,7 @@ export default function ClientsPage() {
         </div>
       </section>
 
-      <section className="grain bg-emerald-deep py-28 text-ivory md:py-36" aria-labelledby="con-title">
+      <section className="grain bg-emerald-deep py-20 text-ivory md:py-36" aria-labelledby="con-title">
         <div className="wrap grid-12 gap-y-14">
           <div className="col-span-12 lg:col-span-4">
             <Kicker index="02">Contractors</Kicker>
@@ -77,7 +77,7 @@ export default function ClientsPage() {
         </div>
       </section>
 
-      <section className="grain bg-emerald py-28 text-ivory md:py-36" aria-labelledby="cat-title">
+      <section className="grain bg-emerald py-20 text-ivory md:py-36" aria-labelledby="cat-title">
         <div className="wrap grid-12 gap-y-14">
           <div className="col-span-12 lg:col-span-4">
             <Kicker index="03">Catering clients</Kicker>

@@ -44,7 +44,7 @@ export default function AboutPage() {
       />
 
       {/* Introduction */}
-      <section className="tone-light relative overflow-hidden bg-ivory py-28 md:py-40" aria-labelledby="who">
+      <section className="tone-light relative overflow-hidden bg-ivory py-20 md:py-40" aria-labelledby="who">
         <Mark id="about" className="pointer-events-none absolute -right-20 top-24 w-[420px] opacity-[0.06] md:w-[620px]" />
         <div className="wrap relative grid-12 gap-y-12">
           <div className="col-span-12 lg:col-span-6">
@@ -64,11 +64,12 @@ export default function AboutPage() {
             </p>
           </div>
         </div>
-        <dl className="wrap mt-24 grid grid-cols-2 border-t border-line-light md:grid-cols-5">
+        {/* One row of five at every size; on phones the numbers scale with the screen width. */}
+        <dl className="wrap mt-16 grid grid-cols-5 border-y border-line-light md:mt-24 md:border-b-0">
           {keyStats.map((s, i) => (
-            <div key={s.label} className={`flex flex-col-reverse border-b border-line-light py-8 md:border-b-0 ${i > 0 ? "md:border-l md:pl-6" : ""} ${i % 2 === 1 ? "border-l pl-5 md:pl-6" : ""}`} data-reveal>
-              <dt className="t-label mt-3 text-ink/65">{s.label}</dt>
-              <dd className="t-num text-[clamp(2.75rem,2rem+2.5vw,4.75rem)] leading-none">
+            <div key={s.label} className={`flex min-w-0 flex-col-reverse justify-end py-6 md:py-8 ${i > 0 ? "border-l border-line-light pl-2 md:pl-6" : ""}`} data-reveal>
+              <dt className="t-label mt-2 text-[min(8px,2.3vw)] tracking-[0.03em] text-ink/65 md:mt-3 md:text-[12px] md:tracking-[0.2em]">{s.label}</dt>
+              <dd className="t-num text-[5.4vw] leading-none md:text-[clamp(2.75rem,2rem+2.5vw,4.75rem)]">
                 <Counter stat={s} />
               </dd>
             </div>
@@ -77,7 +78,7 @@ export default function AboutPage() {
       </section>
 
       {/* Owner's message */}
-      <section id="owner-message" className="grain relative scroll-mt-20 overflow-hidden bg-emerald py-28 text-ivory md:py-44" aria-labelledby="owner-title">
+      <section id="owner-message" className="grain relative scroll-mt-20 overflow-hidden bg-emerald py-20 text-ivory md:py-44" aria-labelledby="owner-title">
         <Mark id="owner-letter" className="pointer-events-none absolute -right-40 top-32 w-[620px] opacity-[0.04] md:w-[1000px]" />
         <div className="wrap relative">
           <Kicker index="02">A message from our owner</Kicker>
@@ -117,7 +118,7 @@ export default function AboutPage() {
       </section>
 
       {/* Milestones */}
-      <section className="grain bg-emerald-deep py-28 text-ivory md:py-36" aria-labelledby="journey">
+      <section className="grain bg-emerald-deep py-20 text-ivory md:py-36" aria-labelledby="journey">
         <div className="wrap">
           <Kicker index="03">Our journey</Kicker>
           <h2 id="journey" className="t-h2 mt-8" data-split>
@@ -138,7 +139,7 @@ export default function AboutPage() {
       <Strengths index="05" />
 
       {/* Team strength */}
-      <section className="grain bg-emerald py-28 text-ivory md:py-36" aria-labelledby="team">
+      <section className="grain bg-emerald py-20 text-ivory md:py-36" aria-labelledby="team">
         <div className="wrap grid-12 gap-y-14">
           <div className="col-span-12 lg:col-span-4">
             <Kicker index="06">Our team strength</Kicker>
@@ -170,7 +171,7 @@ export default function AboutPage() {
       </section>
 
       {/* Portfolio */}
-      <section className="tone-light bg-ivory py-28 md:py-36" aria-labelledby="portfolio">
+      <section className="tone-light bg-ivory py-20 md:py-36" aria-labelledby="portfolio">
         <div className="wrap">
           <Kicker index="07" tone="light">
             Our portfolio

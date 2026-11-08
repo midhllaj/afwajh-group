@@ -64,7 +64,7 @@ export default function Page() {
             ))}
           </Marquee>
         </div>
-        <div className="wrap pt-28 md:pt-36">
+        <div className="wrap pt-20 md:pt-36">
           <SectionHead
             index="02"
             label="Our venues"

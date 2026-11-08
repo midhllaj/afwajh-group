@@ -50,7 +50,7 @@ export default function BusinessesPage() {
                   </p>
                   <dl className="mt-8 flex flex-wrap gap-x-10 gap-y-4" data-reveal>
                     {b.facts.slice(0, 2).map((f) => (
-                      <div key={f.label} className="flex flex-col-reverse">
+                      <div key={f.label} className="flex flex-col-reverse justify-end">
                         <dt className="t-label mt-2 text-ink/60">{f.label}</dt>
                         <dd className="t-num text-4xl leading-none">
                           <Counter stat={f} />

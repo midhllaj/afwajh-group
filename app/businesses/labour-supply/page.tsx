@@ -48,7 +48,7 @@ export default function Page() {
       />
 
       {/* What we offer */}
-      <section className="grain overflow-hidden bg-emerald-deep py-28 text-ivory md:py-36" aria-labelledby="offer-title">
+      <section className="grain overflow-hidden bg-emerald-deep py-20 text-ivory md:py-36" aria-labelledby="offer-title">
         <div className="wrap">
           <SectionHead index="02" label="What we offer" title={"Flexible, compliant\n*manpower*"} tone="dark" id="offer-title" />
           <ul className="mt-16 grid gap-px border-y border-line-dark bg-line-dark sm:grid-cols-2 lg:grid-cols-4">
@@ -82,7 +82,7 @@ export default function Page() {
       </section>
 
       {/* Business-specific: how it works */}
-      <section className="tone-light bg-ivory py-28 md:py-36" aria-labelledby="process-title">
+      <section className="tone-light bg-ivory py-20 md:py-36" aria-labelledby="process-title">
         <div className="wrap grid-12 gap-y-14">
           <div className="col-span-12 lg:col-span-5">
             <SectionHead index="03" label="How it works" title={"From request\nto *mobilisation*"} id="process-title" className="!block" />
