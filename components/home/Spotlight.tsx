@@ -6,7 +6,7 @@ import Counter from "@/components/ui/Counter";
 import type { Business, Img } from "@/data/types";
 import { cn } from "@/lib/utils";
 
-/** Large feature for one of the two main businesses. */
+/** Large feature for one of the two main businesses. Desktop only: on phones the business index above already covers it. */
 export default function Spotlight({
   business: b,
   title,
@@ -21,7 +21,7 @@ export default function Spotlight({
   flip?: boolean;
 }) {
   return (
-    <section className="tone-light overflow-hidden bg-ivory py-20 md:py-36" style={{ ["--accent" as string]: b.accent }} aria-labelledby={`spot-${b.slug}`}>
+    <section className="tone-light hidden overflow-hidden bg-ivory py-20 md:block md:py-36" style={{ ["--accent" as string]: b.accent }} aria-labelledby={`spot-${b.slug}`}>
       <div className="wrap grid-12 items-center gap-y-14">
         <div className={cn("relative col-span-12 lg:col-span-7", flip && "lg:order-2 lg:col-start-6")}>
           <Media image={b.hero} className="aspect-[4/5] sm:aspect-[5/4]" sizes="(min-width: 1024px) 58vw, 100vw" parallax={8} cursor="Explore" />

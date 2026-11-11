@@ -35,9 +35,30 @@ export default function MotionDirector() {
       .then(loadGsap)
       .then(({ gsap, ScrollTrigger, SplitText }) => {
         if (cancelled) return;
+        // ScrollTrigger throws on triggers inside display:none sections (e.g. desktop-only blocks on phones),
+        // so those are shown as-is without animation.
+        const each = (selector: string, fn: (el: HTMLElement) => void) =>
+          document.querySelectorAll<HTMLElement>(selector).forEach((el) => {
+            if (el.getClientRects().length > 0) return fn(el);
+            el.setAttribute("data-split-ready", "");
+            gsap.set(el, { opacity: 1, clipPath: "none" });
+          });
+
+        // Inside [data-replay], an animation plays each time it scrolls into view (either direction)
+        // and quietly resets once it is fully off screen again.
+        const replay = (el: HTMLElement, tween: gsap.core.Tween, start: string) => {
+          const play = () => {
+            if (tween.progress() === 0) tween.restart(true);
+          };
+          const reset = () => tween.pause(0);
+          ScrollTrigger.create({ trigger: el, start, end: "bottom 10%", onEnter: play, onEnterBack: play });
+          ScrollTrigger.create({ trigger: el, start: "top bottom", end: "bottom top", onLeave: reset, onLeaveBack: reset });
+        };
+        const replays = (el: HTMLElement) => el.closest("[data-replay]") !== null;
+
         const ctx = gsap.context(() => {
           // Split headings
-          document.querySelectorAll<HTMLElement>("[data-split]").forEach((el) => {
+          each("[data-split]", (el) => {
             const split = SplitText.create(el, { type: "lines", mask: "lines", linesClass: "split-line", aria: "auto" });
             el.setAttribute("data-split-ready", "");
             gsap.set(el, { opacity: 1 });
@@ -53,23 +74,17 @@ export default function MotionDirector() {
           });
 
           // Fade + rise
-          document.querySelectorAll<HTMLElement>("[data-reveal]").forEach((el) => {
-            gsap.fromTo(
-              el,
-              { opacity: 0, y: 40 },
-              {
-                opacity: 1,
-                y: 0,
-                duration: 1.2,
-                ease: EASE,
-                delay: Number(el.dataset.delay ?? 0),
-                scrollTrigger: { trigger: el, start: "top 90%", once: true },
-              },
-            );
+          each("[data-reveal]", (el) => {
+            const to = { opacity: 1, y: 0, duration: 1.2, ease: EASE, delay: Number(el.dataset.delay ?? 0) };
+            if (replays(el)) {
+              replay(el, gsap.fromTo(el, { opacity: 0, y: 40 }, { ...to, paused: true }), "top 90%");
+            } else {
+              gsap.fromTo(el, { opacity: 0, y: 40 }, { ...to, scrollTrigger: { trigger: el, start: "top 90%", once: true } });
+            }
           });
 
           // Image clip reveal + scale-down
-          document.querySelectorAll<HTMLElement>("[data-clip]").forEach((el) => {
+          each("[data-clip]", (el) => {
             const img = el.querySelector("img");
             const tl = gsap.timeline({ scrollTrigger: { trigger: el, start: "top 88%", once: true } });
             tl.fromTo(el, { clipPath: "inset(100% 0% 0% 0%)" }, { clipPath: "inset(0% 0% 0% 0%)", duration: 1.4, ease: "expo.inOut" });
@@ -77,7 +92,7 @@ export default function MotionDirector() {
           });
 
           // Words lighting up with the scroll
-          document.querySelectorAll<HTMLElement>("[data-words]").forEach((el) => {
+          each("[data-words]", (el) => {
             gsap.fromTo(
               el.querySelectorAll("[data-word]"),
               { opacity: 0.18 },
@@ -86,7 +101,7 @@ export default function MotionDirector() {
           });
 
           // Parallax
-          document.querySelectorAll<HTMLElement>("[data-parallax]").forEach((el) => {
+          each("[data-parallax]", (el) => {
             const amount = Number(el.dataset.parallax || 10);
             gsap.fromTo(
               el,
@@ -96,7 +111,7 @@ export default function MotionDirector() {
           });
 
           // Counters
-          document.querySelectorAll<HTMLElement>("[data-counter]").forEach((el) => {
+          each("[data-counter]", (el) => {
             const to = Number(el.dataset.to);
             const decimals = Number(el.dataset.decimals ?? 0);
             const year = decimals === 0 && to >= 1900 && to <= 2100;
@@ -104,17 +119,22 @@ export default function MotionDirector() {
               (el.dataset.prefix ?? "") +
               (year ? n.toFixed(0) : n.toLocaleString("en-US", { minimumFractionDigits: decimals, maximumFractionDigits: decimals })) +
               (el.dataset.suffix ?? "");
-            const state = { v: year ? to - 40 : 0 };
-            el.textContent = fmt(state.v);
-            gsap.to(state, {
+            const from = year ? to - 40 : 0;
+            const state = { v: from };
+            el.textContent = fmt(from);
+            const count = {
               v: to,
               duration: 2.2,
               ease: "expo.out",
               onUpdate: () => {
                 el.textContent = fmt(state.v);
               },
-              scrollTrigger: { trigger: el, start: "top 92%", once: true },
-            });
+            };
+            if (replays(el)) {
+              replay(el, gsap.fromTo(state, { v: from }, { ...count, paused: true }), "top 92%");
+            } else {
+              gsap.to(state, { ...count, scrollTrigger: { trigger: el, start: "top 92%", once: true } });
+            }
           });
         }, document.body);
 
@@ -154,7 +174,8 @@ export default function MotionDirector() {
           ctx.revert();
         };
       })
-      .catch(() => {
+      .catch((err) => {
+        if (process.env.NODE_ENV !== "production") console.error("[MotionDirector]", err);
         // If the engine can't load, show everything without animation.
         root.classList.remove("motion");
       });

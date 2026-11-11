@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import PageHero from "@/components/ui/PageHero";
 import Kicker from "@/components/ui/Kicker";
 import Rich from "@/components/ui/Rich";
-import Counter from "@/components/ui/Counter";
+import KeyStats from "@/components/ui/KeyStats";
 import Media from "@/components/ui/Media";
 import ScrollWords from "@/components/ui/ScrollWords";
 import OwnerPortrait from "@/components/owner/OwnerPortrait";
@@ -13,7 +13,7 @@ import VisionMission from "@/components/home/VisionMission";
 import Strengths from "@/components/home/Strengths";
 import ContactCta from "@/components/home/ContactCta";
 import { businesses } from "@/data/businesses";
-import { intro, keyStats, ownerMessage, site, workforce, workforceCopy } from "@/data/site";
+import { intro, ownerMessage, site, workforce, workforceCopy } from "@/data/site";
 import { pageMetadata } from "@/lib/seo";
 
 export const metadata: Metadata = pageMetadata({
@@ -64,17 +64,9 @@ export default function AboutPage() {
             </p>
           </div>
         </div>
-        {/* One row of five at every size; on phones the numbers scale with the screen width. */}
-        <dl className="wrap mt-16 grid grid-cols-5 border-y border-line-light md:mt-24 md:border-b-0">
-          {keyStats.map((s, i) => (
-            <div key={s.label} className={`flex min-w-0 flex-col-reverse justify-end py-6 md:py-8 ${i > 0 ? "border-l border-line-light pl-2 md:pl-6" : ""}`} data-reveal>
-              <dt className="t-label mt-2 text-[min(8px,2.3vw)] tracking-[0.03em] text-ink/65 md:mt-3 md:text-[12px] md:tracking-[0.2em]">{s.label}</dt>
-              <dd className="t-num text-[5.4vw] leading-none md:text-[clamp(2.75rem,2rem+2.5vw,4.75rem)]">
-                <Counter stat={s} />
-              </dd>
-            </div>
-          ))}
-        </dl>
+        <div className="wrap relative">
+          <KeyStats className="mt-14 md:mt-24" />
+        </div>
       </section>
 
       {/* Owner's message */}

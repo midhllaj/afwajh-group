@@ -9,7 +9,11 @@ import { ownerMessage } from "@/data/site";
 /** The owner's statement on the home page, linking to the full letter on the About page. */
 export default function OwnerQuote() {
   return (
-    <section className="grain relative overflow-hidden bg-emerald pb-20 pt-14 text-ivory md:py-36" aria-label="A message from our owner">
+    <section className="grain relative overflow-hidden bg-emerald pb-20 text-ivory md:py-36" aria-label="A message from our owner">
+      {/* On phones this follows the business index (same green), so a hairline marks the break. */}
+      <div className="wrap relative md:hidden">
+        <div className="mb-14 border-t border-line-dark" />
+      </div>
       <Mark id="owner-quote" className="pointer-events-none absolute -left-32 top-1/2 w-[560px] -translate-y-1/2 opacity-[0.04] md:w-[820px]" />
       <div className="wrap relative grid-12 items-center gap-y-16">
         {/* Title above the portrait, name below it. */}
