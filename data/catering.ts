@@ -32,7 +32,6 @@ export interface CateringService {
   lead: string;
   body: string[];
   highlight?: { label: string; value: string };
-  clients?: string[];
   image: Img;
   /** Further photos, reached with the next arrow on the image. */
   moreImages?: Img[];
@@ -69,18 +68,6 @@ export const cateringServices: CateringService[] = [
     body: [
       "Catering for a diverse global workforce requires careful consideration. We provide balanced, nutritious meals at reasonable prices for guests, trainees and staff from every background, with timely service and cost-effectiveness.",
       "Our approach is built on transparency and reliability: we maintain open, direct communication with clients throughout the contract period to ensure quality, performance and service excellence.",
-    ],
-    clients: [
-      "ALEC",
-      "ASGC",
-      "Bhatia",
-      "National Paints",
-      "Azizi",
-      "Reem Capital",
-      "Shapoorji Pallonji",
-      "Lootha",
-      "Emaar",
-      "AG Engineering",
     ],
     image: {
       src: "/images/catering/temporary-canteen-interior.jpg",

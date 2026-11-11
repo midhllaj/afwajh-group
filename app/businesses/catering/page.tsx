@@ -119,18 +119,6 @@ export default function Page() {
                         <span className="t-h4 mt-1 block">{s.highlight.value}</span>
                       </p>
                     )}
-                    {s.clients && (
-                      <div className="mt-8" data-reveal>
-                        <p className="t-label text-[var(--accent)]">Clients include</p>
-                        <ul className="mt-4 flex flex-wrap gap-2">
-                          {s.clients.map((c) => (
-                            <li key={c} className="rounded-full border border-line-dark px-3.5 py-1.5 text-[13px] text-ivory/80">
-                              {c}
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-                    )}
                   </div>
                   {s.id === "temporary-canteens" && (
                     <section className="col-span-12 mt-6 border-t md:order-3 border-line-dark pt-16 md:pt-24" aria-labelledby="canteen-title">

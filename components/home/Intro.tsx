@@ -1,7 +1,7 @@
 import Kicker from "@/components/ui/Kicker";
 import Rich from "@/components/ui/Rich";
-import Counter from "@/components/ui/Counter";
-import { intro, keyStats } from "@/data/site";
+import KeyStats from "@/components/ui/KeyStats";
+import { intro } from "@/data/site";
 
 export default function Intro() {
   return (
@@ -26,22 +26,7 @@ export default function Intro() {
           </div>
         </div>
 
-        {/* One row of five at every size; on phones the numbers scale with the screen width. */}
-        <dl className="mt-16 grid grid-cols-5 border-y border-line-light md:mt-32 md:border-b-0">
-          {keyStats.map((s, i) => (
-            <div
-              key={s.label}
-              className={`flex min-w-0 flex-col gap-2 py-6 md:gap-3 md:py-10 ${i > 0 ? "border-l border-line-light pl-2 md:pl-6" : ""}`}
-              data-reveal
-              data-delay={String(i * 0.06)}
-            >
-              <dt className="t-label order-2 text-[min(8px,2.3vw)] tracking-[0.03em] text-ink/65 md:text-[12px] md:tracking-[0.2em]">{s.label}</dt>
-              <dd className="t-num order-1 text-[5.4vw] leading-none md:text-[clamp(3rem,2rem+3vw,5.5rem)]">
-                <Counter stat={s} />
-              </dd>
-            </div>
-          ))}
-        </dl>
+        <KeyStats className="mt-14 md:mt-32" />
       </div>
     </section>
   );
