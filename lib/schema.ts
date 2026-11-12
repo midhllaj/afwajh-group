@@ -6,6 +6,7 @@ export const organizationSchema = () => ({
   "@type": "Organization",
   "@id": absoluteUrl("/#organization"),
   name: site.name,
+  alternateName: [...site.alternateNames],
   url: absoluteUrl("/"),
   logo: absoluteUrl("/images/logos/afwajh-logo-dark.png"),
   foundingDate: String(site.established),
@@ -20,7 +21,27 @@ export const organizationSchema = () => ({
     addressCountry: "AE",
   },
   areaServed: ["Dubai", "Abu Dhabi", "Sharjah", "Ras Al Khaimah"],
+  contactPoint: {
+    "@type": "ContactPoint",
+    contactType: "customer service",
+    telephone: contact.call.href.replace("tel:", ""),
+    email: contact.email,
+    areaServed: "AE",
+    availableLanguage: ["English", "Arabic"],
+  },
   sameAs: Object.values(contact.social).filter(Boolean),
+});
+
+/** Tells Google which name to show for the site in search results. */
+export const websiteSchema = () => ({
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "@id": absoluteUrl("/#website"),
+  name: site.shortName,
+  alternateName: [site.name, ...site.alternateNames.filter((n) => n !== site.shortName)],
+  url: absoluteUrl("/"),
+  publisher: { "@id": absoluteUrl("/#organization") },
+  inLanguage: "en-AE",
 });
 
 export const localBusinessSchema = ({

@@ -12,7 +12,7 @@ import Loader from "@/components/motion/Loader";
 import Cursor from "@/components/motion/Cursor";
 import JsonLd from "@/components/seo/JsonLd";
 import { site } from "@/data/site";
-import { organizationSchema } from "@/lib/schema";
+import { organizationSchema, websiteSchema } from "@/lib/schema";
 import { defaultLocale, localeDir } from "@/lib/i18n";
 
 // Clash Display & Satoshi: Fontshare (ITF Free Font License), self-hosted from app/fonts.
@@ -66,6 +66,8 @@ export const metadata: Metadata = {
     images: [{ url: "/og/home.jpg", width: 1200, height: 630, alt: site.name }],
   },
   twitter: { card: "summary_large_image" },
+  // Google Search Console ownership check: set GOOGLE_SITE_VERIFICATION to the code Google gives you.
+  ...(process.env.GOOGLE_SITE_VERIFICATION ? { verification: { google: process.env.GOOGLE_SITE_VERIFICATION } } : {}),
 };
 
 export const viewport: Viewport = {
@@ -88,7 +90,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
     >
       <head>
         <script dangerouslySetInnerHTML={{ __html: bootScript }} />
-        <JsonLd data={organizationSchema()} />
+        <JsonLd data={[organizationSchema(), websiteSchema()]} />
       </head>
       <body>
         <SmoothScroll />
