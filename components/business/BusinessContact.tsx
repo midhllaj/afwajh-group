@@ -69,23 +69,35 @@ export default function BusinessContact({
             {children}
           </div>
         ) : (
-          <ul className="col-span-12 grid gap-px self-end border border-line-dark bg-line-dark sm:grid-cols-3 lg:col-span-6 lg:col-start-7" data-reveal>
+          /* Editorial link rows: hairline rules, oversized values, accent wipe on hover. */
+          <ul className="col-span-12 self-end border-t border-line-dark lg:col-span-6 lg:col-start-7" data-reveal>
             {[
-              { href: c.phones[0].href, icon: "phone", label: "Call", value: c.phones[0].display, ext: false },
-              { href: group.whatsapp.href, icon: "whatsapp", label: "WhatsApp", value: group.whatsapp.display, ext: true },
-              { href: `mailto:${c.email}`, icon: "mail", label: "Email", value: c.email, ext: false },
-            ].map((t) => (
-              <li key={t.label} className="bg-emerald">
+              { href: c.phones[0].href, label: "Call", value: c.phones[0].display, ext: false },
+              { href: group.whatsapp.href, label: "WhatsApp", value: group.whatsapp.display, ext: true },
+              { href: `mailto:${c.email}`, label: "Email", value: c.email, ext: false },
+            ].map((t, i) => (
+              <li key={t.label} className="border-b border-line-dark">
                 <a
                   href={t.href}
                   target={t.ext ? "_blank" : undefined}
                   rel={t.ext ? "noopener noreferrer" : undefined}
-                  className="group flex h-full items-center gap-5 p-5 transition-colors duration-500 hover:bg-[var(--accent)] hover:text-emerald-deep sm:min-h-48 sm:flex-col sm:items-start sm:justify-between sm:gap-10 sm:p-7"
+                  className="group relative isolate flex items-center justify-between gap-6 overflow-hidden py-6 transition-colors duration-500 hover:text-emerald-deep md:py-8"
                 >
-                  <Icon name={t.icon} size={34} className="shrink-0 text-[var(--accent)] transition-colors group-hover:text-emerald-deep" />
-                  <span className="min-w-0">
-                    <span className="t-label block opacity-70">{t.label}</span>
-                    <span className="mt-2 block break-all text-[15px]">{t.value}</span>
+                  <span
+                    aria-hidden
+                    className="absolute inset-0 -z-10 origin-bottom scale-y-0 bg-[var(--accent)] transition-transform duration-500 ease-[cubic-bezier(0.7,0,0.2,1)] group-hover:scale-y-100"
+                  />
+                  <span className="min-w-0 transition-transform duration-500 ease-[cubic-bezier(0.7,0,0.2,1)] group-hover:translate-x-4">
+                    <span className="t-label flex items-center gap-3 text-[11px] text-ivory/50 transition-colors duration-500 group-hover:text-emerald-deep/70">
+                      <span className="text-[var(--accent)] transition-colors duration-500 group-hover:text-emerald-deep">
+                        {String(i + 1).padStart(2, "0")}
+                      </span>
+                      {t.label}
+                    </span>
+                    <span className="t-h3 mt-3 block break-words">{t.value}</span>
+                  </span>
+                  <span className="grid size-12 shrink-0 place-items-center rounded-full border border-ivory/25 transition-all duration-500 group-hover:-translate-x-4 group-hover:rotate-45 group-hover:border-emerald-deep/40 md:size-14">
+                    <Icon name="arrowUpRight" size={20} />
                   </span>
                 </a>
               </li>
