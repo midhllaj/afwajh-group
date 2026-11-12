@@ -175,20 +175,20 @@ export default function Header() {
               aria-controls="mobile-menu"
               aria-label={mobile ? "Close menu" : "Open menu"}
               className={cn(
-                "relative z-10 flex h-12 shrink-0 items-center gap-3 rounded-full pl-4 pr-3.5 transition-colors duration-500 lg:hidden",
+                "relative z-10 flex h-10 shrink-0 items-center gap-2.5 rounded-full pl-3.5 pr-3 transition-colors duration-500 lg:hidden",
                 mobile ? "bg-gold-light text-emerald-deep" : "bg-ivory/10",
               )}
             >
               {/* Label rolls between Menu and Close. */}
-              <span aria-hidden className="t-label relative block h-4 overflow-hidden text-[11px] leading-4">
+              <span aria-hidden className="t-label relative block h-4 overflow-hidden text-[10px] leading-4">
                 <span className={cn("block transition-transform duration-500 ease-[var(--ease-expo)]", mobile && "-translate-y-4")}>
                   <span className="block">Menu</span>
                   <span className="block">Close</span>
                 </span>
               </span>
-              <span className="relative block h-3 w-5">
-                <span className={cn("absolute left-0 top-0 h-px w-5 bg-current transition-transform duration-500", mobile && "translate-y-1.5 rotate-45")} />
-                <span className={cn("absolute bottom-0 left-0 h-px w-5 bg-current transition-transform duration-500", mobile && "-translate-y-1.5 -rotate-45")} />
+              <span className="relative block h-2.5 w-4">
+                <span className={cn("absolute left-0 top-0 h-px w-4 bg-current transition-transform duration-500", mobile && "translate-y-[5px] rotate-45")} />
+                <span className={cn("absolute bottom-0 left-0 h-px w-4 bg-current transition-transform duration-500", mobile && "-translate-y-[5px] -rotate-45")} />
               </span>
             </button>
           </div>
@@ -252,7 +252,7 @@ export default function Header() {
         aria-label="Site menu"
         aria-hidden={!mobile}
         className={cn(
-          "grain fixed inset-0 z-40 flex flex-col overflow-y-auto bg-emerald-deep pb-32 pt-[calc(var(--header-h)+1rem)] text-ivory transition-[clip-path] duration-700 ease-[var(--ease-quart)] lg:hidden",
+          "grain fixed inset-0 z-40 flex flex-col overflow-y-auto bg-emerald-deep pb-10 pt-[calc(var(--header-h)+1rem)] text-ivory transition-[clip-path] duration-700 ease-[var(--ease-quart)] lg:hidden",
           mobile ? "[clip-path:inset(0_0_0_0)]" : "pointer-events-none [clip-path:inset(0_0_100%_0)]",
         )}
       >
