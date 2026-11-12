@@ -8,7 +8,7 @@ import { contact, site } from "@/data/site";
 export default function Footer() {
   const socials = (Object.entries(contact.social) as [string, string][]).filter(([, url]) => url);
   return (
-    <footer className="grain relative overflow-hidden bg-emerald-deep pb-32 pt-20 text-ivory md:pt-24 lg:pb-12">
+    <footer className="grain relative overflow-hidden bg-emerald-deep pb-12 pt-20 text-ivory md:pt-24">
       <Skyline className="pointer-events-none absolute inset-x-0 bottom-0 h-44 text-gold-light/[0.08] md:h-64" />
       <div className="wrap relative">
         <div className="grid-12 gap-y-10 md:gap-y-14">
