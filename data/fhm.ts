@@ -20,7 +20,7 @@ export const fhm = {
       { display: "+971 58 886 6961", href: "tel:+971588866961" },
       { display: "+971 4 288 4679", href: "tel:+97142884679" },
     ],
-    email: "info@fhmgeneraltransport.ae",
+    email: "info@afwajhgroup.com",
     website: "www.fhmgeneraltransport.ae",
     websiteHref: "https://www.fhmgeneraltransport.ae",
   },
