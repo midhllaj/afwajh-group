@@ -56,35 +56,52 @@ export default function TransitionProvider({ children }: { children: React.React
   const navigateWithImage = useCallback(
     (href: string, from: HTMLElement, src: string) => {
       if (!motionOn()) return router.push(href);
+      // Compositor-only version of "grow the image to full screen": the overlay is full screen
+      // from the start and is clipped down to the source rect, while the full-screen image is
+      // scaled/moved to match the source's object-cover framing exactly. Animating only clip-path
+      // and transform (never left/top/width/height) means no layout or image re-paint per frame.
       const r = from.getBoundingClientRect();
+      const vw = window.innerWidth;
+      const vh = window.innerHeight;
+      const source = from.querySelector("img");
+      const iw = source?.naturalWidth || 0;
+      const ih = source?.naturalHeight || 0;
+      // Ratio of the source's cover scale to the full screen's cover scale.
+      const k = iw && ih ? Math.max(r.width / iw, r.height / ih) / Math.max(vw / iw, vh / ih) : Math.max(r.width / vw, r.height / vh);
+      const dx = r.left + r.width / 2 - vw / 2;
+      const dy = r.top + r.height / 2 - vh / 2;
+      const clipFrom = `inset(${r.top}px ${vw - r.right}px ${vh - r.bottom}px ${r.left}px)`;
+
       const div = document.createElement("div");
       div.setAttribute("aria-hidden", "true");
       Object.assign(div.style, {
         position: "fixed",
-        left: `${r.left}px`,
-        top: `${r.top}px`,
-        width: `${r.width}px`,
-        height: `${r.height}px`,
+        inset: "0",
         zIndex: "95",
         overflow: "hidden",
         background: "#0A2321",
+        clipPath: clipFrom,
+        willChange: "clip-path",
       });
       const img = document.createElement("img");
       img.src = src;
       img.alt = "";
-      Object.assign(img.style, { width: "100%", height: "100%", objectFit: "cover", filter: "saturate(.88) contrast(1.06) brightness(.97)" });
+      Object.assign(img.style, {
+        width: "100%",
+        height: "100%",
+        objectFit: "cover",
+        filter: "saturate(.88) contrast(1.06) brightness(.97)",
+        transform: `translate3d(${dx}px, ${dy}px, 0) scale(${k})`,
+        willChange: "transform",
+      });
       div.appendChild(img);
       document.body.appendChild(div);
       overlay.current = div;
       router.prefetch(href);
+      const timing: KeyframeAnimationOptions = { duration: 900, easing: "cubic-bezier(0.76, 0, 0.24, 1)", fill: "forwards" };
+      img.animate([{ transform: img.style.transform }, { transform: "translate3d(0, 0, 0) scale(1)" }], timing);
       div
-        .animate(
-          [
-            { left: `${r.left}px`, top: `${r.top}px`, width: `${r.width}px`, height: `${r.height}px` },
-            { left: "0px", top: "0px", width: "100vw", height: "100vh" },
-          ],
-          { duration: 900, easing: "cubic-bezier(0.76, 0, 0.24, 1)", fill: "forwards" },
-        )
+        .animate([{ clipPath: clipFrom }, { clipPath: "inset(0px 0px 0px 0px)" }], timing)
         .finished.then(() => router.push(href));
     },
     [router],
@@ -134,36 +151,40 @@ export default function TransitionProvider({ children }: { children: React.React
         <AnimatePresence>
           {phase !== "idle" && (
             <div className="fixed inset-0 z-[90]" aria-hidden="true" key="curtain">
+              {/* Whole `transform` strings (not x/y/scale) let Motion hand these to the browser's
+                  compositor, so the curtain stays smooth while the next page renders underneath. */}
               <m.div
-                className="bg-gold absolute inset-0"
-                initial={{ y: "100%" }}
-                animate={{ y: phase === "cover" ? "0%" : "-100%" }}
+                className="bg-gold absolute inset-0 will-change-transform"
+                initial={{ transform: "translate3d(0, 100%, 0)" }}
+                animate={{ transform: phase === "cover" ? "translate3d(0, 0%, 0)" : "translate3d(0, -100%, 0)" }}
                 transition={{ duration: 0.6, ease: EASE, delay: phase === "reveal" ? 0.1 : 0 }}
               />
               <m.div
-                className="absolute inset-0 bg-emerald-deep"
-                initial={{ y: "100%" }}
-                animate={{ y: phase === "cover" ? "0%" : "-100%" }}
+                className="absolute inset-0 bg-emerald-deep will-change-transform"
+                initial={{ transform: "translate3d(0, 100%, 0)" }}
+                animate={{ transform: phase === "cover" ? "translate3d(0, 0%, 0)" : "translate3d(0, -100%, 0)" }}
                 transition={{ duration: 0.6, ease: EASE, delay: phase === "cover" ? 0.07 : 0 }}
               />
-              <m.svg
-                viewBox={markViewBox}
-                className="absolute left-1/2 top-1/2 w-16 -translate-x-1/2 -translate-y-1/2"
-                initial={{ opacity: 0, scale: 0.85 }}
-                animate={phase === "cover" ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 1.1 }}
-                transition={{ duration: 0.4, delay: phase === "cover" ? 0.3 : 0 }}
-              >
-                <defs>
-                  <linearGradient id="curtain-gold" x1="0" y1="0" x2="1" y2="1">
-                    <stop offset="0" stopColor="#B8862F" />
-                    <stop offset=".5" stopColor="#E2C26A" />
-                    <stop offset="1" stopColor="#A87324" />
-                  </linearGradient>
-                </defs>
-                {markPaths.map((d, i) => (
-                  <path key={i} d={d} fill="url(#curtain-gold)" />
-                ))}
-              </m.svg>
+              <div className="absolute left-1/2 top-1/2 w-16 -translate-x-1/2 -translate-y-1/2">
+                <m.svg
+                  viewBox={markViewBox}
+                  className="block w-full"
+                  initial={{ opacity: 0, transform: "scale(0.85)" }}
+                  animate={phase === "cover" ? { opacity: 1, transform: "scale(1)" } : { opacity: 0, transform: "scale(1.1)" }}
+                  transition={{ duration: 0.4, delay: phase === "cover" ? 0.3 : 0 }}
+                >
+                  <defs>
+                    <linearGradient id="curtain-gold" x1="0" y1="0" x2="1" y2="1">
+                      <stop offset="0" stopColor="#B8862F" />
+                      <stop offset=".5" stopColor="#E2C26A" />
+                      <stop offset="1" stopColor="#A87324" />
+                    </linearGradient>
+                  </defs>
+                  {markPaths.map((d, i) => (
+                    <path key={i} d={d} fill="url(#curtain-gold)" />
+                  ))}
+                </m.svg>
+              </div>
             </div>
           )}
         </AnimatePresence>

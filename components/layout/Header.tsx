@@ -49,7 +49,10 @@ export default function Header() {
   }
 
   useEffect(() => {
-    const onScroll = () => {
+    // At most one update per frame: phones fire scroll events faster than they paint.
+    let raf = 0;
+    const update = () => {
+      raf = 0;
       const y = window.scrollY;
       setScrolled(y > 30);
       const max = document.documentElement.scrollHeight - window.innerHeight;
@@ -59,9 +62,15 @@ export default function Header() {
         lastY.current = y;
       }
     };
-    onScroll();
+    const onScroll = () => {
+      if (!raf) raf = requestAnimationFrame(update);
+    };
+    update();
     window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
+    return () => {
+      cancelAnimationFrame(raf);
+      window.removeEventListener("scroll", onScroll);
+    };
   }, []);
 
   useEffect(() => {
@@ -109,7 +118,8 @@ export default function Header() {
           className={cn(
             "wrap relative flex h-[var(--header-h)] items-center justify-between gap-8 transition-[background-color,border-color,box-shadow] duration-500 max-lg:h-16 max-lg:gap-3 max-lg:overflow-hidden max-lg:rounded-full max-lg:border max-lg:pl-3 max-lg:pr-2",
             scrolled && !mobile
-              ? "max-lg:border-ivory/10 max-lg:bg-emerald-deep/75 max-lg:shadow-[0_10px_30px_-12px_rgba(0,0,0,0.6)] max-lg:backdrop-blur-xl"
+              ? // A lighter blur (cost grows with radius) over a denser tint keeps the glass look cheap to repaint while scrolling.
+                "max-lg:border-ivory/10 max-lg:bg-emerald-deep/85 max-lg:shadow-[0_10px_30px_-12px_rgba(0,0,0,0.6)] max-lg:backdrop-blur-md"
               : "max-lg:border-transparent",
           )}
         >
@@ -252,11 +262,20 @@ export default function Header() {
         aria-label="Site menu"
         aria-hidden={!mobile}
         className={cn(
-          "grain fixed inset-0 z-40 flex flex-col overflow-y-auto bg-emerald-deep pb-10 pt-[calc(var(--header-h)+1rem)] text-ivory transition-[clip-path] duration-700 ease-[var(--ease-quart)] lg:hidden",
-          mobile ? "[clip-path:inset(0_0_0_0)]" : "pointer-events-none [clip-path:inset(0_0_100%_0)]",
+          // Drops down like a blind: the panel slides in from above while its content slides the
+          // opposite way by the same amount, so the content holds still. Transforms only (no
+          // full-screen clip-path repaint), so it runs on the compositor.
+          "grain fixed inset-0 z-40 flex flex-col overflow-y-auto bg-emerald-deep pb-10 pt-[calc(var(--header-h)+1rem)] text-ivory transition-[translate,visibility] duration-700 ease-[var(--ease-quart)] will-change-transform lg:hidden",
+          mobile ? "translate-y-0" : "pointer-events-none invisible -translate-y-[100dvh]",
         )}
       >
-        <nav aria-label="Mobile" className="wrap flex flex-1 flex-col">
+        <nav
+          aria-label="Mobile"
+          className={cn(
+            "wrap flex flex-1 flex-col transition-transform duration-700 ease-[var(--ease-quart)] will-change-transform",
+            mobile ? "translate-y-0" : "translate-y-[100dvh]",
+          )}
+        >
           <p
             className="t-label mb-6 text-[11px] text-ivory/40 transition-opacity duration-700"
             style={{ transitionDelay: mobile ? "150ms" : "0ms", opacity: mobile ? 1 : 0 }}
