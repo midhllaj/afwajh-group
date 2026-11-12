@@ -3,6 +3,8 @@ import type { Stat } from "./types";
 export const site = {
   name: "Afwajh Group of Companies",
   shortName: "Afwajh Group",
+  /** Other names people search for; used in structured data. */
+  alternateNames: ["Afwajh Group", "Afwajh", "Afwajh Group UAE", "Afwajh Group Dubai"],
   url: process.env.SITE_URL || "https://afwajhgroup.com",
   established: 2010,
   tagline: "Seven businesses. One standard of excellence.",

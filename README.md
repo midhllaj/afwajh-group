@@ -36,6 +36,7 @@ Open http://localhost:3000.
 |---|---|
 | `FORM_ENDPOINT` | Where the contact and catering forms POST (JSON), e.g. a [Formspree](https://formspree.io) URL `https://formspree.io/f/xxxxxx`. If empty, the forms open the visitor's email app with the message pre-filled. |
 | `SITE_URL` | Public URL used for canonical links, Open Graph, sitemap and JSON-LD. Default `https://afwajhgroup.com`. |
+| `GOOGLE_SITE_VERIFICATION` | Google Search Console HTML-tag verification code (only the `content` value). Adds the ownership meta tag to every page. |
 
 Both are read at build time; redeploy after changing them.
 
