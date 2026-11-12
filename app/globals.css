@@ -57,6 +57,8 @@
 html {
   -webkit-text-size-adjust: 100%;
   background: var(--color-emerald-deep);
+  /* Native anchor jumps (touch devices scroll natively, without Lenis) clear the fixed header. */
+  scroll-padding-top: 96px;
 }
 html.lenis,
 html.lenis body {

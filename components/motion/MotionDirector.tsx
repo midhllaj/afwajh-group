@@ -56,6 +56,11 @@ export default function MotionDirector() {
         };
         const replays = (el: HTMLElement) => el.closest("[data-replay]") !== null;
 
+        // Touch screens scroll on the compositor, so anything tied frame-by-frame to scroll
+        // position (parallax) trails the finger by a frame and wobbles. Those effects are for
+        // mouse/trackpad only; phones get the one-shot reveals, which run independently of scroll.
+        const finePointer = matchMedia("(hover: hover) and (pointer: fine)").matches;
+
         const ctx = gsap.context(() => {
           // Split headings
           each("[data-split]", (el) => {
@@ -100,8 +105,8 @@ export default function MotionDirector() {
             );
           });
 
-          // Parallax
-          each("[data-parallax]", (el) => {
+          // Parallax (fine pointers only; on touch the image simply sits centred in its frame)
+          if (finePointer) each("[data-parallax]", (el) => {
             const amount = Number(el.dataset.parallax || 10);
             gsap.fromTo(
               el,
@@ -140,7 +145,7 @@ export default function MotionDirector() {
 
         // Magnetic buttons (fine pointers only)
         const offs: (() => void)[] = [];
-        if (matchMedia("(hover: hover) and (pointer: fine)").matches) {
+        if (finePointer) {
           document.querySelectorAll<HTMLElement>("[data-magnetic]").forEach((el) => {
             const xTo = gsap.quickTo(el, "x", { duration: 0.6, ease: "elastic.out(1, 0.4)" });
             const yTo = gsap.quickTo(el, "y", { duration: 0.6, ease: "elastic.out(1, 0.4)" });

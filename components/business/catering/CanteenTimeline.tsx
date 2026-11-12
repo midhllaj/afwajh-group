@@ -14,19 +14,21 @@ export default function CanteenTimeline({ steps }: { steps: typeof siteCanteenSt
     const b = bar.current;
     if (!ol || !b) return;
     let raf = 0;
+    const items = Array.from(ol.querySelectorAll<HTMLElement>("[data-step]"));
     const update = () => {
+      raf = 0;
+      // Read every position first, then write, so the browser never has to recalculate mid-frame.
       const r = ol.getBoundingClientRect();
-      const vh = window.innerHeight;
-      const p = Math.min(1, Math.max(0, (vh * 0.7 - r.top) / r.height));
-      b.style.transform = `scaleY(${p})`;
-      ol.querySelectorAll<HTMLElement>("[data-step]").forEach((li) => {
-        const top = li.getBoundingClientRect().top;
-        li.dataset.on = top < vh * 0.7 ? "1" : "0";
+      const line = window.innerHeight * 0.7;
+      const on = items.map((li) => li.getBoundingClientRect().top < line);
+      b.style.transform = `scaleY(${Math.min(1, Math.max(0, (line - r.top) / r.height))})`;
+      items.forEach((li, i) => {
+        const v = on[i] ? "1" : "0";
+        if (li.dataset.on !== v) li.dataset.on = v;
       });
     };
     const onScroll = () => {
-      cancelAnimationFrame(raf);
-      raf = requestAnimationFrame(update);
+      if (!raf) raf = requestAnimationFrame(update);
     };
     update();
     window.addEventListener("scroll", onScroll, { passive: true });
