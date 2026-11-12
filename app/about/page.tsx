@@ -12,6 +12,7 @@ import { Mark } from "@/components/brand/Logo";
 import VisionMission from "@/components/home/VisionMission";
 import Strengths from "@/components/home/Strengths";
 import ContactCta from "@/components/home/ContactCta";
+import Faq from "@/components/about/Faq";
 import { businesses } from "@/data/businesses";
 import { intro, ownerMessage, site, workforce, workforceCopy } from "@/data/site";
 import { pageMetadata } from "@/lib/seo";
@@ -189,6 +190,8 @@ export default function AboutPage() {
           </ul>
         </div>
       </section>
+
+      <Faq />
 
       <ContactCta />
     </>

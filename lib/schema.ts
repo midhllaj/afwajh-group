@@ -1,4 +1,5 @@
-import { contact, site } from "@/data/site";
+import { contact, keyStats, ownerMessage, site } from "@/data/site";
+import { businesses } from "@/data/businesses";
 import { absoluteUrl } from "./utils";
 
 export const organizationSchema = () => ({
@@ -21,6 +22,18 @@ export const organizationSchema = () => ({
     addressCountry: "AE",
   },
   areaServed: ["Dubai", "Abu Dhabi", "Sharjah", "Ras Al Khaimah"],
+  founder: { "@type": "Person", name: ownerMessage.signature },
+  numberOfEmployees: {
+    "@type": "QuantitativeValue",
+    minValue: keyStats.find((s) => s.label === "People")?.value,
+  },
+  knowsAbout: businesses.map((b) => b.label),
+  subOrganization: businesses.map((b) => ({
+    "@type": "Organization",
+    name: b.name,
+    url: absoluteUrl(b.href),
+    description: b.summary,
+  })),
   contactPoint: {
     "@type": "ContactPoint",
     contactType: "customer service",
@@ -30,6 +43,16 @@ export const organizationSchema = () => ({
     availableLanguage: ["English", "Arabic"],
   },
   sameAs: Object.values(contact.social).filter(Boolean),
+});
+
+export const faqSchema = (items: { q: string; a: string }[]) => ({
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: items.map((f) => ({
+    "@type": "Question",
+    name: f.q,
+    acceptedAnswer: { "@type": "Answer", text: f.a },
+  })),
 });
 
 /** Tells Google which name to show for the site in search results. */
