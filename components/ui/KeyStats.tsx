@@ -33,17 +33,14 @@ export default function KeyStats({ className = "" }: { className?: string }) {
             <dt
               className={`t-label leading-snug md:text-[12px] md:tracking-[0.2em] ${
                 lead
-                  ? "order-1 pb-1.5 text-[15px] font-bold tracking-[0.16em] text-gold-deep md:order-2 md:pb-0 md:text-[13px]"
-                  : "order-2 text-[11px] tracking-[0.16em] text-ink/65"
+                  ? "order-1 pb-2 text-[24px] font-bold tracking-[0.1em] text-gold-deep md:order-2 md:pb-0 md:text-[13px]"
+                  : "order-2 text-[11px] font-semibold tracking-[0.16em] text-gold-deep"
               }`}
             >
               {lead ? (
                 <>
-                  {/* Highlighted in brand gold with a short lead-in rule. */}
-                  <span className="inline-flex items-center gap-2.5 md:hidden">
-                    <span className="h-0.5 w-7 bg-gold-deep" aria-hidden />
-                    Established
-                  </span>
+                  {/* Highlighted in brand gold. */}
+                  <span className="md:hidden">Established</span>
                   <span className="hidden md:inline">{s.label}</span>
                 </>
               ) : (
@@ -51,7 +48,7 @@ export default function KeyStats({ className = "" }: { className?: string }) {
               )}
             </dt>
             <dd
-              className={`t-num leading-none ${lead ? "order-2 text-[3.5rem] md:order-1" : "order-1 text-[2.6rem]"} md:text-[clamp(2.75rem,2rem+2.5vw,5rem)]`}
+              className={`t-num leading-none text-gold-deep ${lead ? "order-2 text-[3.5rem] md:order-1" : "order-1 text-[2.6rem]"} md:text-[clamp(2.75rem,2rem+2.5vw,5rem)]`}
             >
               <Counter stat={s} />
             </dd>

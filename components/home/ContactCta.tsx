@@ -7,7 +7,22 @@ import { contact } from "@/data/site";
 
 export default function ContactCta({ title = "Let’s build what’s\n*next*, together." }: { title?: string }) {
   return (
-    <section className="grain relative overflow-hidden bg-emerald py-20 text-ivory md:py-40" aria-labelledby="cta-title">
+    <section className="grain relative isolate overflow-hidden bg-emerald py-20 text-ivory md:py-40" aria-labelledby="cta-title">
+      <div
+        aria-hidden
+        className="absolute inset-x-0 top-1/2 -z-10 aspect-[4/3] -translate-y-1/2 [mask-image:linear-gradient(transparent,#000_22%,#000_78%,transparent)] md:inset-0 md:aspect-auto md:translate-y-0 md:[mask-image:none]"
+      >
+        <Media
+          image={{ src: "/images/home/dubai-skyline-silhouette.webp", alt: "" }}
+          className="h-full w-full"
+          imgClassName="object-center md:object-[center_70%]"
+          sizes="100vw"
+          reveal={false}
+          parallax={6}
+        />
+      </div>
+      <div aria-hidden className="absolute inset-0 -z-10 bg-gradient-to-r from-emerald/95 via-emerald/75 to-emerald/30" />
+      <div aria-hidden className="absolute inset-0 -z-10 bg-gradient-to-t from-emerald/80 via-transparent to-emerald/40" />
       <div className="wrap grid-12 items-end gap-y-14">
         <div className="col-span-12 lg:col-span-8">
           <Kicker>Get in touch</Kicker>
@@ -22,13 +37,7 @@ export default function ContactCta({ title = "Let’s build what’s\n*next*, to
           </div>
         </div>
         <div className="col-span-12 lg:col-span-4">
-          <Media
-            image={{ src: "/images/home/dubai-skyline-silhouette.webp", alt: "Silhouette of the Dubai skyline at sunset" }}
-            className="hidden aspect-[4/5] lg:block"
-            sizes="30vw"
-            parallax={6}
-          />
-          <ul className="mt-8 grid gap-5 text-[15px] text-ivory/80" data-reveal>
+          <ul className="grid gap-5 text-[15px] text-ivory/80" data-reveal>
             <li className="flex items-center gap-4">
               <Icon name="phone" size={20} className="text-gold-light" />
               <a href={contact.call.href} className="hover:text-gold-light">

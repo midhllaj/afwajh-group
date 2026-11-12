@@ -17,6 +17,16 @@ const nav = [
   { href: "/contact", label: "Contact" },
 ];
 
+const STORES_HREF = "/businesses/supermarkets-minimarts#outlets";
+
+const mobileNav = [
+  { href: "/", label: "Home" },
+  { href: "/about", label: "About" },
+  { href: "/businesses", label: "Businesses" },
+  { href: "/clients", label: "Clients" },
+  { href: "/contact", label: "Contact" },
+];
+
 export default function Header() {
   const pathname = usePathname();
   const [scrolled, setScrolled] = useState(false);
@@ -24,7 +34,9 @@ export default function Header() {
   const [mega, setMega] = useState(false);
   const [mobile, setMobile] = useState(false);
   const [preview, setPreview] = useState(0);
+  const [bizOpen, setBizOpen] = useState(false);
   const lastY = useRef(0);
+  const progressRef = useRef<HTMLSpanElement>(null);
   const closeTimer = useRef<number | null>(null);
 
   // Close menus on route change (state adjusted during render, not in an effect).
@@ -33,12 +45,15 @@ export default function Header() {
     setPrevPath(pathname);
     setMega(false);
     setMobile(false);
+    setBizOpen(false);
   }
 
   useEffect(() => {
     const onScroll = () => {
       const y = window.scrollY;
       setScrolled(y > 30);
+      const max = document.documentElement.scrollHeight - window.innerHeight;
+      if (progressRef.current) progressRef.current.style.transform = `scaleX(${max > 0 ? Math.min(y / max, 1) : 0})`;
       if (Math.abs(y - lastY.current) > 8) {
         setHidden(y > lastY.current && y > 400);
         lastY.current = y;
@@ -84,13 +99,31 @@ export default function Header() {
       </a>
       <header
         className={cn(
-          "fixed inset-x-0 top-0 z-50 text-ivory transition-[transform,background-color,border-color] duration-500 ease-[var(--ease-quart)]",
-          solid ? "border-b border-line-dark bg-emerald-deep/85 backdrop-blur-xl" : "border-b border-transparent",
-          hidden && !mega && !mobile && "-translate-y-full",
+          "fixed inset-x-0 top-0 z-50 text-ivory transition-[transform,background-color,border-color] duration-500 ease-[var(--ease-quart)] max-lg:px-2 max-lg:pt-2.5",
+          solid ? "lg:border-b lg:border-line-dark lg:bg-emerald-deep/85 lg:backdrop-blur-xl" : "lg:border-b lg:border-transparent",
+          hidden && !mega && !mobile && "-translate-y-[120%]",
         )}
       >
-        <div className="wrap flex h-[var(--header-h)] items-center justify-between gap-8">
-          <TLink href="/" aria-label="Afwajh Group of Companies — home" className="relative z-10">
+        {/* Phones: a floating glass capsule that firms up once the page scrolls. */}
+        <div
+          className={cn(
+            "wrap relative flex h-[var(--header-h)] items-center justify-between gap-8 transition-[background-color,border-color,box-shadow] duration-500 max-lg:h-16 max-lg:gap-3 max-lg:overflow-hidden max-lg:rounded-full max-lg:border max-lg:pl-3 max-lg:pr-2",
+            scrolled && !mobile
+              ? "max-lg:border-ivory/10 max-lg:bg-emerald-deep/75 max-lg:shadow-[0_10px_30px_-12px_rgba(0,0,0,0.6)] max-lg:backdrop-blur-xl"
+              : "max-lg:border-transparent",
+          )}
+        >
+          {/* Scroll progress hairline along the capsule's base. */}
+          <span
+            ref={progressRef}
+            aria-hidden
+            className={cn(
+              "pointer-events-none absolute inset-x-6 bottom-0 h-px origin-left bg-gold-light/70 transition-opacity duration-500 lg:hidden",
+              scrolled && !mobile ? "opacity-100" : "opacity-0",
+            )}
+            style={{ transform: "scaleX(0)" }}
+          />
+          <TLink href="/" aria-label="Afwajh Group of Companies — home" className="relative z-10 max-lg:origin-left max-lg:scale-[0.8]">
             <Logo id="hdr" />
           </TLink>
 
@@ -123,6 +156,12 @@ export default function Header() {
 
           <div className="flex items-center gap-3">
             <TLink
+              href={STORES_HREF}
+              className="hidden min-h-11 items-center gap-2 whitespace-nowrap px-3 text-[14px] text-ivory/85 transition-colors hover:text-gold-light xl:inline-flex"
+            >
+              <Icon name="pin" size={16} className="text-gold-light" /> Find a store
+            </TLink>
+            <TLink
               href="/contact"
               data-magnetic
               className="hidden min-h-11 items-center gap-2 rounded-full border border-ivory/25 px-5 text-[14px] transition-colors hover:border-gold-light hover:text-gold-light lg:inline-flex"
@@ -135,8 +174,18 @@ export default function Header() {
               aria-expanded={mobile}
               aria-controls="mobile-menu"
               aria-label={mobile ? "Close menu" : "Open menu"}
-              className="relative z-10 flex h-12 w-12 items-center justify-center rounded-full border border-ivory/25 lg:hidden"
+              className={cn(
+                "relative z-10 flex h-12 shrink-0 items-center gap-3 rounded-full pl-4 pr-3.5 transition-colors duration-500 lg:hidden",
+                mobile ? "bg-gold-light text-emerald-deep" : "bg-ivory/10",
+              )}
             >
+              {/* Label rolls between Menu and Close. */}
+              <span aria-hidden className="t-label relative block h-4 overflow-hidden text-[11px] leading-4">
+                <span className={cn("block transition-transform duration-500 ease-[var(--ease-expo)]", mobile && "-translate-y-4")}>
+                  <span className="block">Menu</span>
+                  <span className="block">Close</span>
+                </span>
+              </span>
               <span className="relative block h-3 w-5">
                 <span className={cn("absolute left-0 top-0 h-px w-5 bg-current transition-transform duration-500", mobile && "translate-y-1.5 rotate-45")} />
                 <span className={cn("absolute bottom-0 left-0 h-px w-5 bg-current transition-transform duration-500", mobile && "-translate-y-1.5 -rotate-45")} />
@@ -207,61 +256,141 @@ export default function Header() {
           mobile ? "[clip-path:inset(0_0_0_0)]" : "pointer-events-none [clip-path:inset(0_0_100%_0)]",
         )}
       >
-        <nav aria-label="Mobile" className="wrap">
-          {/* Main pages first, so they are visible as soon as the menu opens. */}
-          <ul className="grid grid-cols-2 gap-3">
-            {[{ href: "/", label: "Home" }, ...nav].map((n, i) => (
-              <li
-                key={n.href}
-                className="transition-[opacity,transform] duration-700 ease-[var(--ease-expo)]"
-                style={{ transitionDelay: mobile ? `${120 + i * 40}ms` : "0ms", opacity: mobile ? 1 : 0, transform: mobile ? "none" : "translateY(16px)" }}
-              >
-                <TLink
-                  href={n.href}
-                  tabIndex={mobile ? 0 : -1}
-                  aria-current={pathname === n.href ? "page" : undefined}
-                  className={cn(
-                    "flex min-h-14 items-center justify-between rounded-full border px-5 text-[15px] transition-colors",
-                    pathname === n.href ? "border-gold-light/70 text-gold-light" : "border-line-dark",
+        <nav aria-label="Mobile" className="wrap flex flex-1 flex-col">
+          <p
+            className="t-label mb-6 text-[11px] text-ivory/40 transition-opacity duration-700"
+            style={{ transitionDelay: mobile ? "150ms" : "0ms", opacity: mobile ? 1 : 0 }}
+          >
+            Menu
+          </p>
+
+          {/* Oversized editorial links; each line slides up out of its own mask. */}
+          <ul className="border-t border-line-dark">
+            {mobileNav.map((n, i) => {
+              const active = n.href === "/businesses" ? pathname.startsWith("/businesses") : pathname === n.href;
+              const label = (
+                <span className="relative block overflow-hidden py-1">
+                  <span
+                    className="block transition-transform duration-[900ms] ease-[var(--ease-expo)]"
+                    style={{ transitionDelay: mobile ? `${180 + i * 70}ms` : "0ms", transform: mobile ? "none" : "translateY(110%)" }}
+                  >
+                    <span className={cn("t-h2 text-[clamp(2.4rem,9vw,3.4rem)]", active && "accent-word text-gold-light")}>{n.label}</span>
+                  </span>
+                </span>
+              );
+              const num = <sup className="t-label ml-2 self-start pt-3 text-[10px] text-gold-light/80">{String(i + 1).padStart(2, "0")}</sup>;
+              return (
+                <li key={n.href} className="border-b border-line-dark">
+                  {n.href === "/businesses" ? (
+                    <>
+                      <button
+                        type="button"
+                        tabIndex={mobile ? 0 : -1}
+                        aria-expanded={bizOpen}
+                        aria-controls="mobile-biz"
+                        onClick={() => setBizOpen((v) => !v)}
+                        className="flex w-full items-center py-2 text-left"
+                      >
+                        {label}
+                        {num}
+                        <span className="ml-auto grid size-11 place-items-center rounded-full border border-ivory/20">
+                          <Icon name="plus" size={16} className={cn("transition-transform duration-500", bizOpen && "rotate-45")} />
+                        </span>
+                      </button>
+                      <div
+                        id="mobile-biz"
+                        className={cn(
+                          "grid transition-[grid-template-rows] duration-700 ease-[var(--ease-expo)]",
+                          bizOpen ? "grid-rows-[1fr]" : "grid-rows-[0fr]",
+                        )}
+                      >
+                        <ul className="overflow-hidden">
+                          {businesses.map((b, j) => (
+                            <li
+                              key={b.slug}
+                              className="transition-[opacity,transform] duration-500"
+                              style={{ transitionDelay: bizOpen ? `${120 + j * 40}ms` : "0ms", opacity: bizOpen ? 1 : 0, transform: bizOpen ? "none" : "translateY(10px)" }}
+                            >
+                              <TLink
+                                href={b.href}
+                                tabIndex={mobile && bizOpen ? 0 : -1}
+                                className={cn(
+                                  "flex items-baseline gap-4 py-2.5 text-[17px] transition-colors",
+                                  pathname === b.href ? "text-gold-light" : "text-ivory/75",
+                                )}
+                              >
+                                <span className="t-label w-6 text-[10px] text-gold-light/70">{b.index}</span>
+                                {b.name}
+                              </TLink>
+                            </li>
+                          ))}
+                          <li className="pb-5 pt-2">
+                            <TLink
+                              href="/businesses"
+                              tabIndex={mobile && bizOpen ? 0 : -1}
+                              className="t-label ml-10 inline-flex items-center gap-2 text-[11px] text-gold-light"
+                            >
+                              View all <Icon name="arrowUpRight" size={14} />
+                            </TLink>
+                          </li>
+                        </ul>
+                      </div>
+                    </>
+                  ) : (
+                    <TLink
+                      href={n.href}
+                      tabIndex={mobile ? 0 : -1}
+                      aria-current={active ? "page" : undefined}
+                      className="flex items-center py-2"
+                    >
+                      {label}
+                      {num}
+                    </TLink>
                   )}
-                >
-                  {n.label}
-                  <Icon name="arrowUpRight" size={16} className="text-ivory/40" />
-                </TLink>
-              </li>
-            ))}
+                </li>
+              );
+            })}
           </ul>
 
-          <div className="mb-3 mt-10 flex items-center justify-between">
-            <p className="t-label text-gold-light">Our Businesses</p>
-            <TLink href="/businesses" tabIndex={mobile ? 0 : -1} className="t-label text-ivory/60 underline-offset-4 hover:text-gold-light hover:underline">
-              View all
+          {/* Footer: quiet contact details and one clear call to action. */}
+          <div
+            className="mt-auto pt-12 transition-[opacity,transform] duration-700 ease-[var(--ease-expo)]"
+            style={{ transitionDelay: mobile ? "600ms" : "0ms", opacity: mobile ? 1 : 0, transform: mobile ? "none" : "translateY(16px)" }}
+          >
+            <div className="grid grid-cols-2 gap-6 text-[14px]">
+              <div>
+                <p className="t-label text-[10px] text-ivory/40">Call</p>
+                <a href={contact.call.href} tabIndex={mobile ? 0 : -1} className="mt-2 block text-ivory/85">
+                  {contact.call.display}
+                </a>
+              </div>
+              <div className="min-w-0">
+                <p className="t-label text-[10px] text-ivory/40">Email</p>
+                <a href={`mailto:${contact.email}`} tabIndex={mobile ? 0 : -1} className="mt-2 block break-all text-ivory/85">
+                  {contact.email}
+                </a>
+              </div>
+            </div>
+            <TLink
+              href={STORES_HREF}
+              tabIndex={mobile ? 0 : -1}
+              onClick={() => setMobile(false)}
+              className="mt-8 flex min-h-14 items-center justify-between rounded-full border border-gold-light/40 px-6 text-[15px] text-gold-light"
+            >
+              <span className="flex items-center gap-3">
+                <Icon name="pin" size={18} /> Find a store
+              </span>
+              <Icon name="arrowUpRight" size={18} />
             </TLink>
-          </div>
-          <ul>
-            {businesses.map((b, i) => (
-              <li
-                key={b.slug}
-                className="border-t border-line-dark transition-[opacity,transform] duration-700 ease-[var(--ease-expo)]"
-                style={{ transitionDelay: mobile ? `${280 + i * 45}ms` : "0ms", opacity: mobile ? 1 : 0, transform: mobile ? "none" : "translateY(24px)" }}
-              >
-                <TLink href={b.href} tabIndex={mobile ? 0 : -1} className="flex min-h-14 items-center gap-4 py-3">
-                  <span className="t-label w-7 text-gold-light">{b.index}</span>
-                  <span className="t-h4 flex-1">{b.name}</span>
-                  <Icon name="arrowUpRight" size={20} className="text-ivory/50" />
-                </TLink>
-              </li>
-            ))}
-          </ul>
-          <div className="mt-10 space-y-2 text-[15px] text-ivory/75">
-            <a href={contact.call.href} tabIndex={mobile ? 0 : -1} className="flex items-center gap-3">
-              <Icon name="phone" size={18} className="text-gold-light" /> {contact.call.display}
-            </a>
-            <p className="flex items-center gap-3">
-              <Icon name="phone" size={18} className="text-gold-light" /> {contact.landline}
-            </p>
-            <a href={`mailto:${contact.email}`} tabIndex={mobile ? 0 : -1} className="flex items-center gap-3">
-              <Icon name="mail" size={18} className="text-gold-light" /> {contact.email}
+            <a
+              href={contact.whatsapp.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              tabIndex={mobile ? 0 : -1}
+              className="mt-3 flex min-h-14 items-center justify-between rounded-full bg-gold-light px-6 text-[15px] font-medium text-emerald-deep"
+            >
+              Chat on WhatsApp
+              <Icon name="arrowUpRight" size={18} />
             </a>
           </div>
         </nav>

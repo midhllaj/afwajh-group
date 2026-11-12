@@ -5,7 +5,7 @@ import { coreStrengths } from "@/data/site";
 
 export default function Strengths({ index = "04" }: { index?: string }) {
   return (
-    <section className="tone-light bg-ivory py-20 md:py-40" aria-labelledby="strengths-title">
+    <section className="tone-light bg-ivory py-20 md:pb-20 md:pt-40" aria-labelledby="strengths-title">
       <div className="wrap grid-12 gap-y-14">
         <div className="col-span-12 lg:col-span-4">
           <Kicker index={index} tone="light">
