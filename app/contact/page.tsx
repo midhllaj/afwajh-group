@@ -14,7 +14,7 @@ import { pageMetadata } from "@/lib/seo";
 
 export const metadata: Metadata = pageMetadata({
   title: "Contact Us",
-  description: "Contact Afwajh Group of Companies — head office at Trade Centre 1, Sheikh Zayed Road, Dubai. Tel +971 4 294 4870 · afwajhgroup1@gmail.com.",
+  description: "Contact Afwajh Group of Companies — head office at Trade Centre 1, Sheikh Zayed Road, Dubai. Tel +971 4 294 4870 · info@afwajhgroup.com.",
   path: "/contact",
 });
 

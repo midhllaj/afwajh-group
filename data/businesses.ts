@@ -94,7 +94,7 @@ export const businesses: Business[] = [
         { display: "+971 58 886 6961", href: "tel:+971588866961" },
         { display: "+971 4 288 4679", href: "tel:+97142884679" },
       ],
-      email: "info@fhmgeneraltransport.ae",
+      email: "info@afwajhgroup.com",
       address: "Office 402 (A), 99 Building, Oud Metha, Dubai",
       website: { display: "www.fhmgeneraltransport.ae", href: "https://www.fhmgeneraltransport.ae" },
     },

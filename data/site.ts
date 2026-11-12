@@ -29,7 +29,7 @@ export const contact = {
     { display: "+971 56 564 4333", href: "tel:+971565644333" },
   ],
   whatsapp: { display: "+971 54 333 8590", href: "https://wa.me/971543338590" },
-  email: "afwajhgroup1@gmail.com",
+  email: "info@afwajhgroup.com",
   website: "afwajhgroup.com",
   mapQuery: "Trade Centre 1, Sheikh Zayed Road, Dubai",
   geo: { lat: 25.2247, lng: 55.2836 },
