@@ -17,7 +17,7 @@ const nav = [
   { href: "/contact", label: "Contact" },
 ];
 
-const STORES_HREF = "/businesses/supermarkets-minimarts#outlets";
+const STORES_HREF = "/locations";
 
 const mobileNav = [
   { href: "/", label: "Home" },
@@ -169,7 +169,7 @@ export default function Header() {
               href={STORES_HREF}
               className="hidden min-h-11 items-center gap-2 whitespace-nowrap px-3 text-[14px] text-ivory/85 transition-colors hover:text-gold-light xl:inline-flex"
             >
-              <Icon name="pin" size={16} className="text-gold-light" /> Find a store
+              <Icon name="pin" size={16} className="text-gold-light" /> Find a location
             </TLink>
             <TLink
               href="/contact"
@@ -397,7 +397,7 @@ export default function Header() {
               className="mt-8 flex min-h-14 items-center justify-between rounded-full border border-gold-light/40 px-6 text-[15px] text-gold-light"
             >
               <span className="flex items-center gap-3">
-                <Icon name="pin" size={18} /> Find a store
+                <Icon name="pin" size={18} /> Find a location
               </span>
               <Icon name="arrowUpRight" size={18} />
             </TLink>

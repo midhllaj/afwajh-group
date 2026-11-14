@@ -6,6 +6,7 @@ import SectionHead from "@/components/business/SectionHead";
 import Gallery from "@/components/business/Gallery";
 import BusinessContact from "@/components/business/BusinessContact";
 import VenueShowcase from "@/components/business/restaurants/VenueShowcase";
+import OutletDirectory from "@/components/business/retail/OutletDirectory";
 import Marquee from "@/components/ui/Marquee";
 import JsonLd from "@/components/seo/JsonLd";
 import { businessBySlug } from "@/data/businesses";
@@ -30,11 +31,13 @@ export default function Page() {
       <JsonLd
         data={venues.map((v) =>
           localBusinessSchema({
-            type: /cafe/i.test(v.name) ? "CafeOrCoffeeShop" : "Restaurant",
+            type: v.kind === "Restaurant" ? "Restaurant" : "CafeOrCoffeeShop",
             name: v.name,
             address: v.location,
             locality: v.location.split(",").slice(-1)[0].trim(),
             region: v.emirate,
+            lat: v.lat,
+            lng: v.lng,
             url: `${b.href}#${v.id}`,
             servesCuisine: v.tags,
           }),
@@ -76,6 +79,23 @@ export default function Page() {
         </div>
       </section>
 
+      {/* Find us: the venue map */}
+      <section id="locations" className="grain scroll-mt-16 bg-emerald-deep py-20 text-ivory md:py-36" aria-labelledby="locations-title">
+        <div className="wrap">
+          <SectionHead
+            index="03"
+            label="Find us"
+            title={"Eight venues,\n*three* emirates"}
+            intro="Filter by emirate to find every Afwajh cafe, cafeteria and restaurant — then get directions in one tap."
+            tone="dark"
+            id="locations-title"
+          />
+          <div className="mt-16">
+            <OutletDirectory outlets={venues} noun={{ one: "venue", many: "venues" }} clusterKinds={["Cafe", "Cafeteria", "Restaurant"]} idPrefix="map-" />
+          </div>
+        </div>
+      </section>
+
       <Gallery
         images={[
           { src: "/images/restaurants/latte-art-pour.webp", alt: "Barista pouring latte art" },
@@ -87,10 +107,10 @@ export default function Page() {
           { src: "/images/restaurants/tea-brass-kettle.webp", alt: "Tea with a brass kettle" },
           { src: "/images/company/restaurants/khafayef-cafe-uniform.webp", alt: "Khafayef Cafe uniform" },
         ]}
-        index="03"
+        index="04"
         title={"A taste of\n*our tables*"}
       />
-      <BusinessContact business={b} index="04" title={"Book, cater or\n*partner* with us"} />
+      <BusinessContact business={b} index="05" title={"Book, cater or\n*partner* with us"} />
     </BusinessPage>
   );
 }

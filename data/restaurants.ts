@@ -1,15 +1,12 @@
-import type { Emirate, Img } from "./types";
+import type { Emirate, Img, MapPlace } from "./types";
 
 export const restaurantsIntro =
   "Afwajh Group operates a diverse portfolio of restaurants and cafeterias, offering a wide range of cuisines and dining experiences across the UAE. Each outlet is developed with a strong focus on quality, comfort, and customer satisfaction, ensuring a consistent and enjoyable experience for every guest.";
 
-export interface Venue {
-  id: string;
-  name: string;
-  location: string;
+export interface Venue extends MapPlace {
+  kind: "Cafe" | "Cafeteria" | "Restaurant";
   emirate: Emirate;
   tags: string[];
-  description: string;
   image: Img;
   /** Real photo from the venue, shown as an inset. */
   realPhoto?: Img;
@@ -19,8 +16,11 @@ export const venues: Venue[] = [
   {
     id: "cafe-52",
     name: "Cafe 52",
-    location: "Town Square by Nshama, Dubai",
+    kind: "Cafe",
+    location: "Al Yalayis 2, near Town Square, Dubai",
     emirate: "Dubai",
+    lat: 25.0125,
+    lng: 55.2905,
     tags: ["Quality coffee", "Relaxed ambience", "Social gatherings"],
     description:
       "Known for its relaxing ambience, quality coffee, and flavorful menu, Cafe 52 is an ideal destination for social gatherings, casual meetings, or simply unwinding in a comfortable and stylish setting.",
@@ -30,8 +30,11 @@ export const venues: Venue[] = [
   {
     id: "picnic-tea-cafeteria",
     name: "Picnic Tea Cafeteria",
-    location: "Al Quoz, Dubai",
+    kind: "Cafeteria",
+    location: "Al Quoz Pond Park, Ghadeer Al Tair, Dubai",
     emirate: "Dubai",
+    lat: 25.1395,
+    lng: 55.2335,
     tags: ["Fast food", "Quick bites", "Elevated dining"],
     description:
       "Picnic Tea Cafeteria combines the concept of fast food with an elevated dining experience. With a strong emphasis on quality, flavor, and convenience, it offers a refreshing take on quick bites in a vibrant and welcoming environment.",
@@ -40,8 +43,11 @@ export const venues: Venue[] = [
   {
     id: "lassi-day",
     name: "Lassi Day",
-    location: "Al Karama, Dubai",
+    kind: "Cafeteria",
+    location: "Kuwait Street, Al Karama, Dubai",
     emirate: "Dubai",
+    lat: 25.2447,
+    lng: 55.3043,
     tags: ["Lassi", "Fresh beverages", "Frozen treats"],
     description:
       "Lassi Day is a destination for refreshing beverages and frozen treats. Known for its high-quality ingredients and flavorful offerings, it provides the perfect escape for those seeking indulgent and refreshing options.",
@@ -50,8 +56,11 @@ export const venues: Venue[] = [
   {
     id: "zero-6-express",
     name: "Zero 6 Express Cafeteria",
-    location: "Yas Island, Abu Dhabi",
+    kind: "Restaurant",
+    location: "Yas Island, near Yas Waterworld, Abu Dhabi",
     emirate: "Abu Dhabi",
+    lat: 24.4875,
+    lng: 54.5985,
     tags: ["Indian", "Biryani", "Tandoor"],
     description:
       "Zero 6 Express Cafeteria specializes in authentic Indian cuisine, offering a wide selection of flavorful dishes ranging from biryanis to tandoori specialties. It combines traditional taste with modern convenience in a vibrant setting.",
@@ -60,8 +69,11 @@ export const venues: Venue[] = [
   {
     id: "shay-marhaba",
     name: "Shay Marhaba Cafeteria",
+    kind: "Cafeteria",
     location: "ENOC Petrol Pump, Al Barsha, Dubai",
     emirate: "Dubai",
+    lat: 25.1105,
+    lng: 55.2005,
     tags: ["Quick meals", "On the go"],
     description:
       "Located at ENOC Petrol Pump, Shay Marhaba Cafeteria is a popular destination for quick and delicious meals. It delivers a seamless blend of convenience and flavor, making it ideal for customers on the go.",
@@ -71,8 +83,11 @@ export const venues: Venue[] = [
   {
     id: "shay-al-kadi",
     name: "Shay Al Kadi",
-    location: "Sharjah",
+    kind: "Cafeteria",
+    location: "Al Badee Suburb, Dhaid Road (6th Interchange), Sharjah",
     emirate: "Sharjah",
+    lat: 25.2905,
+    lng: 55.5105,
     tags: ["Traditional teas", "Snacks", "Pastries"],
     description:
       "Shay Al Kadi Cafeteria blends tradition with taste, offering a variety of teas, snacks, and pastries. Each item reflects rich flavors and cultural heritage, creating a unique and comforting dining experience.",
@@ -81,8 +96,11 @@ export const venues: Venue[] = [
   {
     id: "city-fresh",
     name: "City Fresh Restaurant",
-    location: "Business Bay, Dubai",
+    kind: "Restaurant",
+    location: "Majestic Tower, opposite Bay Square, Business Bay, Dubai",
     emirate: "Dubai",
+    lat: 25.1862,
+    lng: 55.2826,
     tags: ["Indo-Chinese", "Indian", "Fast food", "Desserts", "Beverages"],
     description:
       "City Fresh Restaurant offers a diverse selection of Indo-Chinese, Indian, fast food, desserts, and beverages. Each dish is carefully prepared to ensure a satisfying and memorable dining experience.",
@@ -91,8 +109,11 @@ export const venues: Venue[] = [
   {
     id: "khafayef-cafeteria",
     name: "Khafayef Cafeteria",
+    kind: "Cafeteria",
     location: "Dubai Mall, Dubai",
     emirate: "Dubai",
+    lat: 25.1985,
+    lng: 55.2779,
     tags: ["Quality food", "Convenience"],
     description:
       "Situated in one of Dubai’s most iconic locations, Khafayef Cafeteria offers a unique combination of quality food and convenience. Each dish is thoughtfully prepared to deliver both taste and consistency.",

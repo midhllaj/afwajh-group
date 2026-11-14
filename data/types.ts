@@ -3,6 +3,24 @@
 
 export type Emirate = "Dubai" | "Abu Dhabi" | "Sharjah" | "Ras Al Khaimah";
 
+/** Anything pinned on the stylised UAE map (shops, cafes, restaurants). */
+export interface MapPlace {
+  id: string;
+  name: string;
+  /** Building type, e.g. "Minimart" or "Cafe"; picks the 3D model and label. */
+  kind: string;
+  location: string;
+  emirate: Emirate;
+  description: string;
+  /** Approximate coordinates, used only to place a pin on the stylised map. */
+  lat: number;
+  lng: number;
+}
+
+/** Google Maps turn-by-turn directions to a mapped place. */
+export const directionsUrl = (o: Pick<MapPlace, "name" | "location">) =>
+  `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(`${o.name}, ${o.location}`)}`;
+
 export interface Img {
   /** Path under /public, e.g. "/images/retail/supermarket-aisle.webp". */
   src: string;

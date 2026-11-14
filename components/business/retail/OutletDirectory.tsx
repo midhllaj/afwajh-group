@@ -4,10 +4,10 @@ import { memo, useEffect, useMemo, useRef, useState } from "react";
 import type { CSSProperties } from "react";
 import Icon from "@/components/ui/IconMini";
 import { getLenis } from "@/components/providers/SmoothScroll";
-import { directionsUrl, type Outlet } from "@/data/retail";
-import { MAP_H, MAP_W, fitView, focusView, groundTransform, outlinePath, palmPath, place, type Point, type View } from "@/lib/uaeMap";
+import { directionsUrl, type MapPlace } from "@/data/types";
+import { MAP_H, MAP_W, fitView, focusView, groundTransform, highwayPath, inlandRoadPath, outlinePath, palm, place, type Point, type View } from "@/lib/uaeMap";
 import { cn } from "@/lib/utils";
-import ShopModel from "./ShopModel";
+import ShopModel, { type ModelKind } from "./ShopModel";
 
 const filters = ["All", "Dubai", "Abu Dhabi", "Sharjah", "Ras Al Khaimah"] as const;
 type Filter = (typeof filters)[number];
@@ -25,44 +25,128 @@ const VIEW_ALL = fitView([place(53.1, 25.95), place(56.45, 26.1), place(53.1, 23
 // Dubai's group marker sits down the coast so it doesn't cover the Sharjah shop.
 const clusterAnchors: Record<string, Point> = { Dubai: place(55.06, 25.0) };
 const nonScaling = { vectorEffect: "non-scaling-stroke" } as const;
-const graticule = Array.from({ length: 22 }, (_, i) => -400 + i * 90);
 
-/** The tilted UAE plate. Static, so the camera can move without re-rendering it. */
+// Cartoon details standing upright on the plate.
+const dunes = [
+  { lng: 53.75, lat: 23.98, s: 1.1 },
+  { lng: 54.35, lat: 23.86, s: 1.3 },
+  { lng: 54.95, lat: 24.12, s: 1 },
+  { lng: 55.5, lat: 24.42, s: 0.9 },
+  { lng: 53.2, lat: 23.82, s: 0.9 },
+].map((d) => ({ ...place(d.lng, d.lat), s: d.s }));
+const boats = [
+  { lng: 53.75, lat: 25.18, s: 1, flip: false },
+  { lng: 54.55, lat: 25.2, s: 0.85, flip: true },
+  { lng: 55.42, lat: 25.86, s: 0.8, flip: false },
+].map((b) => ({ ...place(b.lng, b.lat), s: b.s, flip: b.flip }));
+const SAND = "#EAD7A4";
+const SAND_EDGE = "#BF9A5C";
+
+/** The tilted UAE plate, drawn as a cartoon island. Static, so the camera can move without re-rendering it. */
 const Ground = memo(function Ground() {
   return (
     <>
       <defs>
         <linearGradient id="uae-land" x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0" stopColor="#245C53" />
-          <stop offset="1" stopColor="#123B36" />
+          <stop offset="0" stopColor="#3A8A6E" />
+          <stop offset="0.55" stopColor="#2A7058" />
+          <stop offset="1" stopColor="#1C5545" />
         </linearGradient>
         <pattern id="uae-dots" width="10" height="10" patternUnits="userSpaceOnUse">
-          <circle cx="5" cy="5" r="1.05" fill="#F5F1E8" opacity="0.2" />
+          <circle cx="5" cy="5" r="1.05" fill="#F5F1E8" opacity="0.16" />
         </pattern>
         <pattern id="uae-dots-fine" width="2.5" height="2.5" patternUnits="userSpaceOnUse">
-          <circle cx="1.25" cy="1.25" r="0.26" fill="#F5F1E8" opacity="0.22" />
+          <circle cx="1.25" cy="1.25" r="0.24" fill="#F5F1E8" opacity="0.16" />
         </pattern>
+        <pattern id="uae-waves" width="46" height="30" patternUnits="userSpaceOnUse">
+          <path d="M4 10 q4 -4 8 0 t8 0 M27 25 q4 -4 8 0 t8 0" fill="none" stroke="#9FE0DA" strokeOpacity="0.22" strokeWidth="1.6" strokeLinecap="round" />
+        </pattern>
+        <pattern id="uae-waves-fine" width="11.5" height="7.5" patternUnits="userSpaceOnUse">
+          <path d="M1 2.5 q1 -1 2 0 t2 0 M6.8 6.2 q1 -1 2 0 t2 0" fill="none" stroke="#9FE0DA" strokeOpacity="0.22" strokeWidth="0.4" strokeLinecap="round" />
+        </pattern>
+        <clipPath id="uae-clip">
+          <path d={outlinePath} />
+        </clipPath>
       </defs>
       <g transform={groundTransform}>
-        {graticule.map((v) => (
-          <g key={v} stroke="#F5F1E8" strokeOpacity={0.04} {...nonScaling}>
-            <line x1={v} y1={-600} x2={v} y2={1400} {...nonScaling} />
-            <line x1={-600} y1={v} x2={1400} y2={v} {...nonScaling} />
-          </g>
+        {/* Sea: soft waves, with a fine set fading in as the camera zooms */}
+        <rect x={-700} y={-700} width={2400} height={2200} fill="url(#uae-waves)" style={{ opacity: "calc(1 - var(--fine-dots))" }} />
+        <rect x={-700} y={-700} width={2400} height={2200} fill="url(#uae-waves-fine)" style={{ opacity: "var(--fine-dots)" }} />
+
+        {/* Shallow water hugging the coast */}
+        {[30, 18, 9].map((w, i) => (
+          <path key={w} d={outlinePath} fill="none" stroke="#6CC7BC" strokeOpacity={0.07 + i * 0.05} strokeWidth={w} strokeLinejoin="round" />
         ))}
-        {[34, 22, 11].map((w, i) => (
-          <path key={w} d={outlinePath} fill="none" stroke="#E2C26A" strokeOpacity={0.03 + i * 0.015} strokeWidth={w} strokeLinejoin="round" />
-        ))}
+
+        {/* Island slab */}
         <path d={outlinePath} transform="translate(0 30)" fill="#000" opacity={0.3} />
         {Array.from({ length: 14 }, (_, i) => (
-          <path key={i} d={outlinePath} transform={`translate(0 ${(14 - i) * 1.5})`} fill={i < 7 ? "#061816" : "#0B2926"} />
+          <path key={i} d={outlinePath} transform={`translate(0 ${(14 - i) * 1.5})`} fill={i < 7 ? "#5E4A2C" : "#8A6E42"} />
         ))}
+
+        {/* Land, dots and a sandy beach just inside the coast */}
         <path d={outlinePath} fill="url(#uae-land)" />
         <path d={outlinePath} fill="url(#uae-dots)" style={{ opacity: "calc(1 - var(--fine-dots))" }} />
         <path d={outlinePath} fill="url(#uae-dots-fine)" style={{ opacity: "var(--fine-dots)" }} />
-        <path d={palmPath} fill="none" stroke="#3A8374" strokeWidth={2.2} strokeLinecap="round" {...nonScaling} />
-        <path d={outlinePath} fill="none" stroke="#E2C26A" strokeOpacity={0.75} strokeWidth={1.25} strokeLinejoin="round" {...nonScaling} />
+        <g clipPath="url(#uae-clip)">
+          <path d={outlinePath} fill="none" stroke={SAND} strokeWidth={5} strokeLinejoin="round" />
+          <path d={outlinePath} fill="none" stroke={SAND_EDGE} strokeOpacity={0.5} strokeWidth={5.6} strokeLinejoin="round" style={{ mixBlendMode: "multiply" }} opacity={0.25} />
+        </g>
+
+        {/* Roads */}
+        {[highwayPath, inlandRoadPath].map((d, i) => (
+          <g key={d}>
+            <path d={d} fill="none" stroke="#123B33" strokeOpacity={0.55} strokeWidth={i ? 2.4 : 3.4} strokeLinecap="round" strokeLinejoin="round" />
+            <path d={d} fill="none" stroke="#F5F1E8" strokeOpacity={0.7} strokeWidth={1} strokeDasharray="4 5" strokeLinecap="round" {...nonScaling} />
+          </g>
+        ))}
+
+        {/* Palm Jumeirah: lighter lagoon, sand fronds with a strip of villa gardens, crescent with Atlantis */}
+        <circle cx={palm.lagoon.x} cy={palm.lagoon.y} r={palm.lagoon.r} fill="#7FD3C8" opacity={0.16} />
+        <g fill="none" strokeLinecap="round" strokeLinejoin="round">
+          <path d={palm.bridge} stroke="#9AA3A0" strokeWidth={0.45} />
+          {palm.crescent.map((d) => (
+            <path key={d} d={d} stroke={SAND_EDGE} strokeWidth={1.05} />
+          ))}
+          <path d={palm.fronds} stroke={SAND_EDGE} strokeWidth={0.78} />
+          <path d={palm.trunk} stroke={SAND_EDGE} strokeWidth={1.75} />
+          {palm.crescent.map((d) => (
+            <path key={d} d={d} stroke={SAND} strokeWidth={0.8} />
+          ))}
+          <path d={palm.fronds} stroke={SAND} strokeWidth={0.56} />
+          <path d={palm.trunk} stroke={SAND} strokeWidth={1.45} />
+          <path d={palm.fronds} stroke="#5E9E5A" strokeWidth={0.2} />
+          {palm.crescent.map((d) => (
+            <path key={d} d={d} stroke="#5E9E5A" strokeWidth={0.18} strokeOpacity={0.8} />
+          ))}
+          <path d={palm.trunk} stroke="#5E9E5A" strokeWidth={0.5} strokeOpacity={0.55} />
+          <path d={palm.trunk} stroke="#F5F1E8" strokeWidth={0.12} strokeDasharray="0.5 0.5" />
+        </g>
+        <circle cx={palm.atlantis.x} cy={palm.atlantis.y} r={0.55} fill="#E9A9A0" stroke="#B9746C" strokeWidth={0.15} />
+
+        <path d={outlinePath} fill="none" stroke="#F3E3B5" strokeOpacity={0.9} strokeWidth={1.4} strokeLinejoin="round" {...nonScaling} />
       </g>
+
+      {/* Desert dunes */}
+      {dunes.map((d) => (
+        <g key={d.x} transform={`translate(${d.x} ${d.y}) scale(${d.s})`}>
+          <ellipse cx={1} cy={1} rx={15} ry={2.6} fill="#0B2A22" opacity={0.25} />
+          <path d="M-14 1 Q-7 -9 0 1 Z" fill="#C9A86A" />
+          <path d="M-14 1 Q-7 -9 -6 -3.4 Q-4 -1 0 1 Z" fill="#E4C98C" />
+          <path d="M-4 1 Q4 -12 13 1 Z" fill="#C9A86A" />
+          <path d="M-4 1 Q4 -12 5.5 -4.6 Q8 -1.5 13 1 Z" fill="#EBD49A" />
+        </g>
+      ))}
+
+      {/* Little dhows on the Gulf */}
+      {boats.map((b) => (
+        <g key={b.x} transform={`translate(${b.x} ${b.y}) scale(${b.flip ? -b.s : b.s} ${b.s})`}>
+          <ellipse cx={0} cy={2.6} rx={11} ry={1.6} fill="#9FE0DA" opacity={0.25} />
+          <path d="M-9 0 H9 L6 3.4 H-6 Z" fill="#8A5A34" stroke="#4A2E1A" strokeWidth={0.5} strokeLinejoin="round" />
+          <path d="M-0.6 -0.2 V-14" stroke="#4A2E1A" strokeWidth={0.8} />
+          <path d="M0 -13.5 Q8 -8 7.5 -1.4 L0 -1.4 Z" fill="#FFFDF7" stroke="#C9B98F" strokeWidth={0.4} />
+        </g>
+      ))}
     </>
   );
 });
@@ -90,8 +174,23 @@ function GroundRing() {
   );
 }
 
-/** Outlet directory: emirate filter + 3D map of the shops, each opening a card with directions. */
-export default function OutletDirectory({ outlets }: { outlets: Outlet[] }) {
+type Place = MapPlace & { kind: ModelKind };
+
+/** Outlet directory: emirate filter + 3D map of the places, each opening a card with directions. */
+export default function OutletDirectory({
+  outlets,
+  noun = { one: "shop", many: "shops" },
+  clusterKinds = ["Minimart", "Market", "Supermarket"],
+  idPrefix = "",
+}: {
+  outlets: Place[];
+  /** What a place is called in labels, e.g. shop/shops or venue/venues. */
+  noun?: { one: string; many: string };
+  /** The three buildings drawn on a grouped marker (left, right, front). */
+  clusterKinds?: [ModelKind, ModelKind, ModelKind];
+  /** Prefix for list item ids, when the page already uses the plain ids as anchors. */
+  idPrefix?: string;
+}) {
   const [filter, setFilter] = useState<Filter>("All");
   const [selected, setSelected] = useState<string | null>(null);
   const [hovered, setHovered] = useState<string | null>(null);
@@ -106,7 +205,7 @@ export default function OutletDirectory({ outlets }: { outlets: Outlet[] }) {
 
   // Emirates with several shops collapse into one group marker on the country view.
   const clusters = useMemo(() => {
-    const byEmirate = new Map<string, Outlet[]>();
+    const byEmirate = new Map<string, Place[]>();
     outlets.forEach((o) => byEmirate.set(o.emirate, [...(byEmirate.get(o.emirate) ?? []), o]));
     return [...byEmirate.entries()]
       .filter(([, members]) => members.length > 1)
@@ -118,7 +217,7 @@ export default function OutletDirectory({ outlets }: { outlets: Outlet[] }) {
   }, [outlets, points]);
 
   const clustered = filter === "All" && !selected;
-  const inCluster = (o: Outlet) => clusters.some((c) => c.emirate === o.emirate);
+  const inCluster = (o: Place) => clusters.some((c) => c.emirate === o.emirate);
 
   const target = useMemo<View>(() => {
     const point = selected ? points.get(selected) : undefined;
@@ -157,12 +256,12 @@ export default function OutletDirectory({ outlets }: { outlets: Outlet[] }) {
     setSelected(null);
   };
 
-  const select = (o: Outlet) => {
+  const select = (o: Place) => {
     setSelected(o.id);
     if (filter !== "All" && o.emirate !== filter) setFilter(o.emirate as Filter);
   };
 
-  const showOnMap = (o: Outlet) => {
+  const showOnMap = (o: Place) => {
     select(o);
     const stage = stageRef.current;
     if (!stage) return;
@@ -178,8 +277,8 @@ export default function OutletDirectory({ outlets }: { outlets: Outlet[] }) {
 
   return (
     <div>
-      <div role="group" aria-label="Filter outlets by emirate" className="no-scrollbar -mx-[var(--gutter)] flex gap-2 overflow-x-auto px-[var(--gutter)] pb-2 md:mx-0 md:flex-wrap md:px-0">
-        {filters.map((f) => (
+      <div role="group" aria-label={`Filter ${noun.many} by emirate`} className="no-scrollbar -mx-[var(--gutter)] flex gap-2 overflow-x-auto px-[var(--gutter)] pb-2 md:mx-0 md:flex-wrap md:px-0">
+        {filters.filter((f) => count(f) > 0).map((f) => (
           <button
             key={f}
             type="button"
@@ -203,14 +302,14 @@ export default function OutletDirectory({ outlets }: { outlets: Outlet[] }) {
               <div
                 ref={stageRef}
                 onClick={() => setSelected(null)}
-                className="relative isolate aspect-[5/4] w-full overflow-hidden border border-line-dark bg-[radial-gradient(120%_100%_at_70%_20%,#123A36_0%,#0A2321_55%,#071B19_100%)]"
+                className="relative isolate aspect-[5/4] w-full overflow-hidden border border-line-dark bg-[radial-gradient(120%_100%_at_30%_10%,#1D5A63_0%,#123F48_50%,#0B2D35_100%)]"
               >
                 <svg
                   viewBox={vb.join(" ")}
                   className="absolute inset-0 h-full w-full"
                   style={{ "--fine-dots": fineDots } as CSSProperties}
                   role="img"
-                  aria-label={`3D map of Afwajh shops${filter === "All" ? " across the UAE" : ` in ${filter}`}`}
+                  aria-label={`3D map of Afwajh ${noun.many}${filter === "All" ? " across the UAE" : ` in ${filter}`}`}
                 >
                   <rect x={-800} y={-800} width={MAP_W + 1600} height={MAP_H + 1600} fill="transparent" />
                   <Ground />
@@ -242,8 +341,8 @@ export default function OutletDirectory({ outlets }: { outlets: Outlet[] }) {
                       onMouseEnter={() => setHovered(o.id)}
                       onMouseLeave={() => setHovered(null)}
                       className={cn(
-                        "group absolute w-12 -translate-x-1/2 -translate-y-[86%] transition-[opacity,width] duration-500",
-                        clustered ? "md:w-14" : "md:w-20",
+                        "group absolute -translate-x-1/2 -translate-y-[86%] transition-[opacity,width] duration-500",
+                        clustered ? "w-12 md:w-14" : "w-[60px] md:w-20",
                         hidden ? "pointer-events-none opacity-0" : dim ? "opacity-50" : "opacity-100",
                       )}
                       style={{ ...pos(p), zIndex: isSelected ? 900 : isHot ? 800 : 10 + Math.round(p.y) }}
@@ -266,7 +365,7 @@ export default function OutletDirectory({ outlets }: { outlets: Outlet[] }) {
                       key={c.emirate}
                       type="button"
                       inert={!clustered}
-                      aria-label={`${c.emirate}: ${c.members.length} shops. Zoom in`}
+                      aria-label={`${c.emirate}: ${c.members.length} ${noun.many}. Zoom in`}
                       onClick={(e) => {
                         e.stopPropagation();
                         pickFilter(c.emirate);
@@ -274,11 +373,11 @@ export default function OutletDirectory({ outlets }: { outlets: Outlet[] }) {
                       className={cn("group absolute w-[68px] -translate-x-1/2 -translate-y-[86%] transition-opacity duration-500 md:w-[84px]", clustered ? "opacity-100" : "pointer-events-none opacity-0")}
                       style={{ ...pos(c.at), zIndex: lit ? 800 : 10 + Math.round(c.at.y) }}
                     >
-                      <NameTag show={lit}>{`${c.emirate} — view ${c.members.length} shops`}</NameTag>
+                      <NameTag show={lit}>{`${c.emirate} — view ${c.members.length} ${noun.many}`}</NameTag>
                       <span className={cn("relative block aspect-[92/72] origin-bottom transition-transform duration-500 ease-[var(--ease-expo)] group-hover:-translate-y-1 group-hover:scale-110", lit && "-translate-y-1 scale-110")}>
-                        <ShopModel kind="Minimart" className="absolute left-0 top-[6%] w-[62%]" />
-                        <ShopModel kind="Market" className="absolute right-0 top-[6%] w-[62%]" />
-                        <ShopModel kind="Supermarket" className="absolute bottom-0 left-[14%] w-[72%]" />
+                        <ShopModel kind={clusterKinds[0]} className="absolute left-0 top-[6%] w-[62%]" />
+                        <ShopModel kind={clusterKinds[1]} className="absolute right-0 top-[6%] w-[62%]" />
+                        <ShopModel kind={clusterKinds[2]} className="absolute bottom-0 left-[14%] w-[72%]" />
                         <span className="absolute -right-1 -top-1 flex h-6 w-6 items-center justify-center rounded-full bg-gold-light text-[12px] font-semibold text-emerald-deep shadow-lg ring-2 ring-emerald-deep md:h-7 md:w-7 md:text-[13px]">
                           {c.members.length}
                         </span>
@@ -294,7 +393,7 @@ export default function OutletDirectory({ outlets }: { outlets: Outlet[] }) {
                     <button
                       type="button"
                       onClick={() => setSelected(null)}
-                      aria-label="Close shop details"
+                      aria-label={`Close ${noun.one} details`}
                       className="absolute right-1 top-1 flex h-11 w-11 items-center justify-center text-ivory/60 hover:text-ivory"
                     >
                       <Icon name="close" size={18} />
@@ -323,12 +422,12 @@ export default function OutletDirectory({ outlets }: { outlets: Outlet[] }) {
                   </div>
                 ) : (
                   <p className="text-[13px] text-ivory/60 sm:pointer-events-none sm:inline-block sm:rounded-full sm:bg-emerald-deep/85 sm:px-4 sm:py-2 sm:text-ivory/75">
-                    Tap a shop to see its name, location and directions.
+                    Tap a {noun.one} to see its name, address and directions.
                   </p>
                 )}
               </div>
             </div>
-            <p className="mt-3 text-[13px] text-ivory/60">Stylised map — shop positions are approximate.</p>
+            <p className="mt-3 text-[13px] text-ivory/60">Stylised map — {noun.one} positions are approximate.</p>
           </div>
         </div>
 
@@ -336,7 +435,7 @@ export default function OutletDirectory({ outlets }: { outlets: Outlet[] }) {
           {list.map((o) => (
             <li
               key={o.id}
-              id={o.id}
+              id={`${idPrefix}${o.id}`}
               tabIndex={0}
               onMouseEnter={() => setHovered(o.id)}
               onMouseLeave={() => setHovered(null)}

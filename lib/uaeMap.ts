@@ -95,16 +95,70 @@ export function focusView(p: Point, width = 60): View {
   return [p.x - width / 2, p.y - h * 0.42, width, h];
 }
 
-/** Palm Jumeirah, as a small landmark on the coast. */
-export const palmPath = (() => {
-  const c = project(55.135, 25.118);
-  const r = 7;
-  const n = (v: number) => v.toFixed(1);
-  const fronds = Array.from({ length: 7 }, (_, i) => {
-    const a = ((-150 + i * 40) * Math.PI) / 180;
-    return `M${n(c.x)} ${n(c.y)} L${n(c.x + Math.cos(a) * r)} ${n(c.y + Math.sin(a) * r)}`;
-  });
-  const end = project(55.165, 25.14);
-  const crescent = `M${n(c.x - r * 1.3)} ${n(c.y - r * 0.4)} A${n(r * 1.4)} ${n(r * 1.4)} 0 0 1 ${n(c.x + r * 0.45)} ${n(c.y - r * 1.35)}`;
-  return [...fronds, `M${n(c.x)} ${n(c.y)} L${n(end.x)} ${n(end.y)}`, crescent].join(" ");
+const n1 = (v: number) => v.toFixed(1);
+const lineThrough = (pts: [number, number][]) =>
+  pts.map(([lng, lat], i) => {
+    const { x, y } = project(lng, lat);
+    return `${i ? "L" : "M"}${n1(x)} ${n1(y)}`;
+  }).join(" ");
+
+/**
+ * Palm Jumeirah, modelled on the real island: a bridge from the shore, a long trunk, 16 fronds
+ * (8 a side) fanning seaward, and a crescent breakwater with two gaps and Atlantis at its tip.
+ * Built in a local frame (along = out to sea, side = along the coast), then mapped onto the outline.
+ */
+export const palm = (() => {
+  // The stylised coast at Jumeirah runs between these two outline points.
+  const c1 = project(55.13, 25.09);
+  const c2 = project(55.19, 25.145);
+  const len = Math.hypot(c2.x - c1.x, c2.y - c1.y);
+  const u = { x: (c2.x - c1.x) / len, y: (c2.y - c1.y) / len }; // along the coast
+  const n = { x: u.y, y: -u.x }; // out to sea (north-west)
+  const anchor = { x: c1.x + (c2.x - c1.x) * 0.42, y: c1.y + (c2.y - c1.y) * 0.42 };
+  const P = (along: number, side: number) => ({ x: anchor.x + n.x * along + u.x * side, y: anchor.y + n.y * along + u.y * side });
+  const pt = (p: { x: number; y: number }) => `${n1(p.x)} ${n1(p.y)}`;
+
+  const crownAlong = 7.6;
+  const R = 7.4; // crescent radius around the crown
+  const arcPoint = (deg: number, r = R) => {
+    const a = (deg * Math.PI) / 180;
+    return P(crownAlong + Math.cos(a) * r, Math.sin(a) * r);
+  };
+
+  const bridge = `M${pt(P(-0.4, 0))} L${pt(P(1.6, 0))}`;
+  const trunk = `M${pt(P(1.6, 0))} L${pt(P(crownAlong + 1.2, 0))}`;
+
+  const fronds: string[] = [];
+  for (let i = 0; i < 8; i++) {
+    const root = 3 + i * 0.78;
+    const phi = ((84 - i * 7.5) * Math.PI) / 180; // lower fronds stick out sideways, upper ones sweep seaward
+    const L = 4.4 + Math.sin((i / 7) * Math.PI) * 0.9;
+    for (const s of [1, -1]) {
+      const a = P(root, 0);
+      const tip = P(root + Math.cos(phi) * L, s * Math.sin(phi) * L);
+      const ctl = P(root + Math.cos(phi) * L * 0.5 + 0.35, s * Math.sin(phi) * L * 0.5);
+      fronds.push(`M${pt(a)} Q${pt(ctl)} ${pt(tip)}`);
+    }
+  }
+
+  // Sampled rather than an SVG arc, so it always bends round the crown whatever the frame's handedness.
+  const arc = (from: number, to: number) => {
+    const steps = Math.ceil((to - from) / 4);
+    return Array.from({ length: steps + 1 }, (_, i) => `${i ? "L" : "M"}${pt(arcPoint(from + ((to - from) * i) / steps))}`).join(" ");
+  };
+  const crescent = [arc(-128, -52), arc(-47, 47), arc(52, 128)];
+
+  const lagoon = { ...P(crownAlong, 0), r: R - 0.6 };
+  const atlantis = arcPoint(0, R + 0.1);
+  return { bridge, trunk, fronds: fronds.join(" "), crescent, lagoon, atlantis, axis: n };
 })();
+
+/** Sheikh Zayed Road / E11, the coastal highway from Abu Dhabi to Ras Al Khaimah. */
+export const highwayPath = lineThrough([
+  [54.38, 24.46], [54.52, 24.6], [54.68, 24.76], [54.88, 24.86], [55.04, 24.97], [55.14, 25.06],
+  [55.22, 25.14], [55.29, 25.22], [55.36, 25.29], [55.43, 25.35], [55.52, 25.44], [55.62, 25.53],
+  [55.76, 25.62], [55.9, 25.72],
+]);
+
+/** Inland road to the Sharjah interior (Dhaid Road / E88). */
+export const inlandRoadPath = lineThrough([[55.4, 25.33], [55.5, 25.3], [55.62, 25.27], [55.8, 25.22], [55.95, 25.18]]);
