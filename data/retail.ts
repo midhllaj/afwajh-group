@@ -1,24 +1,15 @@
-import type { Emirate, Img } from "./types";
+import type { Emirate, Img, MapPlace } from "./types";
+
+export { directionsUrl } from "./types";
 
 export const retailIntro =
   "Afwajh Group operates a growing network of supermarkets and minimarts across key locations in the UAE. Each outlet is designed to provide convenience, quality products, and a seamless shopping experience.";
 
-export interface Outlet {
-  id: string;
-  name: string;
+export interface Outlet extends MapPlace {
   kind: "Supermarket" | "Minimart" | "Market";
-  location: string;
   emirate: Emirate;
-  description: string;
-  /** Approximate coordinates, used only to place a pin on the stylised map. */
-  lat: number;
-  lng: number;
   phone?: string; // [CONFIRM: outlet phone]
 }
-
-/** Google Maps turn-by-turn directions to an outlet. */
-export const directionsUrl = (o: Pick<Outlet, "name" | "location">) =>
-  `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(`${o.name}, ${o.location}`)}`;
 
 export const outlets: Outlet[] = [
   {

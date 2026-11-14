@@ -36,7 +36,7 @@ export function GET() {
     "",
     `- [About the group](${absoluteUrl("/about")}): history, owner's message, vision, mission and workforce`,
     `- [All businesses](${absoluteUrl("/businesses")}): overview of the seven businesses`,
-    `- [Store locations](${absoluteUrl("/businesses/supermarkets-minimarts#outlets")}): all 14 supermarkets and minimarts with directions`,
+    `- [Locations](${absoluteUrl("/locations")}): all supermarkets, minimarts, cafes and restaurants on one map with directions`,
     `- [Clients](${absoluteUrl("/clients")}): developers, government entities and contractors served`,
     `- [Contact](${absoluteUrl("/contact")}): phone, WhatsApp, email and enquiry form`,
     "",
