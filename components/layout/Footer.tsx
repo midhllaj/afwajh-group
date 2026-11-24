@@ -88,7 +88,12 @@ export default function Footer() {
           <p>
             © {new Date().getFullYear()} {site.name}. All rights reserved.
           </p>
-          <p>{contact.website}</p>
+          <p>
+            {contact.website} · Website by{" "}
+            <a href="https://www.midhlaj.co" target="_blank" rel="noopener" className="hover:text-gold-light">
+              Midhlaj
+            </a>
+          </p>
         </div>
       </div>
     </footer>
